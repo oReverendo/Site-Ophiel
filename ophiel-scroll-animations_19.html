@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ophiel Digital — Animaciones de Scroll</title>
+
+<!--
+  ==========================================================================
+  OPHIEL DIGITAL — SISTEMA DE SCROLL ANIMATIONS
+  ==========================================================================
+  Biblioteca: GSAP 3 + plugin ScrollTrigger (CDN, gratuito para uso comercial)
+  Filosofia: cada movimento existe para GUIAR o olho, nunca para "impressionar".
+  Timings pensados para não parecer lento (usuário entedia) nem apressado
+  (usuário perde o conteúdo antes de ler).
+
+  COMO INTEGRAR NO SEU SITE REAL:
+  1. Copie o <style> para o seu CSS.
+  2. Copie o HTML de cada seção mantendo as classes (.section, .price-box, etc).
+  3. Copie o <script> no fim do <body>, depois do link para o GSAP.
+  4. Troque o conteúdo fake pelos textos/preços reais dos 10 serviços.
+  ==========================================================================
+-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+  :root{
+    --navy: #0b1626;
+    --navy-2: #12213a;
+    --gold: #d4af6a;
+    --gold-soft: #e8cf9c;
+    --ink: #eef1f6;
+    --ink-dim: #9aa7bb;
+    --dur-fast: .35s;
+    --dur-base: .7s;
+    --dur-slow: 1.1s;
+    --ease: cubic-bezier(.22,.61,.36,1); /* "power2.out"-like, sem overshoot -> não enjoa */
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--navy);
+    color:var(--ink);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    overflow-x:hidden;
+  }
+
+  /* Respeita quem pediu menos movimento no sistema operacional.
+     Isso é obrigatório em qualquer site profissional. */
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.01ms !important; transition-duration:.01ms !important;}
+  }
+
+  /* ---------- TOP NAV — 3 grupos concretos, em destaque ----------
+     Substitui a lista fina de 13 itens por 3 âncoras grandes:
+     About us / Serviços / Contato. Cada seção do site pertence a um
+     desses 3 grupos (mapeamento feito no JS), então o item certo
+     acende sozinho conforme o scroll passa por cada zona. */
+  .top-nav{
+    position:fixed; top:0; left:0; right:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:20px;
+    padding:20px 6vw;
+    z-index:60;
+    background:linear-gradient(to bottom, rgba(11,22,38,.92), rgba(11,22,38,0));
+    backdrop-filter:blur(6px);
+  }
+  /* Logo empilhada acima da pílula de links — os dois centralizados,
+     um embaixo do outro, com respiro maior entre eles. */
+  .top-nav .brand{
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none; color:var(--ink);
+    font-size:1.05rem; letter-spacing:.06em; font-weight:600;
+    white-space:nowrap;
+  }
+  .top-nav .brand svg{ width:46px; height:46px; overflow:visible; }
+  /* Estrela cadente: gira em volta do anel do O, devagar (45s por volta),
+     com um leve brilho. transform-box:view-box faz o pivô ser o centro
+     exato do viewBox — não o centro da própria estrela — então ela de
+     fato circula em volta do logo, não gira em torno de si mesma.
+     Generalizada pra qualquer logo da página (navbar, intro, sobre);
+     a única diferença entre os tamanhos é onde fica o centro do viewBox:
+     50,50 nos logos de 100×100, 100,100 nos de 200×200 (about-logo-*). */
+  .shooting-star{
+    transform-box: view-box;
+    transform-origin: 50px 50px;
+    animation: orbit-star 45s linear infinite;
+    filter: drop-shadow(0 0 2.5px rgba(212,175,106,.85));
+  }
+  .shooting-star.origin-200{
+    transform-origin: 100px 100px;
+  }
+  @keyframes orbit-star{
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .top-nav-links{ display:flex; align-items:center; gap:26px; }
+  .top-nav-links a{
+    position:relative;
+    text-decoration:none;
+    color:var(--ink-dim);
+    font-size:.78rem; font-weight:700;
+    letter-spacing:.12em; text-transform:uppercase;
+    white-space:nowrap;
+    padding-bottom:6px;
+    transition:color var(--dur-fast) var(--ease);
+  }
+  /* Sublinhado animado: nasce recolhido (scaleX 0) saindo da esquerda,
+     e "abre" suavemente no hover. Mais vivo que só trocar a cor, mas
+     ainda discreto — não pisca, não pula, só desliza uma vez. */
+  .top-nav-links a::after{
+    content:"";
+    position:absolute; left:0; bottom:0;
+    width:100%; height:2px;
+    background:var(--gold);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform var(--dur-base) var(--ease);
+  }
+  .top-nav-links a:hover{ color:var(--ink); }
+  .top-nav-links a:hover::after{ transform:scaleX(1); }
+  .top-nav-links a.is-active{ color:var(--gold-soft); }
+  .top-nav-links a.is-active::after{ transform:scaleX(1); }
+  /* Item carro-chefe: cor dourada sempre ligada (não só quando ativo),
+     igual tratamento que demos ao "Planos" no menu de serviços —
+     mesma lógica de destaque, consistente em todo o site */
+  .top-nav-links a.nav-flagship{ color:var(--gold-soft); display:inline-flex; align-items:center; gap:5px; }
+  .top-nav-links a.nav-flagship .flagship-star{
+    font-size:.85em;
+    line-height:1;
+    position:relative;
+    top:-1px; /* o glifo ★ tem peso visual mais alto que o texto — ajusta pra alinhar com a base das outras letras */
+  }
+  .top-nav-links a.nav-flagship:hover,
+  .top-nav-links a.nav-flagship.is-active{ color:var(--gold); }
+  /* Item em manutenção: sem cor de destaque, sem sublinhado no hover,
+     sem clique — só sinaliza que existe e que já vem por aí. */
+  .top-nav-links a.is-disabled{
+    opacity:.4;
+    cursor:default;
+    pointer-events:none;
+  }
+  .top-nav-links a.is-disabled::after{ display:none; }
+  .top-nav-links a.is-disabled .soon-badge{
+    display:block;
+    font-size:.55rem;
+    font-weight:600;
+    letter-spacing:.04em;
+    text-transform:none;
+    color:var(--ink-dim);
+    margin-top:2px;
+  }
+  @media (max-width:700px){
+    .top-nav{ gap:8px; }
+    .top-nav-links{ gap:14px; }
+    .top-nav-links a{ font-size:.66rem; letter-spacing:.06em; }
+  }
+
+  /* ---------- SIDE MENU DE SERVIÇOS — some por padrão, aparece só
+     enquanto o scroll está dentro da zona "Serviços". Existe pra resolver
+     um problema concreto: 10 blocos são muitos pra navegar só descendo
+     no scroll, então damos um atalho direto sem precisar rolar tudo. ---------- */
+  .services-menu{
+    position:fixed;
+    left:32px; top:50%;
+    transform:translate(-16px, -50%);
+    display:flex; flex-direction:column; gap:13px;
+    z-index:55;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+  }
+  .services-menu.is-visible{
+    opacity:1;
+    pointer-events:auto;
+    transform:translate(0, -50%);
+  }
+  .services-menu a{
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none;
+    color:var(--ink-dim);
+    font-size:12px; letter-spacing:.03em;
+    opacity:.55;
+    transition: opacity var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+  }
+  .services-menu a .dot{
+    width:6px; height:6px; border-radius:50%; flex:none;
+    background:var(--ink-dim);
+    transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+  }
+  .services-menu a.is-active{ opacity:1; color:var(--gold-soft); }
+  .services-menu a.is-active .dot{
+    background:var(--gold);
+    transform:scale(1.6);
+    box-shadow:0 0 8px rgba(212,175,106,.7);
+  }
+  @media (max-width:900px){ .services-menu{display:none;} }
+
+  /* Item "Planos": destacado do resto da lista sem perder a elegância —
+     divisor fino acima cria uma pausa visual, cor dourada fica sempre
+     ligada (não só quando ativo) e o peso da fonte sobe. O pulso no dot
+     é sutil (leve variação de escala + glow), não pisca feito notificação. */
+  .services-menu a.menu-cta{
+    margin-top:6px; padding-top:15px;
+    border-top:1px solid rgba(212,175,106,.25);
+    color:var(--gold-soft);
+    font-weight:700;
+    opacity:.85;
+  }
+  .services-menu a.menu-cta:hover,
+  .services-menu a.menu-cta.is-active{ opacity:1; color:var(--gold); }
+  .services-menu a.menu-cta .dot{
+    background:var(--gold);
+    box-shadow:0 0 6px rgba(212,175,106,.5);
+    animation: planos-pulse 2.4s ease-in-out infinite;
+  }
+  .services-menu a.menu-cta.is-active .dot{ animation:none; transform:scale(1.6); }
+  @keyframes planos-pulse{
+    0%, 100% { transform:scale(1); box-shadow:0 0 6px rgba(212,175,106,.5); }
+    50%      { transform:scale(1.35); box-shadow:0 0 10px rgba(212,175,106,.8); }
+  }
+
+  /* ---------- INTRO ---------- */
+  .intro{
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:0 24px;
+    position:relative;
+  }
+  .intro-logo{ width:74px; height:74px; margin-bottom:28px; opacity:0; }
+  .intro h1{
+    font-size:clamp(2.2rem, 6vw, 4rem);
+    letter-spacing:.02em;
+    margin:0 0 14px;
+    opacity:0;
+  }
+  .intro .tagline{
+    color:var(--gold-soft);
+    font-size:1.1rem;
+    opacity:0;
+  }
+  .intro .hint{
+    margin-top:34px;
+    font-size:.8rem;
+    color:var(--ink-dim);
+    opacity:0;
+  }
+
+  /* ---------- SEÇÕES DE SERVIÇO ---------- */
+  .section{
+    min-height:100vh;
+    display:flex; align-items:center;
+    padding:100px 12vw 100px 14vw;
+    position:relative;
+    border-top:1px solid rgba(255,255,255,.06);
+  }
+  .section-inner{
+    display:grid;
+    grid-template-columns: 1fr 340px;
+    gap:64px;
+    width:100%;
+    align-items:center;
+  }
+  @media (max-width:800px){
+    .section{ padding:80px 8vw; }
+    .section-inner{ grid-template-columns:1fr; }
+  }
+
+  .service-number{
+    font-size:1rem;
+    color:var(--gold);
+    letter-spacing:.15em;
+    margin-bottom:10px;
+    opacity:0; /* animado no scroll */
+  }
+  .service-title{
+    font-size:clamp(1.8rem,3.4vw,2.8rem);
+    margin:0 0 24px;
+    /* clip-path cria o efeito de "cortina" revelando o título, sem mover o layout */
+    clip-path: inset(0 100% 0 0);
+  }
+  .service-details{ color:var(--ink-dim); line-height:1.7; }
+  .service-details li{
+    opacity:0;
+    transform:translateY(14px);
+    list-style:none;
+    padding-left:20px;
+    position:relative;
+    margin-bottom:10px;
+  }
+  .service-details li::before{
+    content:"—";
+    position:absolute; left:0; color:var(--gold);
+  }
+  .service-details ul{ padding:0; margin:0; }
+
+  /* Caixa de preço: navy + dourado, com leve parallax vertical próprio */
+  .price-box{
+    background:linear-gradient(160deg, var(--navy-2), #0d1a2d);
+    border:1px solid rgba(212,175,106,.35);
+    border-radius:4px;
+    padding:32px 28px;
+    opacity:0;
+    transform: translateX(40px) scale(.96);
+  }
+  .price-box .label{ font-size:.72rem; letter-spacing:.12em; color:var(--ink-dim); }
+  .price-box .value{
+    font-size:1.9rem; color:var(--gold);
+    margin:6px 0 2px; font-weight:600;
+  }
+  .price-box .value + .label{ margin-bottom:14px; }
+
+  /* background sutil que se move mais devagar que o conteúdo = parallax de profundidade */
+  .bg-glyph{
+    position:absolute; right:-60px; top:50%;
+    font-size:280px; font-weight:700; color:rgba(212,175,106,.05);
+    transform:translateY(-50%);
+    pointer-events:none; user-select:none; z-index:0;
+  }
+  .section-inner{ position:relative; z-index:1; }
+
+  /* ---------- SEÇÃO DE PLANOS (regra de 3 / âncora de preço) ----------
+     A lógica da âncora: o plano do meio (Profissional) é o que queremos
+     vender. O Essencial existe pra parecer "básico demais" perto dele,
+     e o Premium existe pra fazer o Profissional parecer barato por
+     comparação — por isso o Premium fica maior em preço mas SEM destaque
+     visual, e o do meio recebe a moldura dourada + selo. */
+  .plans-section{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:100px 8vw;
+    border-top:1px solid rgba(255,255,255,.06);
+  }
+  .plans-header{ text-align:center; max-width:560px; margin:0 auto 56px; }
+  .plans-header .service-number{ justify-content:center; display:flex; }
+  .plans-header h2{ font-size:clamp(1.9rem,3.2vw,2.6rem); margin:0 0 10px; }
+  .plans-header p{ color:var(--ink-dim); margin:0; }
+
+  .plans-grid{
+    display:grid; grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:24px; max-width:1100px; margin:0 auto; align-items:end;
+  }
+  @media (max-width:860px){ .plans-grid{ grid-template-columns:1fr; } }
+
+  .plan-card{
+    background:var(--navy-2);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:6px; padding:34px 28px;
+    opacity:0; transform:translateY(28px);
+  }
+  /* Plano âncora central: sobe um pouco, ganha borda dourada e sombra —
+     é o único movimento vertical fora da grade, o que já chama o olho
+     sem precisar de nenhum efeito extra */
+  .plan-card.is-anchor{
+    border-color:var(--gold);
+    box-shadow:0 18px 40px rgba(212,175,106,.15);
+    transform:translateY(28px) scale(1.04);
+  }
+  .plan-top{ display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+  .plan-top h3{ font-size:1.15rem; margin:0; letter-spacing:.02em; }
+  .plan-badge{
+    background:rgba(212,175,106,.15); color:var(--gold);
+    font-size:.65rem; font-weight:700; letter-spacing:.06em;
+    padding:4px 9px; border-radius:999px; border:1px solid rgba(212,175,106,.4);
+  }
+  .plan-price{ font-size:2.1rem; color:var(--gold); font-weight:600; line-height:1; }
+  .plan-price span{ font-size:.85rem; color:var(--ink-dim); font-weight:400; }
+  .plan-desc{ color:var(--ink-dim); font-size:.82rem; margin:8px 0 22px; }
+  .plan-cta{
+    display:block; text-align:center; text-decoration:none;
+    padding:11px 0; border-radius:4px; font-size:.85rem; font-weight:600;
+    color:var(--gold-soft); border:1px solid rgba(212,175,106,.4);
+    margin-bottom:24px; transition:background var(--dur-fast) var(--ease);
+  }
+  .plan-card.is-anchor .plan-cta{ background:var(--gold); color:var(--navy); border-color:var(--gold); }
+  .plan-features{ list-style:none; margin:0; padding:0; }
+  .plan-features li{
+    font-size:.85rem; color:var(--ink-dim); margin-bottom:12px;
+    padding-left:18px; position:relative;
+  }
+  .plan-features li::before{ content:"✓"; position:absolute; left:0; color:var(--gold); }
+
+  /* ---------- SOBRE (About) ---------- */
+  .about-section{
+    min-height:100vh;
+    display:flex; align-items:center;
+    padding:100px 10vw;
+    border-top:1px solid rgba(255,255,255,.06);
+  }
+  .about-grid{
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:64px; align-items:center; width:100%;
+    position:relative;
+  }
+  @media (max-width:800px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-text p{
+    color:var(--ink-dim); line-height:1.8; font-size:1.02rem;
+    opacity:0; transform:translateY(16px);
+  }
+  .about-text p + p{ margin-top:16px; }
+  .about-logo-mark{
+    width:56px; height:56px; margin-bottom:22px;
+    opacity:0; transform:translateY(-10px) rotate(-8deg);
+  }
+  .about-stats{ display:grid; grid-template-columns:1fr 1fr; gap:28px; position:relative; z-index:1; }
+  .about-stat{ opacity:0; transform:translateY(16px); }
+  .about-stat .num{ font-size:2.4rem; color:var(--gold); font-weight:700; line-height:1; }
+  .about-stat .label{ font-size:.8rem; color:var(--ink-dim); margin-top:6px; }
+  /* watermark grande atrás dos números: mesma logo, bem translúcida,
+     dá profundidade sem disputar leitura com os stats na frente */
+  .about-logo-bg{
+    position:absolute; width:420px; height:420px;
+    right:-60px; top:50%; transform:translateY(-50%);
+    opacity:.05; z-index:0; pointer-events:none;
+  }
+
+  /* ---------- MELHORES DO ANO (premiação anual) ---------- */
+  .awards-section{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:120px 8vw 100px;
+    border-top:1px solid rgba(255,255,255,.06);
+  }
+  .awards-header{ max-width:640px; margin-bottom:52px; }
+  .awards-header .service-number{ opacity:0; }
+  .awards-header h2{ font-size:clamp(2rem,3.6vw,3rem); margin:0 0 14px; opacity:0; transform:translateY(14px); }
+  .awards-header p{ color:var(--ink-dim); font-size:1rem; line-height:1.7; opacity:0; transform:translateY(14px); }
+
+  .awards-grid{
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:48px; align-items:center; margin-bottom:80px;
+  }
+  @media (max-width:860px){ .awards-grid{ grid-template-columns:1fr; } }
+  .awards-text p{
+    color:var(--ink-dim); line-height:1.8; font-size:.98rem;
+    opacity:0; transform:translateY(14px);
+  }
+  .awards-text p + p{ margin-top:14px; }
+
+  /* Categorias soltas no espaço, tamanhos e opacidades variados pra dar
+     sensação de "nuvem viva" em vez de lista — o container inteiro entra
+     com fade (GSAP) e cada palavra flutua sozinha, num loop CSS infinito,
+     sem nunca disputar leitura com o texto ao lado */
+  .floating-words{
+    position:relative; height:400px;
+    opacity:0;
+  }
+  .floating-word{
+    position:absolute;
+    animation: word-float 7s ease-in-out infinite;
+  }
+  .floating-word .fw-text{
+    display:inline-block;
+    white-space:nowrap;
+    font-weight:700;
+  }
+  .floating-word.dim .fw-text{ color:var(--ink-dim); font-weight:600; }
+  .floating-word:not(.dim) .fw-text{ color:var(--gold-soft); }
+  .floating-word.small .fw-text{ font-size:1rem; }
+  .floating-word.mid .fw-text{ font-size:1.35rem; }
+  .floating-word.big .fw-text{
+    font-size:1.9rem; color:var(--gold);
+    text-shadow:0 0 24px rgba(212,175,106,.35);
+  }
+  @keyframes word-float{
+    0%, 100% { transform:translateY(0) rotate(0deg); }
+    50%      { transform:translateY(-14px) rotate(-1.5deg); }
+  }
+  @media (max-width:860px){
+    .floating-words{ height:280px; }
+    .floating-word.big .fw-text{ font-size:1.3rem; }
+    .floating-word.mid .fw-text{ font-size:1rem; }
+    .floating-word.small .fw-text{ font-size:.8rem; }
+  }
+
+  /* ---------- CONTATO (Fale conosco) ---------- */
+  .contact-section{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    padding:100px 8vw;
+    border-top:1px solid rgba(255,255,255,.06);
+    text-align:center;
+  }
+  .contact-inner{ max-width:620px; width:100%; }
+  .contact-inner h2{
+    font-size:clamp(1.9rem,3.4vw,2.8rem); margin:0 0 12px;
+    opacity:0; transform:translateY(16px);
+  }
+  .contact-inner .sub{
+    color:var(--ink-dim); margin:0 0 44px;
+    opacity:0; transform:translateY(16px);
+  }
+  .contact-form{
+    display:flex; flex-direction:column; gap:16px; text-align:left;
+    opacity:0; transform:translateY(20px);
+  }
+  .contact-form input, .contact-form textarea{
+    background:var(--navy-2); border:1px solid rgba(255,255,255,.12);
+    border-radius:4px; padding:14px 16px; color:var(--ink);
+    font-family:inherit; font-size:.9rem; outline:none;
+    transition:border-color var(--dur-fast) var(--ease);
+  }
+  .contact-form input:focus, .contact-form textarea:focus{ border-color:var(--gold); }
+  .contact-form textarea{ min-height:120px; resize:vertical; }
+  .contact-form button{
+    background:var(--gold); color:var(--navy); border:none;
+    padding:14px 0; border-radius:4px; font-weight:700; font-size:.9rem;
+    cursor:pointer; letter-spacing:.02em;
+    transition:transform var(--dur-fast) var(--ease);
+  }
+  .contact-form button:hover{ transform:translateY(-2px); }
+  .contact-direct{
+    margin-top:32px; color:var(--ink-dim); font-size:.85rem;
+    opacity:0; transform:translateY(16px);
+  }
+  .contact-direct a{ color:var(--gold-soft); text-decoration:none; }
+
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR: 3 grupos concretos. Cada âncora abrange várias seções —
+       o mapeamento de qual seção pertence a qual grupo está no JS. -->
+  <nav class="top-nav" id="topNav">
+    <a href="#intro" class="brand">
+      <svg viewBox="0 0 100 100" class="brand-logo">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="#d4af6a" stroke-width="4"/>
+        <circle cx="50" cy="50" r="36" fill="none" stroke="#d4af6a" stroke-width="3"/>
+        <!-- estrela central -->
+        <path d="M50 30 L58 50 L50 70 L42 50 Z" fill="#d4af6a"/>
+        <!-- estrelas laterais (esquerda e direita, sobre o anel) -->
+        <path d="M13 42 C14 47 15 48 21 50 C15 52 14 53 13 58 C12 53 11 52 5 50 C11 48 12 47 13 42 Z" fill="#d4af6a"/>
+        <path d="M87 42 C88 47 89 48 95 50 C89 52 88 53 87 58 C86 53 85 52 79 50 C85 48 86 47 87 42 Z" fill="#d4af6a"/>
+        <!-- estrela cadente: gira em volta do O, uma volta completa a cada 45s -->
+        <g class="shooting-star">
+          <circle cx="50" cy="4" r="1.7" fill="#fff3d6"/>
+          <circle cx="46.6" cy="5.4" r="1.1" fill="#d4af6a" opacity=".55"/>
+          <circle cx="43.8" cy="7.4" r=".6" fill="#d4af6a" opacity=".28"/>
+        </g>
+      </svg>
+      OPHIEL
+    </a>
+    <div class="top-nav-links">
+      <a href="#sobre" data-group="sobre">Nuestra Empresa</a>
+      <a href="#s1" data-group="servicos">Servicios</a>
+      <a href="#" class="is-disabled" title="Próximamente">Productos <span class="soon-badge">En mantenimiento</span></a>
+      <a href="#melhores-do-ano" data-group="premiacao" class="nav-flagship"><span class="flagship-star">★</span> Mejores del Año</a>
+      <a href="#contato" data-group="contato">Contacto</a>
+    </div>
+  </nav>
+
+  <!-- SIDE MENU DE SERVIÇOS: fica invisível o tempo todo, exceto quando
+       o scroll está entre #s1 e #planos — controlado via classe .is-visible no JS -->
+  <nav class="services-menu" id="servicesMenu">
+    <a href="#s1" data-target="s1"><span class="dot"></span>01 Carta</a>
+    <a href="#s2" data-target="s2"><span class="dot"></span>02 Sitio</a>
+    <a href="#s3" data-target="s3"><span class="dot"></span>03 Redes</a>
+    <a href="#s4" data-target="s4"><span class="dot"></span>04 Vídeos</a>
+    <a href="#s5" data-target="s5"><span class="dot"></span>05 Maps</a>
+    <a href="#s6" data-target="s6"><span class="dot"></span>06 3D</a>
+    <a href="#s7" data-target="s7"><span class="dot"></span>07 Fotos</a>
+    <a href="#s8" data-target="s8"><span class="dot"></span>08 Tarjetas</a>
+    <a href="#s9" data-target="s9"><span class="dot"></span>09 Regalo</a>
+    <a href="#s10" data-target="s10"><span class="dot"></span>10 Eventos</a>
+    <a href="#planos" data-target="planos" class="menu-cta"><span class="dot"></span>Planes</a>
+  </nav>
+
+  <!-- ============ INTRO ============ -->
+  <section class="intro" id="intro">
+    <svg class="intro-logo" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#d4af6a" stroke-width="3"/>
+      <circle cx="50" cy="50" r="36" fill="none" stroke="#d4af6a" stroke-width="2"/>
+      <path d="M50 30 L58 50 L50 70 L42 50 Z" fill="#d4af6a"/>
+      <path d="M13 42 C14 47 15 48 21 50 C15 52 14 53 13 58 C12 53 11 52 5 50 C11 48 12 47 13 42 Z" fill="#d4af6a"/>
+      <path d="M87 42 C88 47 89 48 95 50 C89 52 88 53 87 58 C86 53 85 52 79 50 C85 48 86 47 87 42 Z" fill="#d4af6a"/>
+      <g class="shooting-star">
+        <circle cx="50" cy="4" r="1.7" fill="#fff3d6"/>
+        <circle cx="46.6" cy="5.4" r="1.1" fill="#d4af6a" opacity=".55"/>
+        <circle cx="43.8" cy="7.4" r=".6" fill="#d4af6a" opacity=".28"/>
+      </g>
+    </svg>
+    <h1>Ophiel Digital</h1>
+    <p class="tagline">Tecnología a medida para tu negocio</p>
+    <p class="hint">Usa el menú para ir directo al servicio que buscas</p>
+  </section>
+
+  <!-- ============ SOBRE (About) ============ -->
+  <section class="about-section" id="sobre">
+    <div class="about-grid">
+      <div class="about-text">
+        <!-- Marca pequena: mesma logo do site, agora em dourado sobre navy -->
+        <svg class="about-logo-mark" viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="90" stroke="var(--gold)" stroke-width="10"/>
+          <circle cx="100" cy="100" r="72" stroke="var(--gold)" stroke-width="5"/>
+          <path fill="var(--gold)" d="M100 60 C104 90 110 96 140 100 C110 104 104 110 100 140 C96 110 90 104 60 100 C90 96 96 90 100 60 Z"/>
+          <path fill="var(--gold)" d="M26 84 C28 96 30 98 42 100 C30 102 28 104 26 116 C24 104 22 102 10 100 C22 98 24 96 26 84 Z"/>
+          <path fill="var(--gold)" d="M174 84 C176 96 178 98 190 100 C178 102 176 104 174 116 C172 104 170 102 158 100 C170 98 172 96 174 84 Z"/>
+          <g class="shooting-star origin-200">
+            <circle cx="100" cy="8" r="3.4" fill="#fff3d6"/>
+            <circle cx="93.2" cy="10.8" r="2.2" fill="var(--gold)" opacity=".55"/>
+            <circle cx="87.6" cy="14.8" r="1.2" fill="var(--gold)" opacity=".28"/>
+          </g>
+        </svg>
+        <div class="service-number about-label">NUESTRA EMPRESA</div>
+        <p>Ophiel nació para ayudar a pequeños y medianos negocios a crecer con soluciones prácticas, accesibles y realmente útiles para el día a día.</p>
+        <p>Reunimos en un solo lugar todo lo que un restaurante, bar o negocio local necesita para fortalecer su presencia y operación: desde cartas digitales, gestión de redes sociales e identidad digital, hasta soluciones de impresión 3D para prototipado, piezas personalizadas y proyectos a medida.</p>
+        <p>También realizamos investigaciones de campo para identificar y analizar los mejores establecimientos de cada segmento. Este trabajo nos permite entender las tendencias del mercado, reconocer buenas prácticas y ofrecer recomendaciones y estrategias basadas en datos reales, ayudando a nuestros clientes a tomar decisiones más inteligentes.</p>
+        <p>Creemos que la tecnología debe simplificar, no complicar. Por eso, desarrollamos soluciones fáciles de implementar, simples de mantener y enfocadas en resolver problemas reales, permitiendo que nuestros clientes dediquen su tiempo a lo que realmente importa: hacer crecer su negocio.</p>
+      </div>
+      <div class="about-stats">
+        <!-- Watermark: a mesma logo, gigante e quase invisível, dando profundidade
+             atrás dos números sem disputar atenção com eles -->
+        <svg class="about-logo-bg" viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="90" stroke="var(--gold)" stroke-width="10"/>
+          <circle cx="100" cy="100" r="72" stroke="var(--gold)" stroke-width="5"/>
+          <path fill="var(--gold)" d="M100 60 C104 90 110 96 140 100 C110 104 104 110 100 140 C96 110 90 104 60 100 C90 96 96 90 100 60 Z"/>
+          <path fill="var(--gold)" d="M26 84 C28 96 30 98 42 100 C30 102 28 104 26 116 C24 104 22 102 10 100 C22 98 24 96 26 84 Z"/>
+          <path fill="var(--gold)" d="M174 84 C176 96 178 98 190 100 C178 102 176 104 174 116 C172 104 170 102 158 100 C170 98 172 96 174 84 Z"/>
+          <g class="shooting-star origin-200">
+            <circle cx="100" cy="8" r="3.4" fill="#fff3d6"/>
+            <circle cx="93.2" cy="10.8" r="2.2" fill="var(--gold)" opacity=".55"/>
+            <circle cx="87.6" cy="14.8" r="1.2" fill="var(--gold)" opacity=".28"/>
+          </g>
+        </svg>
+        <div class="about-stat"><div class="num">10+</div><div class="label">servicios integrados</div></div>
+        <div class="about-stat"><div class="num">100%</div><div class="label">soporte en español</div></div>
+        <div class="about-stat"><div class="num">1</div><div class="label">socio para toda tu presencia digital</div></div>
+        <div class="about-stat"><div class="num">24h</div><div class="label">tiempo medio de respuesta</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 10 SEÇÕES DE SERVIÇO (01–10 completas abaixo) ============ -->
+  <section class="section" id="s1">
+    <span class="bg-glyph">01</span>
+    <div class="section-inner">
+      <div>
+        <div class="service-number">01 · CARTA DIGITAL</div>
+        <h2 class="service-title">Carta vía código QR</h2>
+        <ul class="service-details">
+          <li>Página exclusiva del restaurante</li>
+          <li>Código QR impreso para las mesas</li>
+          <li>Actualización de platos y precios cuando quieras</li>
+          <li>Ediciones ilimitadas en el plan superior</li>
+        </ul>
+      </div>
+      <div class="price-box">
+        <div class="label">IMPLEMENTACIÓN</div>
+        <div class="value">Desde €59</div>
+        <div class="label">MANTENIMIENTO</div>
+        <div class="value">Desde €5</div>
+        <div class="label" style="margin-top:-6px;">(Opcional)</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s2">
+    <span class="bg-glyph">02</span>
+    <div class="section-inner">
+      <div>
+        <div class="service-number">02 · SITIO WEB DEL RESTAURANTE</div>
+        <h2 class="service-title">Presencia propia en la web</h2>
+        <ul class="service-details">
+          <li>Dominio y hosting incluidos</li>
+          <li>Carta integrada al sitio</li>
+          <li>Mapa y ubicación</li>
+          <li>Diseño responsive, listo para móvil</li>
+        </ul>
+      </div>
+      <div class="price-box">
+        <div class="label">CREACIÓN</div>
+        <div class="value">€300–600</div>
+        <div class="label">MENSUALIDAD</div>
+        <div class="value">€10–35</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s3">
+    <span class="bg-glyph">03</span>
+    <div class="section-inner">
+      <div>
+        <div class="service-number">03 · GESTIÓN DE REDES SOCIALES</div>
+        <h2 class="service-title">Presencia activa en redes</h2>
+        <ul class="service-details">
+          <li>Plan Básico, Intermedio o Premium</li>
+          <li>Calendario de publicaciones</li>
+          <li>Creación de contenido adaptado al negocio</li>
+          <li>Seguimiento mensual de resultados</li>
+        </ul>
+      </div>
+      <div class="price-box">
+        <div class="label">MENSUALIDAD</div>
+        <div class="value">€120–600</div>
+        <div class="label">PLANES</div>
+        <div class="value" style="font-size:1.1rem;">Básico · Intermedio · Premium</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s4">
+    <span class="bg-glyph">04</span>
+    <div class="section-inner">
+      <div>
+        <div class="service-number">04 · PRODUCCIÓN DE VÍDEOS</div>
+        <h2 class="service-title">Grabación en el local</h2>
+        <ul class="service-details">
+          <li>Grabación realizada en tu establecimiento</li>
+          <li>Edición profesional</li>
+          <li>Formato ideal para redes sociales</li>
+          <li>El paquete cerrado sale más económico</li>
+        </ul>
+      </div>
+      <div class="price-box">
+        <div class="label">POR VÍDEO</div>
+        <div class="value">€20–50</div>
+        <div class="label">PAQUETE DE 8</div>
+        <div class="value">€150–300</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s5">
+    <span class="bg-glyph">05</span>
+    <div class="section-inner">
+      <div>
+        <div class="service-number">05 · GOOGLE MAPS</div>
+        <h2 class="service-title">Reactiva tu perfil</h2>
+        <ul class="service-details">
+          <li>Activación de perfil abandonado</li>
+          <li>Información y fotos actualizadas</li>
+          <li>Optimización para aparecer en las búsquedas</li>
+          <li>Mantenimiento mensual del perfil</li>
+        </ul>
+      </div>
+      <div class="price-box">
+        <div class="label">ACTIVACIÓN</div>
+        <div class="value">€50–150</div>
+        <div class="label">MENSUALIDAD</div>
+        <div class="value">€10–30</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s6">
+    <span class="bg-glyph">06</span>
+    <div class="section-inner">
+      <div>
+        <div class="service-number">06 · IMPRESIÓN 3D</div>
+        <h2 class="service-title">Piezas a medida</h2>
+        <ul class="service-details">
+          <li>Placas de identificación y señalización</li>
+          <li>Soportes para carta y porta-comandas</li>
+          <li>13 piezas disponibles en el catálogo</li>
+          <li>Personalización según el ambiente</li>
+        </ul>
+      </div>
+      <div class="price-box">
+        <div class="label">PRESUPUESTO</div>
+        <div class="value" style="font-size:1.3rem;">Bajo consulta</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s7">
+    <span class="bg-glyph">07</span>
+    <div class="section-inner">
+      <div>
+        <div class="service-number">07 · FOTOGRAFÍAS</div>
+        <h2 class="service-title">Imágenes profesionales</h2>
+        <ul class="service-details">
+          <li>Paquete de 30 a 50 fotos</li>
+          <li>Platos, ambiente y detalles</li>
+          <li>Entrega en alta resolución</li>
+          <li>Uso libre en sitio web y redes</li>
+        </ul>
+      </div>
+      <div class="price-box">
+        <div class="label">PAQUETE</div>
+        <div class="value">€100–250</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s8">
+    <span class="bg-glyph">08</span>
+    <div class="section-inner">
+      <div>
+        <div class="service-number">08 · TARJETAS DE VISITA</div>
+        <h2 class="service-title">Diseño, impresión y entrega</h2>
+        <ul class="service-details">
+          <li>Diseño personalizado para la marca</li>
+          <li>Impresión en papel de calidad</li>
+          <li>Entrega en tu dirección</li>
+        </ul>
+      </div>
+      <div class="price-box">
+        <div class="label">PRESUPUESTO</div>
+        <div class="value" style="font-size:1.3rem;">Bajo consulta</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s9">
+    <span class="bg-glyph">09</span>
+    <div class="section-inner">
+      <div>
+        <div class="service-number">09 · TARJETAS REGALO</div>
+        <h2 class="service-title">Fideliza a tus clientes</h2>
+        <ul class="service-details">
+          <li>Diseño personalizado con tu marca</li>
+          <li>Física o digital</li>
+          <li>Valores y formatos flexibles</li>
+        </ul>
+      </div>
+      <div class="price-box">
+        <div class="label">PRESUPUESTO</div>
+        <div class="value" style="font-size:1.3rem;">Bajo consulta</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s10">
+    <span class="bg-glyph">10</span>
+    <div class="section-inner">
+      <div>
+        <div class="service-number">10 · INVITACIONES Y EVENTOS</div>
+        <h2 class="service-title">Cumpleaños, bodas y más</h2>
+        <ul class="service-details">
+          <li>Cumpleaños y comuniones</li>
+          <li>Bodas</li>
+          <li>Bautizos</li>
+          <li>Diseño digital o impreso</li>
+        </ul>
+      </div>
+      <div class="price-box">
+        <div class="label">PRESUPUESTO</div>
+        <div class="value" style="font-size:1.3rem;">Bajo consulta</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PLANOS (regra de 3 / âncora de preço) ============ -->
+  <section class="plans-section" id="planos">
+    <div class="plans-header">
+      <div class="service-number">PLANES</div>
+      <h2>El plan correcto para tu negocio</h2>
+      <p>Elige el nivel de presencia digital que tiene sentido para tu etapa actual</p>
+    </div>
+
+    <div class="plans-grid">
+
+      <!-- ESSENCIAL: âncora baixa, mostra o "mínimo" e empurra pro do meio -->
+      <div class="plan-card" id="plan-essencial">
+        <div class="plan-top"><h3>Esencial</h3></div>
+        <div class="plan-price">€29<span>/mes</span></div>
+        <p class="plan-desc">Ideal para quienes están empezando</p>
+        <a href="#" class="plan-cta">Hablar con Ventas</a>
+        <ul class="plan-features">
+          <li>Carta digital</li>
+          <li>Hosting</li>
+          <li>Hasta 2 cambios al mes</li>
+        </ul>
+      </div>
+
+      <!-- PROFISSIONAL: a âncora central, o plano que queremos vender -->
+      <div class="plan-card is-anchor" id="plan-profissional">
+        <div class="plan-top">
+          <h3>Profesional</h3>
+          <span class="plan-badge">Más popular</span>
+        </div>
+        <div class="plan-price">€79<span>/mes</span></div>
+        <p class="plan-desc">Para negocios que quieren crecer</p>
+        <a href="#" class="plan-cta">Hablar con Ventas</a>
+        <ul class="plan-features">
+          <li>Carta digital</li>
+          <li>Sitio web</li>
+          <li>Hosting</li>
+          <li>Actualizaciones mensuales</li>
+          <li>Perfil de Google actualizado</li>
+        </ul>
+      </div>
+
+      <!-- PREMIUM: âncora alta, sem destaque visual — o preço dele é que
+           faz o Profissional parecer a escolha "razoável" -->
+      <div class="plan-card" id="plan-premium">
+        <div class="plan-top"><h3>Premium</h3></div>
+        <div class="plan-price">€249<span>/mes</span></div>
+        <p class="plan-desc">Negocios que quieren escalar sin fricción</p>
+        <a href="#" class="plan-cta">Hablar con Ventas</a>
+        <ul class="plan-features">
+          <li>Todo lo del Profesional</li>
+          <li>Gestión de redes sociales</li>
+          <li>8 publicaciones al mes</li>
+          <li>4 vídeos cortos al mes</li>
+          <li>Sesión mensual de fotos</li>
+          <li>Informe de rendimiento</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ MELHORES DO ANO (premiação anual) ============ -->
+  <section class="awards-section" id="melhores-do-ano">
+
+    <div class="awards-header">
+      <div class="service-number">PREMIACIÓN ANUAL</div>
+      <h2>Mejores del Año</h2>
+      <p>El reconocimiento anual de los mejores establecimientos de la región — empezando por Adra, con expansión a toda la provincia de Almería.</p>
+    </div>
+
+    <div class="awards-grid">
+      <div class="awards-text">
+        <p>Una vez al año, abrimos las nominaciones del público, hacemos la selección y ponemos a los finalistas en votación. Los ganadores se anuncian y reciben el premio en un evento — y a partir de ahí, se convierten en socios a largo plazo.</p>
+        <p>Ganar el sello "Mejor del Año" no es solo reconocimiento: es una herramienta de marketing que el establecimiento lleva durante todo el año, con derecho a difusión, materiales físicos de alta calidad y presencia reforzada en redes.</p>
+        <p>Las categorías cubren prácticamente todos los segmentos del comercio local — desde alimentación y salud hasta belleza, automoción y servicios — cada una con sus propias subcategorías.</p>
+      </div>
+
+      <div class="floating-words" id="floatingWords">
+        <span class="floating-word big"      style="top:4%;  left:8%;  animation-delay:0s;"><span class="fw-text">Mejor Restaurante</span></span>
+        <span class="floating-word mid dim"   style="top:2%;  left:58%; animation-delay:.6s;"><span class="fw-text">Mejor Hamburguesería</span></span>
+        <span class="floating-word small dim" style="top:16%; left:38%; animation-delay:1.2s;"><span class="fw-text">Mejor Pizzería</span></span>
+        <span class="floating-word mid"       style="top:26%; left:4%;  animation-delay:1.8s;"><span class="fw-text">Mejor Bar</span></span>
+        <span class="floating-word big"       style="top:24%; left:62%; animation-delay:.3s;"><span class="fw-text">Mejor Salón</span></span>
+        <span class="floating-word small dim" style="top:38%; left:24%; animation-delay:2.1s;"><span class="fw-text">Mejor Cafetería</span></span>
+        <span class="floating-word mid"       style="top:44%; left:52%; animation-delay:1.5s;"><span class="fw-text">Mejor Dentista</span></span>
+        <span class="floating-word small"     style="top:52%; left:2%;  animation-delay:.9s;"><span class="fw-text">Mejor Panadería</span></span>
+        <span class="floating-word big dim"   style="top:56%; left:30%; animation-delay:2.4s;"><span class="fw-text">Mejor Barbería</span></span>
+        <span class="floating-word small dim" style="top:64%; left:60%; animation-delay:.4s;"><span class="fw-text">Mejor Taller</span></span>
+        <span class="floating-word mid"       style="top:70%; left:8%;  animation-delay:1.9s;"><span class="fw-text">Mejor Heladería</span></span>
+        <span class="floating-word small"     style="top:78%; left:40%; animation-delay:1.1s;"><span class="fw-text">Mejor Abogado</span></span>
+        <span class="floating-word mid dim"   style="top:84%; left:2%;  animation-delay:2.7s;"><span class="fw-text">Mejor Gimnasio</span></span>
+        <span class="floating-word small dim" style="top:88%; left:58%; animation-delay:.7s;"><span class="fw-text">Mejor Inmobiliaria</span></span>
+        <span class="floating-word mid"       style="top:8%;  left:78%; animation-delay:1.4s;"><span class="fw-text">Mejor Farmacia</span></span>
+        <span class="floating-word small"     style="top:60%; left:80%; animation-delay:2s;"><span class="fw-text">Mejor Delivery</span></span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ CONTATO (Fale conosco) ============ -->
+  <section class="contact-section" id="contato">
+    <div class="contact-inner">
+      <h2>Contáctanos</h2>
+      <p class="sub">Cuéntanos qué necesita tu negocio y te respondemos con una propuesta.</p>
+      <!-- action="mailto:..." abre o cliente de e-mail do visitante com os dados
+           preenchidos — funciona sem precisar de backend. Se no futuro vocês
+           quiserem que o envio seja silencioso (sem abrir o app de e-mail),
+           aí sim precisa de um serviço tipo Formspree ou um backend próprio. -->
+      <form class="contact-form" action="mailto:hola@ophiel.es" method="POST" enctype="text/plain">
+        <input type="text" name="nombre" placeholder="Tu nombre" required>
+        <input type="email" name="email" placeholder="Tu correo electrónico" required>
+        <input type="text" name="negocio" placeholder="Nombre de tu negocio">
+        <textarea name="mensaje" placeholder="Cuéntanos un poco sobre lo que necesitas"></textarea>
+        <button type="submit">Enviar mensaje</button>
+      </form>
+      <p class="contact-direct">¿Prefieres hablar directamente? <a href="mailto:Hola@ophiel.es">Hola@ophiel.es</a> · <a href="#">WhatsApp</a></p>
+    </div>
+  </section>
+
+  <script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ==========================================================================
+     1) INTRO — sequência de entrada (roda 1x, ao carregar a página, não no scroll)
+     Ordem: logo -> título -> tagline -> hint. Delay curto entre cada um para
+     o olho seguir uma linha do centro para baixo, sem competir por atenção.
+  ========================================================================== */
+  gsap.timeline({defaults:{ease:"power2.out"}})
+    .to(".intro-logo", {opacity:1, y:0, duration:.6}, 0)
+    .from(".intro-logo", {y:-16, duration:.6}, 0)
+    .to(".intro h1", {opacity:1, duration:.6}, .25)
+    .from(".intro h1", {y:14, duration:.6}, .25)
+    .to(".intro .tagline", {opacity:1, duration:.5}, .55)
+    .from(".intro .tagline", {y:10, duration:.5}, .55)
+    .to(".intro .hint", {opacity:1, duration:.5}, .85);
+
+  /* ==========================================================================
+     2) CADA SEÇÃO DE SERVIÇO — revelação ao entrar no viewport
+     - .service-number: fade + leve subida (sinaliza "novo bloco")
+     - .service-title: cortina (clip-path) abrindo da esquerda pra direita —
+       dá sensação de "digitação"/revelação sem mexer no layout (não gera reflow)
+     - .service-details li: stagger sutil, um item de cada vez guia a leitura
+     - .price-box: entra de leve deslize lateral + scale, reforça que é o
+       elemento de destaque financeiro da seção
+     Trigger em "top 75%": a animação começa quando a seção já está 25%
+     visível — cedo o suficiente pra não parecer atraso, tarde o suficiente
+     pra não disparar fora de vista.
+  ========================================================================== */
+  document.querySelectorAll(".section").forEach((section) => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top 75%",
+        toggleActions: "play none none reverse" // reverte suavemente se o usuário sobe
+      },
+      defaults: { ease: "power2.out" }
+    });
+
+    tl.to(section.querySelector(".service-number"), { opacity:1, duration:.4 })
+      .from(section.querySelector(".service-number"), { y:10, duration:.4 }, "<")
+      .to(section.querySelector(".service-title"), {
+          clipPath:"inset(0 0% 0 0)", duration:.7, ease:"power3.out"
+        }, "-=.15")
+      .to(section.querySelectorAll(".service-details li"), {
+          opacity:1, y:0, duration:.45, stagger:.09
+        }, "-=.35")
+      .to(section.querySelector(".price-box"), {
+          opacity:1, x:0, scale:1, duration:.6, ease:"back.out(1.4)"
+        }, "-=.5"); // back.out bem discreto: só a price-box "assenta", não balança
+  });
+
+  /* ==========================================================================
+     3) PARALLAX DE PROFUNDIDADE — glyphs de fundo (números gigantes translúcidos)
+     Movem-se mais devagar que o scroll real (scrub), criando sensação de
+     camadas sem nunca competir com o texto legível em primeiro plano.
+     yPercent pequeno (15) = sutil; exagerar aqui é o erro mais comum.
+  ========================================================================== */
+  document.querySelectorAll(".bg-glyph").forEach((glyph) => {
+    gsap.to(glyph, {
+      yPercent: 15,
+      ease: "none",
+      scrollTrigger: {
+        trigger: glyph.closest(".section"),
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true // acompanha o scroll 1:1, sem timing próprio — é o que evita "jank"
+      }
+    });
+  });
+
+  /* ==========================================================================
+     4) SEÇÃO DE PLANOS — os 3 cards sobem em stagger, mas o card âncora
+     (Profissional) entra por último e com um leve "pop" a mais que os
+     outros. É a mesma lógica visual da price-box nas seções de serviço,
+     só que aqui o destaque é comparativo entre os 3, não isolado.
+  ========================================================================== */
+  gsap.timeline({
+    scrollTrigger:{ trigger:"#planos", start:"top 70%", toggleActions:"play none none reverse" },
+    defaults:{ ease:"power2.out" }
+  })
+    .to("#plan-essencial", { opacity:1, y:0, duration:.5 })
+    .to("#plan-premium",   { opacity:1, y:0, duration:.5 }, "-=.35")
+    .to("#plan-profissional", {
+        opacity:1, y:0, scale:1.04, duration:.6, ease:"back.out(1.5)"
+      }, "-=.3"); // entra por último, é o que o olho deve fixar ao final da sequência
+
+  /* ==========================================================================
+     4z) MELHORES DO ANO — header sobe, o texto entra em stagger de parágrafos,
+     e a nuvem de categorias aparece com um simples fade (as palavras já têm
+     seu próprio loop infinito de flutuação em CSS, então aqui só ligamos
+     a visibilidade do conjunto).
+  ========================================================================== */
+  gsap.timeline({
+    scrollTrigger:{ trigger:"#melhores-do-ano", start:"top 65%", toggleActions:"play none none reverse" },
+    defaults:{ ease:"power2.out" }
+  })
+    .to("#melhores-do-ano .awards-header .service-number", { opacity:1, duration:.4 })
+    .to("#melhores-do-ano .awards-header h2", { opacity:1, y:0, duration:.55 }, "-=.15")
+    .to("#melhores-do-ano .awards-header p", { opacity:1, y:0, duration:.5 }, "-=.3")
+    .to("#melhores-do-ano .awards-text p", { opacity:1, y:0, duration:.5, stagger:.14 }, "-=.2")
+    .to("#floatingWords", { opacity:1, duration:1, ease:"power1.out" }, "-=.6");
+
+  /* ==========================================================================
+     4z-b) NUVEM DE CATEGORIAS — cada palavra some (fade + leve encolhida) e
+     dá lugar a outra categoria do pool completo, sozinha, no seu próprio
+     tempo. Como os 16 slots trocam em momentos diferentes (delay inicial
+     escalonado + intervalo aleatório), o efeito nunca parece um "reset"
+     em bloco — sempre tem uma ou duas palavras trocando por vez.
+     A flutuação (translateY/rotate) continua rodando em CSS por fora,
+     sem conflito, porque o GSAP só mexe no elemento de texto interno
+     (opacity + scale), nunca no wrapper que flutua.
+  ========================================================================== */
+  const categoryPool = [
+    "Mejor Restaurante","Mejor Hamburguesería","Mejor Pizzería","Mejor Asador",
+    "Mejor Japonés","Mejor Bar","Mejor Cafetería","Mejor Panadería","Mejor Heladería",
+    "Mejor Açaí","Mejor Delivery","Mejor Desayuno",
+    "Mejor Dentista","Mejor Ortodoncista","Mejor Clínica","Mejor Fisioterapeuta",
+    "Mejor Farmacia","Mejor Óptica",
+    "Mejor Salón","Mejor Barbería","Mejor Esteticista","Mejor Nail Designer","Mejor Maquilladora",
+    "Mejor Taller","Mejor Neumáticos","Mejor Lavado de Coches","Mejor Autopartes",
+    "Mejor Tienda de Ropa","Mejor Tienda Infantil","Mejor Joyería","Mejor Mercado",
+    "Mejor Carnicería","Mejor Papelería","Mejor Tienda de Muebles","Mejor Floristería",
+    "Mejor Abogado","Mejor Contador","Mejor Inmobiliaria","Mejor Aseguradora",
+    "Mejor Escuela","Mejor Gimnasio","Mejor Empresa de Limpieza"
+  ];
+
+  function cycleFloatingWord(slot){
+    const textEl = slot.querySelector(".fw-text");
+    const used = new Set(
+      Array.from(document.querySelectorAll(".floating-word .fw-text")).map(el => el.textContent)
+    );
+    const options = categoryPool.filter(c => !used.has(c));
+    const pool = options.length ? options : categoryPool;
+    const next = pool[Math.floor(Math.random() * pool.length)];
+    gsap.to(textEl, {
+      opacity:0, scale:.8, duration:.45, ease:"power1.in",
+      onComplete:() => {
+        textEl.textContent = next;
+        gsap.fromTo(textEl,
+          { opacity:0, scale:.8 },
+          { opacity:1, scale:1, duration:.55, ease:"back.out(1.7)" }
+        );
+      }
+    });
+    setTimeout(() => cycleFloatingWord(slot), 4500 + Math.random() * 3500); // 4.5–8s, assíncrono por slot
+  }
+  document.querySelectorAll(".floating-word").forEach((slot, i) => {
+    setTimeout(() => cycleFloatingWord(slot), 2000 + i * 350); // largada escalonada
+  });
+
+  /* ==========================================================================
+     4b) SOBRE — texto entra em stagger de parágrafos, stats entram logo
+     depois em grade 2x2 (leve atraso entre pares pra não parecer "tudo
+     de uma vez", mas sem virar uma sequência longa demais)
+  ========================================================================== */
+  gsap.timeline({
+    scrollTrigger:{ trigger:"#sobre", start:"top 70%", toggleActions:"play none none reverse" },
+    defaults:{ ease:"power2.out" }
+  })
+    .to(".about-logo-mark", { opacity:1, y:0, rotate:0, duration:.55, ease:"back.out(1.4)" })
+    .to(".about-label", { opacity:1, y:0, duration:.4 }, "-=.25")
+    .to(".about-text p", { opacity:1, y:0, duration:.5, stagger:.12 }, "-=.1")
+    .to(".about-stat", { opacity:1, y:0, duration:.45, stagger:.1 }, "-=.5");
+
+  /* ==========================================================================
+     4c) CONTATO — título, subtítulo, formulário e contato direto sobem em
+     sequência curta. É a última seção da página: o timing aqui é o mais
+     rápido de todos (nada de fazer o usuário esperar no fim do scroll).
+  ========================================================================== */
+  gsap.timeline({
+    scrollTrigger:{ trigger:"#contato", start:"top 75%", toggleActions:"play none none reverse" },
+    defaults:{ ease:"power2.out", duration:.45 }
+  })
+    .to("#contato h2", { opacity:1, y:0 })
+    .to("#contato .sub", { opacity:1, y:0 }, "-=.25")
+    .to("#contato .contact-form", { opacity:1, y:0 }, "-=.2")
+    .to("#contato .contact-direct", { opacity:1, y:0 }, "-=.15");
+
+  /* ==========================================================================
+     5) NAVBAR — 4 grupos concretos. Em vez de destacar seção por seção,
+     mapeamos cada bloco do site pra uma das 4 zonas (About us / Serviços /
+     Melhores do Ano / Contato). O item certo acende sozinho conforme o
+     scroll atravessa cada zona — é orientação, não decoração.
+  ========================================================================== */
+  const navLinks = document.querySelectorAll(".top-nav-links a");
+  const sectionGroups = {
+    sobre:    ["#sobre"],
+    servicos: ["#intro", "#s1", "#s2", "#s3", "#s4", "#s5", "#s6", "#s7", "#s8", "#s9", "#s10", "#planos"],
+    premiacao:["#melhores-do-ano"],
+    contato:  ["#contato"]
+  };
+  Object.entries(sectionGroups).forEach(([group, selectors]) => {
+    selectors.forEach((sel) => {
+      const el = document.querySelector(sel);
+      if(!el) return;
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top center",
+        end: "bottom center",
+        onEnter: () => setActiveGroup(group),
+        onEnterBack: () => setActiveGroup(group)
+      });
+    });
+  });
+  function setActiveGroup(group){
+    navLinks.forEach(a => a.classList.toggle("is-active", a.dataset.group === group));
+    // o menu de serviços só aparece quando o usuário está navegando pelos 10 blocos
+    document.getElementById("servicesMenu").classList.toggle("is-visible", group === "servicos");
+  }
+
+  /* ==========================================================================
+     5b) DENTRO do menu de serviços — destaca qual dos 10 (+Planos) está
+     visível no momento, igual ao comportamento antigo do menu lateral.
+  ========================================================================== */
+  const serviceLinks = document.querySelectorAll(".services-menu a");
+  document.querySelectorAll("#s1, #s2, #s3, #s4, #s5, #s6, #s7, #s8, #s9, #s10, #planos").forEach((sec) => {
+    ScrollTrigger.create({
+      trigger: sec,
+      start: "top center",
+      end: "bottom center",
+      onEnter: () => setActiveService(sec.id),
+      onEnterBack: () => setActiveService(sec.id)
+    });
+  });
+  function setActiveService(id){
+    serviceLinks.forEach(a => a.classList.toggle("is-active", a.dataset.target === id));
+  }
+
+  /* ==========================================================================
+     NOTAS DE TIMING (resumo para ajuste fino ao integrar com conteúdo real):
+     - Reveal de texto/número:      .35–.45s   -> rápido, não atrasa a leitura
+     - Título (clip-path):          .6–.7s     -> perceptível mas não arrastado
+     - Price-box (elemento "prêmio"): .6s com back.out(1.4) -> chama atenção
+       sem exagero de "bounce" (evite back.out acima de 1.6, começa a parecer
+       brinquedo e não site de serviços B2B)
+     - Parallax:                    sempre scrub:true, nunca duration fixa
+       (scrub liga a animação direto à posição do scroll = zero "atraso"
+       perceptível, que é a maior causa de enjoo em parallax mal feito)
+     - stagger de bullets:          .08–.1s entre itens -> ritmo de leitura
+       natural, similar à velocidade que alguém leria os bullets em voz alta
+  ========================================================================== */
+  </script>
+</body>
+</html>

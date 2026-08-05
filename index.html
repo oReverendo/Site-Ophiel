@@ -40,13 +40,14 @@
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:hidden; max-width:100%;}
   body{
     margin:0;
     background:var(--navy);
     color:var(--ink);
     font-family: 'Helvetica Neue', Arial, sans-serif;
     overflow-x:hidden;
+    max-width:100%;
   }
 
   /* Respeita quem pediu menos movimento no sistema operacional.
@@ -98,7 +99,7 @@
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
   }
-  .top-nav-links{ display:flex; align-items:center; gap:26px; }
+  .top-nav-links{ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:26px; }
   .top-nav-links a{
     position:relative;
     text-decoration:none;
@@ -230,6 +231,7 @@
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; padding:0 24px;
     position:relative;
+    scroll-margin-top:1px; /* garante que o clique no logo "chegue" ao topo de verdade */
   }
   .intro-logo{ width:74px; height:74px; margin-bottom:28px; opacity:0; }
   .intro h1{
@@ -256,6 +258,7 @@
     display:flex; align-items:center;
     padding:100px 12vw 100px 14vw;
     position:relative;
+    overflow-x:hidden;
     border-top:1px solid rgba(255,255,255,.06);
   }
   .section-inner{
@@ -333,6 +336,7 @@
     min-height:100vh;
     display:flex; flex-direction:column; justify-content:center;
     padding:100px 8vw;
+    overflow-x:hidden;
     border-top:1px solid rgba(255,255,255,.06);
   }
   .plans-header{ text-align:center; max-width:560px; margin:0 auto 56px; }
@@ -342,23 +346,24 @@
 
   .plans-grid{
     display:grid; grid-template-columns:repeat(3, minmax(0,1fr));
-    gap:24px; max-width:1100px; margin:0 auto; align-items:end;
+    gap:24px; max-width:1100px; margin:0 auto; align-items:stretch;
   }
   @media (max-width:860px){ .plans-grid{ grid-template-columns:1fr; } }
 
   .plan-card{
+    display:flex; flex-direction:column;
     background:var(--navy-2);
     border:1px solid rgba(255,255,255,.08);
     border-radius:6px; padding:34px 28px;
     opacity:0; transform:translateY(28px);
   }
-  /* Plano âncora central: sobe um pouco, ganha borda dourada e sombra —
-     é o único movimento vertical fora da grade, o que já chama o olho
-     sem precisar de nenhum efeito extra */
+  /* Plano âncora central: só a borda dourada e a sombra diferenciam —
+     tirei o "scale" que fazia esse card crescer e subir mais que os
+     outros; com listas de tamanho bem diferente entre os planos, esse
+     efeito bagunçava o alinhamento em vez de destacar com elegância. */
   .plan-card.is-anchor{
     border-color:var(--gold);
     box-shadow:0 18px 40px rgba(212,175,106,.15);
-    transform:translateY(28px) scale(1.04);
   }
   .plan-top{ display:flex; align-items:center; gap:10px; margin-bottom:18px; }
   .plan-top h3{ font-size:1.15rem; margin:0; letter-spacing:.02em; }
@@ -369,7 +374,7 @@
   }
   .plan-price{ font-size:2.1rem; color:var(--gold); font-weight:600; line-height:1; }
   .plan-price span{ font-size:.85rem; color:var(--ink-dim); font-weight:400; }
-  .plan-desc{ color:var(--ink-dim); font-size:.82rem; margin:8px 0 22px; }
+  .plan-desc{ color:var(--ink-dim); font-size:.82rem; margin:8px 0 22px; min-height:2.6em; }
   .plan-cta{
     display:block; text-align:center; text-decoration:none;
     padding:11px 0; border-radius:4px; font-size:.85rem; font-weight:600;
@@ -377,7 +382,7 @@
     margin-bottom:24px; transition:background var(--dur-fast) var(--ease);
   }
   .plan-card.is-anchor .plan-cta{ background:var(--gold); color:var(--navy); border-color:var(--gold); }
-  .plan-features{ list-style:none; margin:0; padding:0; }
+  .plan-features{ list-style:none; margin:0; padding:0; flex:1; }
   .plan-features li{
     font-size:.85rem; color:var(--ink-dim); margin-bottom:12px;
     padding-left:18px; position:relative;
@@ -389,6 +394,7 @@
     min-height:100vh;
     display:flex; align-items:center;
     padding:100px 10vw;
+    overflow-x:hidden;
     border-top:1px solid rgba(255,255,255,.06);
   }
   .about-grid{
@@ -423,6 +429,7 @@
     min-height:100vh;
     display:flex; flex-direction:column; justify-content:center;
     padding:120px 8vw 100px;
+    overflow-x:hidden;
     border-top:1px solid rgba(255,255,255,.06);
   }
   .awards-header{ max-width:640px; margin-bottom:52px; }
@@ -447,6 +454,7 @@
      sem nunca disputar leitura com o texto ao lado */
   .floating-words{
     position:relative; height:400px;
+    overflow:hidden;
     opacity:0;
   }
   .floating-word{
@@ -482,6 +490,7 @@
     min-height:100vh;
     display:flex; align-items:center; justify-content:center;
     padding:100px 8vw;
+    overflow-x:hidden;
     border-top:1px solid rgba(255,255,255,.06);
     text-align:center;
   }
@@ -556,16 +565,16 @@
   <!-- SIDE MENU DE SERVIÇOS: fica invisível o tempo todo, exceto quando
        o scroll está entre #s1 e #planos — controlado via classe .is-visible no JS -->
   <nav class="services-menu" id="servicesMenu">
-    <a href="#s1" data-target="s1"><span class="dot"></span>01 Carta</a>
-    <a href="#s2" data-target="s2"><span class="dot"></span>02 Sitio</a>
-    <a href="#s3" data-target="s3"><span class="dot"></span>03 Redes</a>
-    <a href="#s4" data-target="s4"><span class="dot"></span>04 Vídeos</a>
-    <a href="#s5" data-target="s5"><span class="dot"></span>05 Maps</a>
-    <a href="#s6" data-target="s6"><span class="dot"></span>06 3D</a>
-    <a href="#s7" data-target="s7"><span class="dot"></span>07 Fotos</a>
-    <a href="#s8" data-target="s8"><span class="dot"></span>08 Tarjetas</a>
-    <a href="#s9" data-target="s9"><span class="dot"></span>09 Regalo</a>
-    <a href="#s10" data-target="s10"><span class="dot"></span>10 Eventos</a>
+    <a href="#s1" data-target="s1"><span class="dot"></span>Carta Digital</a>
+    <a href="#s2" data-target="s2"><span class="dot"></span>Página Web</a>
+    <a href="#s3" data-target="s3"><span class="dot"></span>Redes Sociales</a>
+    <a href="#s4" data-target="s4"><span class="dot"></span>Video-Marketing</a>
+    <a href="#s5" data-target="s5"><span class="dot"></span>Google Business</a>
+    <a href="#s6" data-target="s6"><span class="dot"></span>Impresión 3D</a>
+    <a href="#s7" data-target="s7"><span class="dot"></span>Fotografía Comercial</a>
+    <a href="#s8" data-target="s8"><span class="dot"></span>Tarjetas Profesionales</a>
+    <a href="#s9" data-target="s9"><span class="dot"></span>Bonos Regalo</a>
+    <a href="#s10" data-target="s10"><span class="dot"></span>Eventos</a>
     <a href="#planos" data-target="planos" class="menu-cta"><span class="dot"></span>Planes</a>
   </nav>
 
@@ -583,8 +592,8 @@
         <circle cx="43.8" cy="7.4" r=".6" fill="#d4af6a" opacity=".28"/>
       </g>
     </svg>
-    <h1>Ophiel Digital</h1>
-    <p class="tagline">Tecnología a medida para tu negocio</p>
+    <h1>Ophiel</h1>
+    <p class="tagline">Creamos el futuro de tu negocio.</p>
     <p class="hint">Usa el menú para ir directo al servicio que buscas</p>
   </section>
 
@@ -639,13 +648,12 @@
     <span class="bg-glyph">01</span>
     <div class="section-inner">
       <div>
-        <div class="service-number">01 · CARTA DIGITAL</div>
+        <div class="service-number">CARTA DIGITAL</div>
         <h2 class="service-title">Carta vía código QR</h2>
         <ul class="service-details">
-          <li>Página exclusiva del restaurante</li>
-          <li>Código QR impreso para las mesas</li>
-          <li>Actualización de platos y precios cuando quieras</li>
-          <li>Ediciones ilimitadas en el plan superior</li>
+          <li>Soporte QR exclusivo, fabricado en impresión 3D, personalizado con el logotipo y estilo de tu restaurante.</li>
+          <li>Acceso inmediato al menú desde cualquier móvil.</li>
+          <li>Actualización de platos, precios, fotografías y promociones en cualquier momento.</li>
         </ul>
       </div>
       <div class="price-box">
@@ -662,13 +670,16 @@
     <span class="bg-glyph">02</span>
     <div class="section-inner">
       <div>
-        <div class="service-number">02 · SITIO WEB DEL RESTAURANTE</div>
+        <div class="service-number">PÁGINA WEB DEL RESTAURANTE</div>
         <h2 class="service-title">Presencia propia en la web</h2>
         <ul class="service-details">
-          <li>Dominio y hosting incluidos</li>
-          <li>Carta integrada al sitio</li>
-          <li>Mapa y ubicación</li>
-          <li>Diseño responsive, listo para móvil</li>
+          <li>Una página web diseñada para transmitir confianza y profesionalidad.</li>
+          <li>Diseño exclusivo adaptado a la imagen de tu empresa.</li>
+          <li>Dominio propio y alojamiento web incluidos.</li>
+          <li>Secciones personalizadas según las necesidades de tu negocio.</li>
+          <li>Integración con WhatsApp, Google Maps, redes sociales y formularios de contacto.</li>
+          <li>Compatible con cualquier dispositivo.</li>
+          <li>Sitio rápido, seguro y preparado para ayudarte a captar más clientes.</li>
         </ul>
       </div>
       <div class="price-box">
@@ -684,20 +695,22 @@
     <span class="bg-glyph">03</span>
     <div class="section-inner">
       <div>
-        <div class="service-number">03 · GESTIÓN DE REDES SOCIALES</div>
+        <div class="service-number">PRESENCIA DIGITAL</div>
         <h2 class="service-title">Presencia activa en redes</h2>
         <ul class="service-details">
-          <li>Plan Básico, Intermedio o Premium</li>
-          <li>Calendario de publicaciones</li>
-          <li>Creación de contenido adaptado al negocio</li>
-          <li>Seguimiento mensual de resultados</li>
+          <li>Mantén tu negocio activo en las redes sociales.</li>
+          <li>Planes Básico, Profesional y Premium.</li>
+          <li>Publicaciones y contenido adaptados a tu empresa.</li>
+          <li>Fotografías, vídeos y diseños profesionales.</li>
+          <li>Calendario estratégico de publicaciones.</li>
+          <li>Informes mensuales con el rendimiento de tus redes.</li>
         </ul>
       </div>
       <div class="price-box">
         <div class="label">MENSUALIDAD</div>
         <div class="value">€120–600</div>
         <div class="label">PLANES</div>
-        <div class="value" style="font-size:1.1rem;">Básico · Intermedio · Premium</div>
+        <div class="value" style="font-size:1.1rem;">Básico · Profesional · Premium</div>
       </div>
     </div>
   </section>
@@ -706,13 +719,15 @@
     <span class="bg-glyph">04</span>
     <div class="section-inner">
       <div>
-        <div class="service-number">04 · PRODUCCIÓN DE VÍDEOS</div>
+        <div class="service-number">PRODUCCIÓN DE VÍDEOS</div>
         <h2 class="service-title">Grabación en el local</h2>
         <ul class="service-details">
-          <li>Grabación realizada en tu establecimiento</li>
-          <li>Edición profesional</li>
-          <li>Formato ideal para redes sociales</li>
-          <li>El paquete cerrado sale más económico</li>
+          <li>Producción de vídeos profesionales directamente en tu negocio.</li>
+          <li>Grabación con enfoque comercial para atraer nuevos clientes.</li>
+          <li>Edición moderna con música, transiciones y subtítulos.</li>
+          <li>Contenido optimizado para Reels, TikTok, Shorts y publicaciones en redes sociales.</li>
+          <li>Vídeos promocionales, corporativos o de presentación.</li>
+          <li>Mejor relación calidad-precio al combinar este servicio con otros de nuestros planes.</li>
         </ul>
       </div>
       <div class="price-box">
@@ -728,13 +743,14 @@
     <span class="bg-glyph">05</span>
     <div class="section-inner">
       <div>
-        <div class="service-number">05 · GOOGLE MAPS</div>
+        <div class="service-number">GOOGLE BUSINESS PROFILE</div>
         <h2 class="service-title">Reactiva tu perfil</h2>
         <ul class="service-details">
-          <li>Activación de perfil abandonado</li>
-          <li>Información y fotos actualizadas</li>
-          <li>Optimización para aparecer en las búsquedas</li>
-          <li>Mantenimiento mensual del perfil</li>
+          <li>Crea o recupera la presencia de tu empresa en Google.</li>
+          <li>Actualización de información, horarios, fotos y servicios.</li>
+          <li>Optimización para aumentar la visibilidad en Google y Google Maps.</li>
+          <li>Gestión de reseñas y mantenimiento del perfil.</li>
+          <li>Ayuda a que nuevos clientes encuentren tu negocio con mayor facilidad.</li>
         </ul>
       </div>
       <div class="price-box">
@@ -750,13 +766,15 @@
     <span class="bg-glyph">06</span>
     <div class="section-inner">
       <div>
-        <div class="service-number">06 · IMPRESIÓN 3D</div>
+        <div class="service-number">IMPRESIÓN 3D</div>
         <h2 class="service-title">Piezas a medida</h2>
         <ul class="service-details">
-          <li>Placas de identificación y señalización</li>
-          <li>Soportes para carta y porta-comandas</li>
-          <li>13 piezas disponibles en el catálogo</li>
-          <li>Personalización según el ambiente</li>
+          <li>Fabricación de piezas exclusivas mediante impresión 3D.</li>
+          <li>Productos personalizados para mejorar la imagen y la organización de tu negocio.</li>
+          <li>Soportes, expositores, señalización, decoración y accesorios profesionales.</li>
+          <li>Diseños adaptados a la identidad visual de cada empresa.</li>
+          <li>Producción bajo demanda con múltiples opciones de personalización.</li>
+          <li>Soluciones funcionales y modernas para cualquier tipo de establecimiento.</li>
         </ul>
       </div>
       <div class="price-box">
@@ -770,13 +788,15 @@
     <span class="bg-glyph">07</span>
     <div class="section-inner">
       <div>
-        <div class="service-number">07 · FOTOGRAFÍAS</div>
+        <div class="service-number">FOTOGRAFÍA PROFESIONAL</div>
         <h2 class="service-title">Imágenes profesionales</h2>
         <ul class="service-details">
-          <li>Paquete de 30 a 50 fotos</li>
-          <li>Platos, ambiente y detalles</li>
-          <li>Entrega en alta resolución</li>
-          <li>Uso libre en sitio web y redes</li>
+          <li>Fotografía profesional realizada directamente en tu negocio.</li>
+          <li>Imágenes con enfoque comercial para transmitir confianza y atraer nuevos clientes.</li>
+          <li>Edición profesional con corrección de color, luz y retoque natural.</li>
+          <li>Fotografías optimizadas para redes sociales, páginas web, catálogos y material publicitario.</li>
+          <li>Fotos de productos, instalaciones, equipo, servicios o eventos.</li>
+          <li>Mejor relación calidad-precio al combinar este servicio con otros de nuestros planes.</li>
         </ul>
       </div>
       <div class="price-box">
@@ -790,12 +810,14 @@
     <span class="bg-glyph">08</span>
     <div class="section-inner">
       <div>
-        <div class="service-number">08 · TARJETAS DE VISITA</div>
+        <div class="service-number">TARJETAS DE VISITA</div>
         <h2 class="service-title">Diseño, impresión y entrega</h2>
         <ul class="service-details">
-          <li>Diseño personalizado para la marca</li>
-          <li>Impresión en papel de calidad</li>
-          <li>Entrega en tu dirección</li>
+          <li>Tarjetas de visita diseñadas para causar una excelente primera impresión.</li>
+          <li>Diseño exclusivo adaptado a la imagen de tu empresa.</li>
+          <li>Impresión profesional con materiales de alta calidad.</li>
+          <li>Amplia variedad de acabados, formatos y estilos.</li>
+          <li>Entrega rápida y cómoda en tu negocio.</li>
         </ul>
       </div>
       <div class="price-box">
@@ -809,12 +831,14 @@
     <span class="bg-glyph">09</span>
     <div class="section-inner">
       <div>
-        <div class="service-number">09 · TARJETAS REGALO</div>
+        <div class="service-number">TARJETAS REGALO</div>
         <h2 class="service-title">Fideliza a tus clientes</h2>
         <ul class="service-details">
-          <li>Diseño personalizado con tu marca</li>
-          <li>Física o digital</li>
-          <li>Valores y formatos flexibles</li>
+          <li>Convierte cada regalo en una nueva oportunidad de venta.</li>
+          <li>Diseño exclusivo adaptado a la imagen de tu empresa.</li>
+          <li>Tarjetas físicas o digitales, listas para usar.</li>
+          <li>Valores, formatos y condiciones totalmente personalizables.</li>
+          <li>Perfectas para promociones, campañas de fidelización y ocasiones especiales.</li>
         </ul>
       </div>
       <div class="price-box">
@@ -828,13 +852,14 @@
     <span class="bg-glyph">10</span>
     <div class="section-inner">
       <div>
-        <div class="service-number">10 · INVITACIONES Y EVENTOS</div>
+        <div class="service-number">INVITACIONES Y EVENTOS</div>
         <h2 class="service-title">Cumpleaños, bodas y más</h2>
         <ul class="service-details">
-          <li>Cumpleaños y comuniones</li>
-          <li>Bodas</li>
-          <li>Bautizos</li>
-          <li>Diseño digital o impreso</li>
+          <li>Invitaciones únicas para hacer inolvidable cualquier ocasión.</li>
+          <li>Diseños exclusivos para bodas, cumpleaños, bautizos, comuniones, aniversarios y eventos corporativos.</li>
+          <li>Personalización completa de colores, tipografía y estilo.</li>
+          <li>Disponibles en formato digital o impreso.</li>
+          <li>Acabados de alta calidad para una presentación elegante.</li>
         </ul>
       </div>
       <div class="price-box">
@@ -854,51 +879,63 @@
 
     <div class="plans-grid">
 
-      <!-- ESSENCIAL: âncora baixa, mostra o "mínimo" e empurra pro do meio -->
+      <!-- ESENCIAL: âncora baixa, mostra o "mínimo" e empurra pro do meio -->
       <div class="plan-card" id="plan-essencial">
         <div class="plan-top"><h3>Esencial</h3></div>
-        <div class="plan-price">€29<span>/mes</span></div>
-        <p class="plan-desc">Ideal para quienes están empezando</p>
+        <div class="plan-price">€39<span>/mes</span></div>
+        <p class="plan-desc">Ideal para negocios que quieren dar sus primeros pasos en Internet</p>
         <a href="#" class="plan-cta">Hablar con Ventas</a>
         <ul class="plan-features">
-          <li>Carta digital</li>
-          <li>Hosting</li>
-          <li>Hasta 2 cambios al mes</li>
+          <li>Mini sitio web profesional dentro de la plataforma Ophiel</li>
+          <li>Página personalizada (ophiel.es/tu-negocio)</li>
+          <li>Carta digital o catálogo de servicios</li>
+          <li>Código QR personalizado</li>
+          <li>Hasta 2 actualizaciones al mes</li>
+          <li>Mantenimiento y soporte técnico</li>
+          <li>Certificado SSL y copias de seguridad</li>
+          <li>Soporte por WhatsApp</li>
         </ul>
       </div>
 
-      <!-- PROFISSIONAL: a âncora central, o plano que queremos vender -->
+      <!-- PROFESIONAL: a âncora central, o plano que queremos vender -->
       <div class="plan-card is-anchor" id="plan-profissional">
         <div class="plan-top">
           <h3>Profesional</h3>
           <span class="plan-badge">Más popular</span>
         </div>
         <div class="plan-price">€79<span>/mes</span></div>
-        <p class="plan-desc">Para negocios que quieren crecer</p>
+        <p class="plan-desc">Para empresas que buscan una imagen más profesional</p>
         <a href="#" class="plan-cta">Hablar con Ventas</a>
         <ul class="plan-features">
-          <li>Carta digital</li>
-          <li>Sitio web</li>
-          <li>Hosting</li>
-          <li>Actualizaciones mensuales</li>
-          <li>Perfil de Google actualizado</li>
+          <li>Todo lo del Esencial</li>
+          <li>Sitio web con dominio propio</li>
+          <li>Diseño personalizado</li>
+          <li>Cambios de contenido ilimitados</li>
+          <li>Perfil de Google Business optimizado</li>
+          <li>SEO local básico</li>
+          <li>Prioridad en soporte</li>
+          <li>Estadísticas de visitas</li>
         </ul>
       </div>
 
       <!-- PREMIUM: âncora alta, sem destaque visual — o preço dele é que
-           faz o Profissional parecer a escolha "razoável" -->
+           faz o Profesional parecer a escolha "razoável" -->
       <div class="plan-card" id="plan-premium">
         <div class="plan-top"><h3>Premium</h3></div>
-        <div class="plan-price">€249<span>/mes</span></div>
-        <p class="plan-desc">Negocios que quieren escalar sin fricción</p>
+        <div class="plan-price">€149<span>/mes</span></div>
+        <p class="plan-desc">La solución completa para potenciar tu presencia digital</p>
         <a href="#" class="plan-cta">Hablar con Ventas</a>
         <ul class="plan-features">
           <li>Todo lo del Profesional</li>
           <li>Gestión de redes sociales</li>
           <li>8 publicaciones al mes</li>
-          <li>4 vídeos cortos al mes</li>
-          <li>Sesión mensual de fotos</li>
-          <li>Informe de rendimiento</li>
+          <li>4 vídeos cortos (Reels/Shorts)</li>
+          <li>Diseño de promociones y campañas</li>
+          <li>Creación de banners y material gráfico</li>
+          <li>Gestión básica de reseñas de Google</li>
+          <li>Informe mensual de rendimiento</li>
+          <li>Soporte prioritario</li>
+          <li>Actualización de ofertas, promociones y eventos cuando sea necesario</li>
         </ul>
       </div>
 
@@ -959,12 +996,20 @@
         <textarea name="mensaje" placeholder="Cuéntanos un poco sobre lo que necesitas"></textarea>
         <button type="submit">Enviar mensaje</button>
       </form>
-      <p class="contact-direct">¿Prefieres hablar directamente? <a href="mailto:Hola@ophiel.es">Hola@ophiel.es</a> · <a href="#">WhatsApp</a></p>
+      <p class="contact-direct">¿Hablamos?<br>Estaremos encantados de ayudarte. Contáctanos por <a href="#">WhatsApp</a> o en <a href="mailto:Hola@ophiel.es">hola@ophiel.es</a>.</p>
     </div>
   </section>
 
   <script>
   gsap.registerPlugin(ScrollTrigger);
+
+  /* Clique no logo da navbar: reforça o scroll de volta ao topo via JS,
+     em vez de depender só do href="#intro" nativo — evita qualquer
+     interferência do ScrollTrigger no meio do caminho. */
+  document.querySelector(".top-nav .brand").addEventListener("click", function(e){
+    e.preventDefault();
+    document.getElementById("intro").scrollIntoView({ behavior:"smooth", block:"start" });
+  });
 
   /* ==========================================================================
      1) INTRO — sequência de entrada (roda 1x, ao carregar a página, não no scroll)
@@ -1047,7 +1092,7 @@
     .to("#plan-essencial", { opacity:1, y:0, duration:.5 })
     .to("#plan-premium",   { opacity:1, y:0, duration:.5 }, "-=.35")
     .to("#plan-profissional", {
-        opacity:1, y:0, scale:1.04, duration:.6, ease:"back.out(1.5)"
+        opacity:1, y:0, duration:.6, ease:"back.out(1.5)"
       }, "-=.3"); // entra por último, é o que o olho deve fixar ao final da sequência
 
   /* ==========================================================================
@@ -1151,7 +1196,7 @@
   const navLinks = document.querySelectorAll(".top-nav-links a");
   const sectionGroups = {
     sobre:    ["#sobre"],
-    servicos: ["#intro", "#s1", "#s2", "#s3", "#s4", "#s5", "#s6", "#s7", "#s8", "#s9", "#s10", "#planos"],
+    servicos: ["#s1", "#s2", "#s3", "#s4", "#s5", "#s6", "#s7", "#s8", "#s9", "#s10", "#planos"],
     premiacao:["#melhores-do-ano"],
     contato:  ["#contato"]
   };

@@ -63,22 +63,21 @@
      acende sozinho conforme o scroll passa por cada zona. */
   .top-nav{
     position:fixed; top:0; left:0; right:0;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:20px;
-    padding:20px 6vw;
+    display:flex; flex-direction:row; align-items:center; justify-content:space-between;
+    padding:18px 6vw;
     z-index:60;
     background:linear-gradient(to bottom, rgba(11,22,38,.92), rgba(11,22,38,0));
     backdrop-filter:blur(6px);
   }
-  /* Logo empilhada acima da pílula de links — os dois centralizados,
-     um embaixo do outro, com respiro maior entre eles. */
+  /* Logo na lateral esquerda, links à direita — layout padrão de navbar,
+     numa linha só, em vez do logo empilhado e centralizado de antes. */
   .top-nav .brand{
     display:flex; align-items:center; gap:10px;
     text-decoration:none; color:var(--ink);
     font-size:1.05rem; letter-spacing:.06em; font-weight:600;
     white-space:nowrap;
   }
-  .top-nav .brand svg{ width:46px; height:46px; overflow:visible; }
+  .top-nav .brand svg{ width:42px; height:42px; overflow:visible; }
   /* Estrela cadente: gira em volta do anel do O, devagar (45s por volta),
      com um leve brilho. transform-box:view-box faz o pivô ser o centro
      exato do viewBox — não o centro da própria estrela — então ela de
@@ -157,8 +156,78 @@
   }
   @media (max-width:700px){
     .top-nav{ gap:8px; }
-    .top-nav-links{ gap:14px; }
-    .top-nav-links a{ font-size:.66rem; letter-spacing:.06em; }
+  }
+
+  /* ---------- MENU HAMBÚRGUER (mobile) ----------
+     Some no desktop; abaixo de 700px, substitui a linha de links por
+     um botão de 3 linhas que abre um painel cheio de tela. Dentro dele,
+     "Servicios" funciona como acordeão: clicar nele revela a lista dos
+     10 serviços + Planes, sem sair do painel. */
+  .hamburger-btn{
+    display:none;
+    flex-direction:column; justify-content:center; gap:5px;
+    width:32px; height:26px;
+    background:none; border:none; padding:0; cursor:pointer;
+  }
+  .hamburger-btn span{
+    display:block; width:100%; height:2px; border-radius:1px;
+    background:var(--gold-soft);
+    transition:transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+  }
+  /* vira um X quando o painel está aberto — feedback claro de que o
+     mesmo botão fecha o menu */
+  .hamburger-btn.is-open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .hamburger-btn.is-open span:nth-child(2){ opacity:0; }
+  .hamburger-btn.is-open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu{
+    position:fixed; inset:0;
+    background:var(--navy);
+    z-index:70;
+    display:flex; flex-direction:column;
+    padding:110px 8vw 40px;
+    opacity:0; pointer-events:none;
+    transform:translateY(-14px);
+    transition:opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+    overflow-y:auto;
+  }
+  .mobile-menu.is-open{ opacity:1; pointer-events:auto; transform:translateY(0); }
+
+  .mobile-menu a, .mobile-menu-toggle{
+    display:flex; align-items:center; justify-content:space-between;
+    width:100%; text-align:left;
+    background:none; border:none;
+    color:var(--ink); font-size:1.15rem; font-weight:600; letter-spacing:.02em;
+    padding:18px 0; border-bottom:1px solid rgba(255,255,255,.08);
+    text-decoration:none; cursor:pointer;
+    font-family:inherit;
+  }
+  .mobile-menu a.nav-flagship{ color:var(--gold-soft); }
+  .mobile-menu a.is-disabled{ opacity:.4; pointer-events:none; }
+  .mobile-menu-toggle .chevron{
+    color:var(--gold); transition:transform var(--dur-fast) var(--ease); flex:none;
+  }
+  .mobile-menu-toggle.is-open .chevron{ transform:rotate(180deg); }
+
+  /* Submenu de Servicios: acordeão via max-height, então a abertura/
+     fechamento anima suave em vez de aparecer/sumir seco */
+  .mobile-submenu{
+    max-height:0; overflow:hidden;
+    transition:max-height var(--dur-base) var(--ease);
+  }
+  .mobile-submenu.is-open{ max-height:700px; }
+  .mobile-submenu a{
+    font-size:.92rem; font-weight:500; color:var(--ink-dim);
+    padding:13px 0 13px 18px; border-bottom:1px solid rgba(255,255,255,.05);
+  }
+  .mobile-submenu a.menu-cta{ color:var(--gold-soft); font-weight:700; }
+
+  @media (max-width:700px){
+    .top-nav-links{ display:none; }
+    .hamburger-btn{ display:flex; }
+    /* o painel mobile já cobre a navegação por serviço com o acordeão —
+       o menu lateral flutuante fica redundante e apertado num celular */
+    .services-menu{ display:none !important; }
   }
 
   /* ---------- SIDE MENU DE SERVIÇOS — some por padrão, aparece só
@@ -560,7 +629,39 @@
       <a href="#melhores-do-ano" data-group="premiacao" class="nav-flagship"><span class="flagship-star">★</span> Mejores del Año</a>
       <a href="#contato" data-group="contato">Contacto</a>
     </div>
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- PAINEL MOBILE: só existe no fluxo abaixo de 700px (ver .hamburger-btn).
+       "Servicios" abre/fecha como acordeão revelando os 10 serviços + Planes,
+       sem precisar sair do painel nem depender do menu lateral flutuante. -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#sobre" data-group="sobre" class="mobile-link">Nuestra Empresa</a>
+
+    <button class="mobile-menu-toggle" id="mobileServicesToggle" aria-expanded="false">
+      Servicios
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="mobile-submenu" id="mobileServicesSubmenu">
+      <a href="#s1" class="mobile-link">Carta Digital</a>
+      <a href="#s2" class="mobile-link">Página Web</a>
+      <a href="#s3" class="mobile-link">Redes Sociales</a>
+      <a href="#s4" class="mobile-link">Video-Marketing</a>
+      <a href="#s5" class="mobile-link">Google Business</a>
+      <a href="#s6" class="mobile-link">Impresión 3D</a>
+      <a href="#s7" class="mobile-link">Fotografía Comercial</a>
+      <a href="#s8" class="mobile-link">Tarjetas Profesionales</a>
+      <a href="#s9" class="mobile-link">Bonos Regalo</a>
+      <a href="#s10" class="mobile-link">Eventos</a>
+      <a href="#planos" class="mobile-link menu-cta">Planes</a>
+    </div>
+
+    <a href="#" class="is-disabled">Productos <span class="soon-badge">En mantenimiento</span></a>
+    <a href="#melhores-do-ano" data-group="premiacao" class="nav-flagship mobile-link"><span class="flagship-star">★</span> Mejores del Año</a>
+    <a href="#contato" data-group="contato" class="mobile-link">Contacto</a>
+  </div>
 
   <!-- SIDE MENU DE SERVIÇOS: fica invisível o tempo todo, exceto quando
        o scroll está entre #s1 e #planos — controlado via classe .is-visible no JS -->
@@ -636,7 +737,7 @@
           </g>
         </svg>
         <div class="about-stat"><div class="num">10+</div><div class="label">servicios integrados</div></div>
-        <div class="about-stat"><div class="num">100%</div><div class="label">soporte en español</div></div>
+        <div class="about-stat"><div class="num">100%</div><div class="label">soporte en español, Inglés</div></div>
         <div class="about-stat"><div class="num">1</div><div class="label">socio para toda tu presencia digital</div></div>
         <div class="about-stat"><div class="num">24h</div><div class="label">tiempo medio de respuesta</div></div>
       </div>
@@ -1009,6 +1110,50 @@
   document.querySelector(".top-nav .brand").addEventListener("click", function(e){
     e.preventDefault();
     document.getElementById("intro").scrollIntoView({ behavior:"smooth", block:"start" });
+  });
+
+  /* ==========================================================================
+     MENU HAMBÚRGUER (mobile) — abre/fecha o painel cheio de tela, e
+     "Servicios" dentro dele funciona como acordeão (abre/fecha a lista
+     dos 10 serviços sem sair do painel). Qualquer link clicado fecha
+     tudo antes de rolar até a seção — senão o painel fica cobrindo
+     a tela por cima do conteúdo que acabou de aparecer.
+  ========================================================================== */
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const mobileServicesToggle = document.getElementById("mobileServicesToggle");
+  const mobileServicesSubmenu = document.getElementById("mobileServicesSubmenu");
+
+  function closeMobileMenu(){
+    hamburgerBtn.classList.remove("is-open");
+    hamburgerBtn.setAttribute("aria-expanded", "false");
+    mobileMenu.classList.remove("is-open");
+    mobileServicesToggle.classList.remove("is-open");
+    mobileServicesSubmenu.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+
+  hamburgerBtn.addEventListener("click", () => {
+    const opening = !mobileMenu.classList.contains("is-open");
+    hamburgerBtn.classList.toggle("is-open", opening);
+    hamburgerBtn.setAttribute("aria-expanded", String(opening));
+    mobileMenu.classList.toggle("is-open", opening);
+    document.body.style.overflow = opening ? "hidden" : "";
+    if(!opening){
+      mobileServicesToggle.classList.remove("is-open");
+      mobileServicesSubmenu.classList.remove("is-open");
+    }
+  });
+
+  mobileServicesToggle.addEventListener("click", () => {
+    const opening = !mobileServicesSubmenu.classList.contains("is-open");
+    mobileServicesToggle.classList.toggle("is-open", opening);
+    mobileServicesSubmenu.classList.toggle("is-open", opening);
+  });
+
+  // qualquer link de verdade dentro do painel (não o botão "Servicios") fecha tudo
+  mobileMenu.querySelectorAll("a.mobile-link").forEach((link) => {
+    link.addEventListener("click", closeMobileMenu);
   });
 
   /* ==========================================================================

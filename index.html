@@ -129,7 +129,8 @@
      igual tratamento que demos ao "Planos" no menu de serviços —
      mesma lógica de destaque, consistente em todo o site */
   .top-nav-links a.nav-flagship{ color:var(--gold-soft); display:inline-flex; align-items:center; gap:5px; }
-  .top-nav-links a.nav-flagship .flagship-star{
+  .nav-flagship .flagship-star{
+    display:inline-block;
     font-size:.85em;
     line-height:1;
     position:relative;
@@ -181,29 +182,68 @@
   .hamburger-btn.is-open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
 
   .mobile-menu{
-    position:fixed; inset:0;
-    background:var(--navy);
-    z-index:70;
-    display:flex; flex-direction:column;
-    padding:110px 8vw 40px;
-    opacity:0; pointer-events:none;
-    transform:translateY(-14px);
-    transition:opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+    position:absolute; top:100%; left:-6vw; right:-6vw;
+    max-height:calc(100vh - 90px);
     overflow-y:auto;
+    background:var(--navy);
+    border-top:1px solid rgba(255,255,255,.08);
+    box-shadow:0 24px 40px rgba(0,0,0,.45);
+    padding:8px 8vw 28px;
+    opacity:0; pointer-events:none;
+    transform:translateY(-8px);
+    transition:opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
   }
   .mobile-menu.is-open{ opacity:1; pointer-events:auto; transform:translateY(0); }
 
-  .mobile-menu a, .mobile-menu-toggle{
+  /* Fundo desfocado atrás do dropdown mobile: cobre o resto do site,
+     escurece um pouco e borra — assim fica claro que o conteúdo por
+     trás está "pausado" enquanto o menu está aberto, e clicar nele
+     também fecha o menu. */
+  .mobile-backdrop{
+    position:fixed; inset:0;
+    background:rgba(11,22,38,.55);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    z-index:58;
+    opacity:0; pointer-events:none;
+    transition:opacity var(--dur-base) var(--ease);
+  }
+  .mobile-backdrop.is-open{ opacity:1; pointer-events:auto; }
+  @media (min-width:701px){ .mobile-backdrop{ display:none; } }
+
+  .mobile-menu a{
+    display:block;
+    width:100%; text-align:left;
+    color:var(--ink); font-size:1.15rem; font-weight:600; letter-spacing:.02em;
+    padding:18px 0; border-bottom:1px solid rgba(255,255,255,.08);
+    text-decoration:none;
+  }
+  /* Item de destaque: sem ícone — só um traço dourado fino na lateral e
+     o texto em dourado. Mais discreto que a estrela, mais "de marca"
+     que um badge chamativo. */
+  .mobile-menu a.nav-flagship{
+    color:var(--gold);
+    padding-left:14px;
+    border-left:2px solid var(--gold);
+  }
+  .mobile-menu a.is-disabled{
+    display:flex; align-items:center; gap:10px;
+    opacity:.45; pointer-events:none;
+  }
+  .mobile-menu a.is-disabled .soon-badge{
+    font-size:.62rem; font-weight:600; letter-spacing:.03em;
+    text-transform:none; color:var(--ink-dim);
+    border:1px solid rgba(255,255,255,.15); border-radius:999px;
+    padding:3px 9px;
+  }
+  .mobile-menu-toggle{
     display:flex; align-items:center; justify-content:space-between;
     width:100%; text-align:left;
     background:none; border:none;
     color:var(--ink); font-size:1.15rem; font-weight:600; letter-spacing:.02em;
     padding:18px 0; border-bottom:1px solid rgba(255,255,255,.08);
-    text-decoration:none; cursor:pointer;
-    font-family:inherit;
+    cursor:pointer; font-family:inherit;
   }
-  .mobile-menu a.nav-flagship{ color:var(--gold-soft); }
-  .mobile-menu a.is-disabled{ opacity:.4; pointer-events:none; }
   .mobile-menu-toggle .chevron{
     color:var(--gold); transition:transform var(--dur-fast) var(--ease); flex:none;
   }
@@ -632,36 +672,39 @@
     <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
+
+    <!-- PAINEL MOBILE: dropdown que nasce logo abaixo da navbar (top:100%
+         no CSS), não cobre a tela inteira. "Servicios" abre/fecha como
+         acordeão revelando os 10 serviços + Planes. -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#sobre" data-group="sobre" class="mobile-link">Nuestra Empresa</a>
+
+      <button class="mobile-menu-toggle" id="mobileServicesToggle" aria-expanded="false">
+        Servicios
+        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="mobile-submenu" id="mobileServicesSubmenu">
+        <a href="#s1" class="mobile-link">Carta Digital</a>
+        <a href="#s2" class="mobile-link">Página Web</a>
+        <a href="#s3" class="mobile-link">Redes Sociales</a>
+        <a href="#s4" class="mobile-link">Video-Marketing</a>
+        <a href="#s5" class="mobile-link">Google Business</a>
+        <a href="#s6" class="mobile-link">Impresión 3D</a>
+        <a href="#s7" class="mobile-link">Fotografía Comercial</a>
+        <a href="#s8" class="mobile-link">Tarjetas Profesionales</a>
+        <a href="#s9" class="mobile-link">Bonos Regalo</a>
+        <a href="#s10" class="mobile-link">Eventos</a>
+        <a href="#planos" class="mobile-link menu-cta">Planes</a>
+      </div>
+
+      <a href="#" class="is-disabled">Productos <span class="soon-badge">En mantenimiento</span></a>
+      <a href="#melhores-do-ano" data-group="premiacao" class="nav-flagship mobile-link"><span class="flagship-star">★</span> Mejores del Año</a>
+      <a href="#contato" data-group="contato" class="mobile-link">Contacto</a>
+    </div>
   </nav>
 
-  <!-- PAINEL MOBILE: só existe no fluxo abaixo de 700px (ver .hamburger-btn).
-       "Servicios" abre/fecha como acordeão revelando os 10 serviços + Planes,
-       sem precisar sair do painel nem depender do menu lateral flutuante. -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#sobre" data-group="sobre" class="mobile-link">Nuestra Empresa</a>
-
-    <button class="mobile-menu-toggle" id="mobileServicesToggle" aria-expanded="false">
-      Servicios
-      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-    </button>
-    <div class="mobile-submenu" id="mobileServicesSubmenu">
-      <a href="#s1" class="mobile-link">Carta Digital</a>
-      <a href="#s2" class="mobile-link">Página Web</a>
-      <a href="#s3" class="mobile-link">Redes Sociales</a>
-      <a href="#s4" class="mobile-link">Video-Marketing</a>
-      <a href="#s5" class="mobile-link">Google Business</a>
-      <a href="#s6" class="mobile-link">Impresión 3D</a>
-      <a href="#s7" class="mobile-link">Fotografía Comercial</a>
-      <a href="#s8" class="mobile-link">Tarjetas Profesionales</a>
-      <a href="#s9" class="mobile-link">Bonos Regalo</a>
-      <a href="#s10" class="mobile-link">Eventos</a>
-      <a href="#planos" class="mobile-link menu-cta">Planes</a>
-    </div>
-
-    <a href="#" class="is-disabled">Productos <span class="soon-badge">En mantenimiento</span></a>
-    <a href="#melhores-do-ano" data-group="premiacao" class="nav-flagship mobile-link"><span class="flagship-star">★</span> Mejores del Año</a>
-    <a href="#contato" data-group="contato" class="mobile-link">Contacto</a>
-  </div>
+  <!-- Fundo desfocado atrás do menu mobile — clicar nele também fecha o menu -->
+  <div class="mobile-backdrop" id="mobileBackdrop"></div>
 
   <!-- SIDE MENU DE SERVIÇOS: fica invisível o tempo todo, exceto quando
        o scroll está entre #s1 e #planos — controlado via classe .is-visible no JS -->
@@ -737,7 +780,7 @@
           </g>
         </svg>
         <div class="about-stat"><div class="num">10+</div><div class="label">servicios integrados</div></div>
-        <div class="about-stat"><div class="num">100%</div><div class="label">soporte en español, Inglés</div></div>
+        <div class="about-stat"><div class="num">100%</div><div class="label">soporte en español, inglés y portugués</div></div>
         <div class="about-stat"><div class="num">1</div><div class="label">socio para toda tu presencia digital</div></div>
         <div class="about-stat"><div class="num">24h</div><div class="label">tiempo medio de respuesta</div></div>
       </div>
@@ -1121,6 +1164,7 @@
   ========================================================================== */
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const mobileMenu = document.getElementById("mobileMenu");
+  const mobileBackdrop = document.getElementById("mobileBackdrop");
   const mobileServicesToggle = document.getElementById("mobileServicesToggle");
   const mobileServicesSubmenu = document.getElementById("mobileServicesSubmenu");
 
@@ -1128,6 +1172,7 @@
     hamburgerBtn.classList.remove("is-open");
     hamburgerBtn.setAttribute("aria-expanded", "false");
     mobileMenu.classList.remove("is-open");
+    mobileBackdrop.classList.remove("is-open");
     mobileServicesToggle.classList.remove("is-open");
     mobileServicesSubmenu.classList.remove("is-open");
     document.body.style.overflow = "";
@@ -1138,6 +1183,7 @@
     hamburgerBtn.classList.toggle("is-open", opening);
     hamburgerBtn.setAttribute("aria-expanded", String(opening));
     mobileMenu.classList.toggle("is-open", opening);
+    mobileBackdrop.classList.toggle("is-open", opening);
     document.body.style.overflow = opening ? "hidden" : "";
     if(!opening){
       mobileServicesToggle.classList.remove("is-open");
@@ -1155,6 +1201,9 @@
   mobileMenu.querySelectorAll("a.mobile-link").forEach((link) => {
     link.addEventListener("click", closeMobileMenu);
   });
+
+  // clicar no fundo desfocado também fecha o menu
+  mobileBackdrop.addEventListener("click", closeMobileMenu);
 
   /* ==========================================================================
      1) INTRO — sequência de entrada (roda 1x, ao carregar a página, não no scroll)

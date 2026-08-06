@@ -377,9 +377,30 @@
     width:100%;
     align-items:center;
   }
+  /* Seção com foto: imagem entra como uma 3ª coluna estreita, do mesmo
+     jeito que a price-box — os três elementos (foto, texto, preço)
+     ficam alinhados na mesma linha de base, centralizados verticalmente. */
+  .section-inner.has-image{
+    grid-template-columns: 260px 1fr 340px;
+  }
+  .service-image{
+    border-radius:6px; overflow:hidden;
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 20px 44px rgba(0,0,0,.4);
+    aspect-ratio:3/4;
+  }
+  .service-image img{
+    display:block; width:100%; height:100%;
+    object-fit:cover; object-position:center;
+  }
+  @media (max-width:1000px){
+    .section-inner.has-image{ grid-template-columns:210px 1fr 300px; }
+  }
   @media (max-width:800px){
     .section{ padding:80px 8vw; }
     .section-inner{ grid-template-columns:1fr; }
+    .section-inner.has-image{ grid-template-columns:1fr; }
+    .service-image{ max-width:280px; margin:0 auto 8px; }
   }
 
   .service-number{
@@ -1127,7 +1148,7 @@
   <!-- ============ CONTATO (Fale conosco) ============ -->
   <section class="contact-section" id="contato">
     <div class="contact-inner">
-      <h2>Contáctanos</h2>
+      <h2>¿Hablamos?</h2>
       <p class="sub">Cuéntanos qué necesita tu negocio y te respondemos con una propuesta.</p>
       <!-- action="mailto:..." abre o cliente de e-mail do visitante com os dados
            preenchidos — funciona sem precisar de backend. Se no futuro vocês
@@ -1140,7 +1161,7 @@
         <textarea name="mensaje" placeholder="Cuéntanos un poco sobre lo que necesitas"></textarea>
         <button type="submit">Enviar mensaje</button>
       </form>
-      <p class="contact-direct">¿Hablamos?<br>Estaremos encantados de ayudarte. Contáctanos por <a href="#">WhatsApp</a> o en <a href="mailto:Hola@ophiel.es">hola@ophiel.es</a>.</p>
+      <p class="contact-direct">Contáctanos<br>Estaremos encantados de ayudarte. Contáctanos por <a href="#">WhatsApp</a> o en <a href="mailto:Hola@ophiel.es">hola@ophiel.es</a>.</p>
     </div>
   </section>
 

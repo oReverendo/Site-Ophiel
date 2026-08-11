@@ -1244,8 +1244,11 @@
   .contact-privacy{
     display:flex; align-items:center; justify-content:center; gap:7px;
     color:var(--ink-dim); font-size:.78rem; margin:16px 0 0;
+    transition:color var(--dur-fast) var(--ease);
   }
   .contact-privacy svg{ width:13px; height:13px; flex:none; }
+  .contact-privacy.is-success{ color:#7ce0a8; font-weight:600; }
+  .contact-privacy.is-error{ color:#f08a8a; font-weight:600; }
   .contact-divider{
     display:flex; align-items:center; gap:14px; margin:26px 0 20px;
   }
@@ -2613,22 +2616,22 @@
         </div>
         <div class="contact-card-hr"></div>
 
-        <!-- action="mailto:..." abre o cliente de e-mail do visitante com os dados
-             preenchidos — funciona sem precisar de backend. Se no futuro vocês
-             quiserem que o envio seja silencioso (sem abrir o app de e-mail),
-             aí sim precisa de um serviço tipo Formspree ou um backend próprio. -->
-        <form class="contact-form" action="mailto:hola@ophiel.es" method="POST" enctype="text/plain">
+        <!-- Formspree: envio silencioso, cai direto na caixa de entrada
+             (hola@ophiel.es) sem abrir nenhum app no visitante. O JS logo
+             abaixo intercepta o envio (fetch) pra mostrar a confirmação
+             na própria página, sem recarregar. -->
+        <form class="contact-form" id="contactForm" action="https://formspree.io/f/meajgvgk" method="POST">
           <div class="row-2">
             <input type="text" name="nombre" placeholder="Tu nombre" data-i18n-placeholder required>
             <input type="email" name="email" placeholder="Tu correo electrónico" data-i18n-placeholder required>
           </div>
           <input type="text" name="negocio" placeholder="Nombre de tu negocio" data-i18n-placeholder>
           <textarea name="mensaje" placeholder="Cuéntanos un poco sobre lo que necesitas" data-i18n-placeholder></textarea>
-          <button type="submit">
+          <button type="submit" id="contactSubmitBtn">
             <span data-i18n>Enviar solicitud</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </button>
-          <p class="contact-privacy">
+          <p class="contact-privacy" id="contactStatus">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             <span data-i18n>Te responderemos lo antes posible.</span>
           </p>
@@ -2889,6 +2892,56 @@
     });
 
     backBtn.addEventListener("click", showOverview);
+  })();
+
+  /* ---------- FORMULÁRIO DE CONTATO — envio via Formspree ----------
+     Intercepta o submit padrão (que recarregaria a página) e manda os
+     dados por fetch. Assim a pessoa nunca sai da tela — só vê a
+     mensagem de status trocar de cor/texto ali embaixo do botão. */
+  (function(){
+    const form = document.getElementById("contactForm");
+    const submitBtn = document.getElementById("contactSubmitBtn");
+    const statusEl = document.getElementById("contactStatus");
+    if(!form || !submitBtn || !statusEl) return;
+
+    const statusDefaultHTML = statusEl.innerHTML;
+    const submitBtnDefaultHTML = submitBtn.innerHTML;
+
+    function setStatus(text, tone){
+      // tone: "default" | "sending" | "success" | "error" — controla a cor do texto
+      statusEl.innerHTML = `<span>${text}</span>`;
+      statusEl.classList.remove("is-success", "is-error");
+      if(tone === "success") statusEl.classList.add("is-success");
+      if(tone === "error") statusEl.classList.add("is-error");
+    }
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = "Enviando…";
+      setStatus("Enviando tu mensaje…", "sending");
+
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { "Accept": "application/json" }
+      })
+        .then((response) => {
+          if(response.ok){
+            form.reset();
+            setStatus("¡Mensaje enviado! Te responderemos lo antes posible.", "success");
+          } else {
+            setStatus("No se pudo enviar. Prueba de nuevo o escríbenos por WhatsApp.", "error");
+          }
+        })
+        .catch(() => {
+          setStatus("No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.", "error");
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = submitBtnDefaultHTML;
+        });
+    });
   })();
 
   /* Clique no logo da navbar: reforça o scroll de volta ao topo via JS,

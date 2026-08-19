@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apurador — Premios Adra 2026</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#eef1f6;color:#16233a}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 18px 60px}
+header{background:#1f3864;color:#fff;padding:22px 24px;border-radius:0 0 18px 18px;box-shadow:0 3px 14px rgba(0,0,0,.18)}
+header h1{margin:0;font-size:23px}header p{margin:6px 0 0;font-size:14px;opacity:.85}
+.card{background:#fff;border-radius:14px;padding:20px;margin-top:18px;box-shadow:0 2px 10px rgba(20,35,60,.07)}
+.drop{border:3px dashed #b9c6dc;border-radius:14px;padding:38px 20px;text-align:center;background:#f7f9fc;cursor:pointer;transition:.15s}
+.drop:hover,.drop.hot{border-color:#1f3864;background:#eef3ff}
+.drop b{font-size:18px;color:#1f3864;display:block;margin-bottom:6px}
+.drop span{font-size:14px;color:#6b7684}
+input[type=file]{display:none}
+.files{margin-top:14px;font-size:14px}
+.files div{padding:8px 12px;background:#f2f6ff;border-radius:9px;margin-bottom:6px;display:flex;justify-content:space-between}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:6px}
+.kpi{background:#f7f9fc;border:1px solid #e3e9f2;border-radius:12px;padding:14px}
+.kpi b{display:block;font-size:26px;color:#1f3864;line-height:1.1}
+.kpi span{font-size:12.5px;color:#6b7684}
+h2{font-size:18px;color:#1f3864;margin:26px 0 4px}
+.sub{font-size:13px;color:#6b7684;margin:0 0 12px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:#1f3864;color:#fff;text-align:left;padding:9px 11px;font-size:12.5px}
+td{padding:8px 11px;border-bottom:1px solid #eef1f6}
+tr:last-child td{border:0}
+.cat{margin-top:16px;border:1px solid #e3e9f2;border-radius:12px;overflow:hidden}
+.cat h3{margin:0;padding:11px 14px;background:#f2f6ff;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.cat h3 em{font-style:normal;font-size:12.5px;font-weight:500;color:#6b7684}
+.win{background:#fff8e1;font-weight:700}
+.low{color:#a33;font-weight:600}
+.bar{height:7px;background:#e3e9f2;border-radius:4px;overflow:hidden;min-width:70px}
+.bar i{display:block;height:100%;background:#1f3864}
+button{padding:13px 20px;font-size:15px;font-weight:700;border:0;border-radius:11px;background:#1f3864;color:#fff;cursor:pointer;font-family:inherit;margin-right:9px;margin-top:10px}
+button.alt{background:#41506b}
+.note{font-size:13px;color:#5b6675;line-height:1.55;background:#f7f9fc;border-left:4px solid #1f3864;padding:12px 14px;border-radius:0 9px 9px 0;margin-top:14px}
+.hide{display:none}
+</style></head><body>
+<header><h1>Apurador — Premios Adra 2026</h1>
+<p>Junta os CSV de todos os tablets, remove duplicados e apura o vencedor de cada categoria</p></header>
+<div class="wrap">
+<div class="card">
+<div class="drop" id="drop" onclick="document.getElementById('f').click()">
+<b>Arraste aqui os arquivos CSV</b><span>ou clique para escolher · pode selecionar vários de uma vez</span></div>
+<input type="file" id="f" multiple accept=".csv,text/csv">
+<div class="files" id="fl"></div>
+</div>
+<div id="out" class="hide"></div>
+</div>
+<script>
+let FILES=[],ROWS=[];
+const CORE={rest:"🍽️ Restaurante",bar:"🍺 Bar de tapas",cafe:"☕ Cafetería",pan:"🥐 Panadería / pastelería",pelu:"💇 Peluquería / barbería",super:"🛒 Supermercado"};
+const ALIAS={"🍽️ mejor restaurante":"rest","🍺 mejor bar de tapas":"bar","☕ mejor cafetería":"cafe","🥐 mejor panadería o pastelería":"pan","💇 mejor peluquería o barbería":"pelu","🛒 mejor supermercado o tienda de alimentación":"super","🛒 mejor supermercado":"super"};
+const SKIP=["no lo conozco / prefiero no votar","otro (sin especificar)","","—"];
+const dz=document.getElementById('drop');
+['dragenter','dragover'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.add('hot')}));
+['dragleave','drop'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.remove('hot')}));
+dz.addEventListener('drop',ev=>add(ev.dataTransfer.files));
+document.getElementById('f').addEventListener('change',e=>add(e.target.files));
+
+function add(fs){[...fs].forEach(f=>{const r=new FileReader();
+ r.onload=()=>{FILES.push({name:f.name,rows:parse(r.result)});draw()};r.readAsText(f,'utf-8')})}
+
+function parse(t){
+ t=t.replace(/^﻿/,'');
+ const sep=(t.split('\n')[0].match(/;/g)||[]).length>=(t.split('\n')[0].match(/,/g)||[]).length?';':',';
+ const rows=[];let cur=[],cell='',q=false;
+ for(let i=0;i<t.length;i++){const c=t[i];
+  if(q){ if(c==='"'){ if(t[i+1]==='"'){cell+='"';i++} else q=false } else cell+=c }
+  else { if(c==='"')q=true; else if(c===sep){cur.push(cell);cell=''} 
+   else if(c==='\n'){cur.push(cell);rows.push(cur);cur=[];cell=''}
+   else if(c!=='\r')cell+=c }}
+ if(cell||cur.length){cur.push(cell);rows.push(cur)}
+ if(!rows.length)return[];
+ const H=rows.shift().map(h=>h.trim());
+ return rows.filter(r=>r.some(c=>c.trim())).map(r=>{const o={};H.forEach((h,i)=>o[h]=(r[i]||'').trim());return o});
+}
+const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+const dig=s=>String(s||'').replace(/\D/g,'');
+
+function draw(){
+ document.getElementById('fl').innerHTML=FILES.map(f=>'<div><span>📄 '+f.name+'</span><b>'+f.rows.length+' linhas</b></div>').join('');
+ ROWS=[];FILES.forEach(f=>f.rows.forEach(r=>ROWS.push(Object.assign({_src:f.name},r))));
+ if(ROWS.length)render();
+}
+function keyOf(r){ // telefone normalizado, senão nome+data
+ const t=dig(r.telefono||r.Telefono||r['Tu teléfono']||'');
+ if(t.length>=9)return 't'+t.slice(-9);
+ return 'n'+norm(r.nombre||r['Tu nombre']||'')+'|'+(r.fecha||'').slice(0,10);
+}
+function getVote(r,k){
+ if(r[k]!==undefined)return r[k];
+ for(const h in r){const a=ALIAS[h.toLowerCase().trim()];if(a===k)return r[h]}
+ return '';
+}
+function render(){
+ // dedup
+ const seen=new Set(),uniq=[],dups=[];
+ ROWS.slice().sort((a,b)=>String(a.fecha||'').localeCompare(String(b.fecha||''))).forEach(r=>{
+  const k=keyOf(r); if(seen.has(k)){dups.push(r)} else {seen.add(k);uniq.push(r)}});
+ // tally
+ const tally={};
+ const put=(cat,val)=>{ if(!cat)return; const v=String(val||'').trim();
+  if(!v||SKIP.includes(v.toLowerCase()))return;
+  const n=norm(v.replace(/\(otro\)$/i,'')); if(!n)return;
+  tally[cat]=tally[cat]||{}; tally[cat][n]=tally[cat][n]||{n:0,labels:{}};
+  tally[cat][n].n++; const lab=v.replace(/\s*\(otro\)$/i,'').trim();
+  tally[cat][n].labels[lab]=(tally[cat][n].labels[lab]||0)+1 };
+ uniq.forEach(r=>{
+  Object.keys(CORE).forEach(k=>put(CORE[k],getVote(r,k)));
+  for(let i=1;i<=4;i++){const c=r['cat'+i]||r['Categoría extra '+i]||'';
+   if(c)put(c.replace(/\s*\(otra categoría\)$/i,'').trim(),r['voto'+i]||'')}
+ });
+ const cats=Object.keys(tally).sort((a,b)=>{
+  const ca=Object.keys(CORE).map(k=>CORE[k]).indexOf(a),cb=Object.keys(CORE).map(k=>CORE[k]).indexOf(b);
+  if(ca>=0&&cb>=0)return ca-cb; if(ca>=0)return -1; if(cb>=0)return 1;
+  return tot(tally[b])-tot(tally[a])});
+ function tot(o){return Object.values(o).reduce((s,x)=>s+x.n,0)}
+ let h='<div class="card"><h2 style="margin-top:0">Resumo</h2><div class="kpis">'+
+  '<div class="kpi"><b>'+FILES.length+'</b><span>arquivos carregados</span></div>'+
+  '<div class="kpi"><b>'+ROWS.length+'</b><span>respostas brutas</span></div>'+
+  '<div class="kpi"><b>'+uniq.length+'</b><span>votantes únicos</span></div>'+
+  '<div class="kpi"><b>'+dups.length+'</b><span>duplicados removidos</span></div>'+
+  '<div class="kpi"><b>'+cats.length+'</b><span>categorias com votos</span></div></div>';
+ const low=cats.filter(c=>tot(tally[c])<30).length;
+ h+='<div class="note"><b>Duplicados</b> são identificados pelo telefone (últimos 9 dígitos). Quando não há telefone, o critério passa a ser nome + dia. Mantém-se sempre a resposta mais antiga.'+
+  (low?' <br><br><b class="low">Atenção:</b> '+low+' categoria(s) ainda com menos de 30 votos — abaixo do mínimo recomendado para publicar um vencedor.':'')+'</div>';
+ h+='<button onclick="expAll()">⬇ Baixar base consolidada (sem duplicados)</button>'+
+    '<button class="alt" onclick="expRes()">⬇ Baixar resultado por categoria</button></div>';
+ h+='<div class="card"><h2 style="margin-top:0">Resultado por categoria</h2>'+
+  '<p class="sub">Linha destacada = vencedor. Nomes escritos de formas diferentes já foram agrupados automaticamente.</p>';
+ cats.forEach(c=>{
+  const list=Object.values(tally[c]).map(x=>({n:x.n,label:best(x.labels)})).sort((a,b)=>b.n-a.n);
+  const T=list.reduce((s,x)=>s+x.n,0),mx=list[0].n;
+  h+='<div class="cat"><h3><span>'+esc(c)+'</span><em class="'+(T<30?'low':'')+'">'+T+' votos'+(T<30?' · abaixo do mínimo':'')+'</em></h3><table>';
+  list.slice(0,8).forEach((x,i)=>{h+='<tr class="'+(i===0?'win':'')+'"><td style="width:26px">'+(i+1)+'</td><td>'+esc(x.label)+'</td>'+
+   '<td style="width:60px;text-align:right">'+x.n+'</td><td style="width:34%"><div class="bar"><i style="width:'+(x.n/mx*100)+'%"></i></div></td></tr>'});
+  h+='</table></div>'});
+ h+='</div>';
+ window._uniq=uniq;window._tally=tally;window._cats=cats;
+ const o=document.getElementById('out');o.className='';o.innerHTML=h;
+}
+function best(L){const e=Object.entries(L);
+ const cap=e.filter(x=>/^[A-ZÁÉÍÓÚÑ]/.test(x[0])&&x[0]!==x[0].toUpperCase());
+ const pool=cap.length?cap:e;
+ return pool.sort((a,b)=>b[1]-a[1]||b[0].length-a[0].length)[0][0]}
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function dl(name,txt){const b=new Blob(['﻿'+txt],{type:'text/csv;charset=utf-8'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click()}
+function q(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'}
+function expAll(){const rs=window._uniq;const cols=[...new Set(rs.flatMap(r=>Object.keys(r)))];
+ dl('base_consolidada_adra.csv',cols.join(';')+'\n'+rs.map(r=>cols.map(c=>q(r[c])).join(';')).join('\n'))}
+function expRes(){let L=['categoria;posicao;negocio;votos;total_categoria'];
+ window._cats.forEach(c=>{const t=window._tally[c];
+  const list=Object.values(t).map(x=>({n:x.n,label:best(x.labels)})).sort((a,b)=>b.n-a.n);
+  const T=list.reduce((s,x)=>s+x.n,0);
+  list.forEach((x,i)=>L.push([q(c),i+1,q(x.label),x.n,T].join(';')))});
+ dl('resultado_premios_adra.csv',L.join('\n'))}
+</script></body></html>

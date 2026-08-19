@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#030a12">
+<title>Placa NFC — Reseñas de Google + Redes Sociales | Ophiel</title>
+
+<style>
+  :root{
+    --navy: #030a12;
+    --navy-2: #0b131c;
+    --gold: #ebb35e;
+    --gold-soft: #f1cd96;
+    --ink: #eef1f6;
+    --ink-dim: #9aa7bb;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0; min-height:100vh;
+    background:var(--navy);
+    color:var(--ink);
+    font-family:'Helvetica Neue', Arial, sans-serif;
+  }
+
+  /* ---------- CABEÇALHO ---------- */
+  .top{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 6vw;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .top .brand{ font-size:1.05rem; letter-spacing:.06em; font-weight:600; color:var(--ink); }
+  .top .brand span{ color:var(--gold); }
+  .top a.back{
+    font-size:.78rem; color:var(--ink-dim); text-decoration:none;
+    letter-spacing:.04em;
+  }
+  .top a.back:hover{ color:var(--gold-soft); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    max-width:1000px; margin:0 auto;
+    padding:56px 6vw 20px;
+    text-align:center;
+  }
+  .presale-badge{
+    display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.08em;
+    color:var(--gold); background:rgba(235,179,94,.1); border:1px solid rgba(235,179,94,.35);
+    padding:6px 16px; border-radius:999px; margin-bottom:18px;
+  }
+  .hero h1{ font-size:clamp(1.7rem,4vw,2.6rem); margin:0 0 14px; line-height:1.25; }
+  .hero h1 span{ color:var(--gold-soft); }
+  .hero p{ color:var(--ink-dim); max-width:56ch; margin:0 auto; font-size:1rem; line-height:1.6; }
+
+  .hero-photo{
+    max-width:280px; margin:36px auto 0;
+    aspect-ratio:3/4; border-radius:14px;
+    border:1px dashed rgba(235,179,94,.35);
+    background:rgba(255,255,255,.02);
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px;
+    color:rgba(212,175,106,.4);
+  }
+  .hero-photo svg{ width:38px; height:38px; }
+  .hero-photo span{ font-size:.74rem; color:var(--ink-dim); max-width:200px; text-align:center; }
+
+  .features{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:28px;
+    margin:36px 0 0; padding:0; list-style:none;
+  }
+  .features li{
+    display:flex; align-items:center; gap:8px;
+    font-size:.86rem; color:var(--ink-dim);
+  }
+  .features li svg{ width:16px; height:16px; color:var(--gold); flex:none; }
+
+  /* ---------- FORMULÁRIO ---------- */
+  /* ---------- MOCKUP DO CELULAR (mostra os botões reais do template) ---------- */
+  .showcase{
+    max-width:960px; margin:60px auto 0; padding:0 6vw;
+    display:flex; align-items:center; justify-content:center; gap:56px; flex-wrap:wrap;
+  }
+  .showcase-text{ max-width:380px; }
+  .showcase-text h2{ font-size:1.5rem; margin:0 0 12px; line-height:1.3; }
+  .showcase-text p{ color:var(--ink-dim); line-height:1.65; font-size:.95rem; margin:0; }
+  .phone-frame{
+    width:230px; background:#000; border-radius:34px; padding:10px;
+    box-shadow:0 30px 60px rgba(0,0,0,.5); flex:none;
+  }
+  .phone-screen{
+    background:var(--navy-2); border-radius:24px; padding:26px 16px 20px;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .phone-avatar{
+    width:46px; height:46px; border-radius:50%;
+    background:rgba(235,179,94,.1); border:1px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-family:Georgia,serif; font-size:18px; color:var(--gold);
+    margin-bottom:10px;
+  }
+  .phone-name{ font-size:.8rem; font-weight:600; margin-bottom:14px; }
+  .phone-links{ width:100%; display:flex; flex-direction:column; gap:7px; }
+  .phone-btn{
+    display:flex; align-items:center; gap:7px;
+    border-radius:8px; padding:9px 11px; font-size:.66rem; font-weight:600;
+  }
+  .phone-btn svg{ width:13px; height:13px; flex:none; }
+
+  /* ---------- BENEFÍCIOS ---------- */
+  .benefits{ max-width:640px; margin:70px auto 0; padding:0 6vw; text-align:center; }
+  .benefits h2{ font-size:1.5rem; margin:0 0 34px; }
+  .benefits-list{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:18px; text-align:left; }
+  .benefits-list li{
+    display:flex; align-items:flex-start; gap:12px;
+    background:var(--navy-2); border:1px solid rgba(255,255,255,.06);
+    border-radius:10px; padding:16px 18px;
+  }
+  .benefits-list li .b-icon{
+    width:30px; height:30px; border-radius:50%; flex:none;
+    background:rgba(235,179,94,.08); border:1px solid rgba(235,179,94,.3);
+    display:flex; align-items:center; justify-content:center; color:var(--gold);
+  }
+  .benefits-list li .b-icon svg{ width:14px; height:14px; }
+  .benefits-list li strong{ display:block; font-size:.9rem; margin-bottom:2px; }
+  .benefits-list li span{ font-size:.82rem; color:var(--ink-dim); line-height:1.5; }
+
+  .config-card{
+    max-width:520px; margin:48px auto 80px;
+    background:var(--navy-2); border:1px solid rgba(235,179,94,.25);
+    border-radius:16px; padding:32px 26px;
+  }
+  .config-card h2{ font-size:1.15rem; margin:0 0 4px; }
+  .config-card .section-label{
+    font-size:.78rem; font-weight:700; letter-spacing:.06em; color:var(--gold);
+    margin:26px 0 4px;
+  }
+  .config-card .section-note{
+    font-size:.8rem; color:var(--ink-dim); margin:0 0 14px; line-height:1.5;
+  }
+  .field-group{ display:flex; flex-direction:column; gap:12px; }
+  input[type="text"], input[type="tel"], input[type="email"]{
+    width:100%; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.12);
+    border-radius:8px; padding:13px 14px; color:var(--ink);
+    font-family:inherit; font-size:.92rem; outline:none;
+  }
+  input::placeholder{ color:rgba(154,167,187,.6); }
+  input:focus{ border-color:var(--gold); }
+  #placeSearchWrap{ position:relative; }
+  #placeSearchInput{
+    width:100%; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.12);
+    border-radius:8px; padding:13px 14px 13px 40px; color:var(--ink);
+    font-family:inherit; font-size:.92rem; outline:none;
+  }
+  #placeSearchInput:focus{ border-color:var(--gold); }
+  #placeSearchWrap svg{
+    position:absolute; left:13px; top:50%; transform:translateY(-50%);
+    width:16px; height:16px; color:var(--gold); pointer-events:none;
+  }
+  .file-input-wrap{
+    display:flex; align-items:center; gap:10px;
+    border:1px solid rgba(255,255,255,.12); border-radius:8px;
+    padding:10px 14px; background:rgba(255,255,255,.03);
+  }
+  .file-input-wrap label{
+    background:rgba(235,179,94,.12); color:var(--gold-soft);
+    border:1px solid rgba(235,179,94,.3); border-radius:6px;
+    padding:7px 14px; font-size:.78rem; font-weight:600; cursor:pointer; flex:none;
+  }
+  .file-input-wrap span{ font-size:.8rem; color:var(--ink-dim); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  input[type="file"]{ display:none; }
+  .file-note{ font-size:.72rem; color:var(--ink-dim); margin:6px 0 0; }
+
+  .submit-btn{
+    display:block; width:100%; margin-top:28px;
+    background:var(--gold); color:var(--navy); border:none;
+    border-radius:8px; padding:15px 0; font-size:.94rem; font-weight:700;
+    font-family:inherit; cursor:pointer;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .submit-btn:hover{ background:var(--gold-soft); }
+  .submit-btn:active{ transform:scale(.98); }
+  .submit-btn:disabled{ opacity:.6; cursor:default; }
+
+  .form-status{
+    text-align:center; margin-top:14px; font-size:.8rem; color:var(--ink-dim);
+    min-height:1.2em;
+  }
+  .form-status.is-success{ color:#7ce0a8; font-weight:600; }
+  .form-status.is-error{ color:#f08a8a; font-weight:600; }
+
+  .footer-credit{
+    text-align:center; padding:0 20px 40px;
+    font-size:.72rem; color:rgba(154,167,187,.5);
+  }
+  .footer-credit a{ color:rgba(212,175,106,.6); text-decoration:none; }
+</style>
+</head>
+<body>
+
+  <header class="top">
+    <div class="brand">OPHIEL <span>·</span> Placas NFC</div>
+    <a href="https://ophiel.es" class="back">← ophiel.es</a>
+  </header>
+
+  <main class="hero">
+    <div class="presale-badge">PRÓXIMAMENTE — RESERVA LA TUYA</div>
+    <h1>Una placa NFC con tus <span>reseñas de Google</span> y <span>todas tus redes</span> en un solo toque</h1>
+    <p>Tus clientes acercan el móvil, y acceden a tu perfil de Google para dejar una reseña, además de Instagram, WhatsApp y todo lo demás — todo en una sola placa, sin necesidad de apps.</p>
+
+    <div class="hero-photo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      <span>Foto del producto próximamente</span>
+    </div>
+
+    <ul class="features">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Reseñas de Google con un toque</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Todas tus redes en un solo lugar</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Diseño con tu marca</li>
+    </ul>
+  </main>
+
+  <section class="showcase">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="phone-avatar">B</div>
+        <div class="phone-name">Bluemare Restaurante</div>
+        <div class="phone-links">
+          <div class="phone-btn" style="background:#4285F4;color:#fff;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg>Reseña en Google</div>
+          <div class="phone-btn" style="background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);color:#fff;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>Instagram</div>
+          <div class="phone-btn" style="background:#25D366;color:#06301a;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>WhatsApp</div>
+          <div class="phone-btn" style="background:var(--gold);color:#030a12;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Sitio web</div>
+          <div class="phone-btn" style="background:rgba(235,179,94,.08);color:#f1cd96;border:1px solid rgba(235,179,94,.3);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M6 16c.5-1.7 1.8-2.5 3-2.5s2.5.8 3 2.5M14 9h4M14 13h4"/></svg>Guardar contacto</div>
+        </div>
+      </div>
+    </div>
+    <div class="showcase-text">
+      <h2>Detrás de cada toque, tu página completa</h2>
+      <p>Cuando alguien acerca el móvil a la placa, no solo llega a dejar una reseña: aterriza en una página con la identidad de tu negocio y accede a todo lo que necesitas mostrar — Google, tus redes, tu web, y la opción de guardarte como contacto — sin instalar nada.</p>
+    </div>
+  </section>
+
+  <section class="benefits">
+    <h2>Lo que esta placa hace por tu negocio</h2>
+    <ul class="benefits-list">
+      <li>
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div><strong>Confianza a primera vista</strong><span>Un cliente que ve reseñas reales antes de decidir tiene mucha más razón para elegirte a ti.</span></div>
+      </li>
+      <li>
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <div><strong>Apareces más en las búsquedas cercanas</strong><span>Cuantas más reseñas recientes tengas, mejor te posiciona Google frente a quien busca en tu zona.</span></div>
+      </li>
+      <li>
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg></div>
+        <div><strong>Sin fricción para el cliente</strong><span>Un toque y ya está — nada de buscar el negocio a mano ni escribir reseñas desde cero en el móvil.</span></div>
+      </li>
+      <li>
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+        <div><strong>Todo tu negocio en un solo lugar</strong><span>Redes, web y contacto reunidos en una sola página, con tu marca — no la de otro.</span></div>
+      </li>
+      <li>
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+        <div><strong>Un detalle que se nota</strong><span>Una pieza física con acabado propio dice más de tu negocio que un cartel de papel cualquiera.</span></div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="config-card">
+    <h2>Configura tu placa</h2>
+    <p class="section-note">Cuéntanos sobre tu negocio y te contactaremos para confirmar los detalles de tu reserva.</p>
+
+    <div class="section-label">BUSCA TU NEGOCIO EN GOOGLE MAPS</div>
+    <div id="placeSearchWrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+      <input type="text" id="placeSearchInput" placeholder="Escribe el nombre y selecciona tu negocio">
+    </div>
+    <p class="section-note" style="margin-top:8px;">Si no encuentras tu negocio, no te preocupes — te lo consultaremos.</p>
+
+    <div class="section-label" style="margin-top:28px;">CONTACTO DE TU NEGOCIO</div>
+    <p class="section-note">Es el contacto que tus clientes guardarán en la agenda. Podrás modificarlo cuando quieras.</p>
+    <div class="field-group">
+      <input type="text" name="nombre_negocio" id="nombreNegocio" placeholder="Nombre del negocio" required>
+      <input type="tel" name="telefono" id="telefonoNegocio" placeholder="Teléfono">
+      <input type="email" name="email" id="emailNegocio" placeholder="Email" required>
+    </div>
+
+    <div class="section-label">LOGOTIPO DE TU NEGOCIO</div>
+    <div class="file-input-wrap">
+      <label for="logoInput">Elegir archivo</label>
+      <span id="logoFileName">Ningún archivo elegido</span>
+    </div>
+    <input type="file" id="logoInput" name="logotipo" accept="image/png,image/jpeg,image/jpg">
+    <p class="file-note">Formatos permitidos: PNG, JPG, JPEG.</p>
+
+    <button type="button" class="submit-btn" id="submitBtn">Reservar mi placa</button>
+    <p class="form-status" id="formStatus"></p>
+  </section>
+
+  <p class="footer-credit">Un producto de <a href="https://ophiel.es">Ophiel</a></p>
+
+<script>
+  /* ============================================================
+     CONFIGURAÇÃO — só isso precisa ser preenchido pra tudo
+     funcionar de verdade.
+
+     1) googleMapsApiKey: chave da API do Google Places (pra busca
+        de negócio funcionar). Sem ela, o campo de busca vira um
+        campo de texto comum (a pessoa digita o nome na mão).
+
+     2) formspreeEndpoint: já preenchido com o mesmo formulário do
+        Formspree que o formulário de contato do site principal usa
+        (cai direto em hola@ophiel.es). Se um dia quiser separar
+        essas reservas de placa das outras mensagens de contato,
+        é só criar um formulário novo lá no Formspree e trocar o
+        link aqui embaixo.
+     ============================================================ */
+  const SETTINGS = {
+    googleMapsApiKey: "",
+    formspreeEndpoint: "https://formspree.io/f/meajgvgk"
+  };
+
+  /* ---------- Busca de negócio via Google Places (opcional) ---------- */
+  let selectedPlace = null;
+
+  function initPlaceAutocomplete(){
+    if(!SETTINGS.googleMapsApiKey) return; // sem chave, o campo funciona como texto comum
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${SETTINGS.googleMapsApiKey}&libraries=places&loading=async&callback=__ophielInitPlaces`;
+    script.async = true;
+    document.head.appendChild(script);
+  }
+
+  window.__ophielInitPlaces = async function(){
+    const { PlaceAutocompleteElement } = await google.maps.importLibrary("places");
+    const input = document.getElementById("placeSearchInput");
+    const autocompleteEl = new PlaceAutocompleteElement({ inputElement: input });
+    autocompleteEl.addEventListener("gmp-select", async (e) => {
+      const place = e.detail?.place || e.placePrediction?.toPlace();
+      if(!place) return;
+      await place.fetchFields({ fields: ["displayName", "formattedAddress", "internationalPhoneNumber"] });
+      selectedPlace = place;
+      if(place.displayName) document.getElementById("nombreNegocio").value = place.displayName;
+      if(place.internationalPhoneNumber) document.getElementById("telefonoNegocio").value = place.internationalPhoneNumber;
+    });
+  };
+
+  initPlaceAutocomplete();
+
+  /* ---------- Nome do arquivo de logo selecionado ---------- */
+  const logoInput = document.getElementById("logoInput");
+  const logoFileName = document.getElementById("logoFileName");
+  logoInput.addEventListener("change", () => {
+    logoFileName.textContent = logoInput.files[0] ? logoInput.files[0].name : "Ningún archivo elegido";
+  });
+
+  /* ---------- Envio do formulário ---------- */
+  const submitBtn = document.getElementById("submitBtn");
+  const formStatus = document.getElementById("formStatus");
+
+  function setStatus(text, tone){
+    formStatus.textContent = text;
+    formStatus.classList.remove("is-success", "is-error");
+    if(tone === "success") formStatus.classList.add("is-success");
+    if(tone === "error") formStatus.classList.add("is-error");
+  }
+
+  submitBtn.addEventListener("click", async () => {
+    const nombre = document.getElementById("nombreNegocio").value.trim();
+    const email = document.getElementById("emailNegocio").value.trim();
+    if(!nombre || !email){
+      setStatus("Completa al menos el nombre del negocio y el email.", "error");
+      return;
+    }
+    if(!SETTINGS.formspreeEndpoint){
+      setStatus("Formulario aún no configurado — contáctanos directamente por WhatsApp.", "error");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("nombre_negocio", nombre);
+    formData.append("telefono", document.getElementById("telefonoNegocio").value.trim());
+    formData.append("email", email);
+    if(selectedPlace?.formattedAddress) formData.append("direccion_google", selectedPlace.formattedAddress);
+    if(logoInput.files[0]) formData.append("logotipo", logoInput.files[0]);
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando…";
+    setStatus("Enviando tu reserva…", "");
+
+    try{
+      const response = await fetch(SETTINGS.formspreeEndpoint, {
+        method: "POST",
+        body: formData,
+        headers: { "Accept": "application/json" }
+      });
+      if(response.ok){
+        setStatus("¡Reserva enviada! Te contactaremos pronto para confirmar los detalles.", "success");
+        submitBtn.textContent = "Reservar mi placa";
+        document.querySelectorAll("input").forEach(i => i.value = "");
+        logoFileName.textContent = "Ningún archivo elegido";
+      } else {
+        setStatus("No se pudo enviar. Prueba de nuevo o escríbenos por WhatsApp.", "error");
+        submitBtn.textContent = "Reservar mi placa";
+      }
+    } catch(err){
+      setStatus("No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.", "error");
+      submitBtn.textContent = "Reservar mi placa";
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

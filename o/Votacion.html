@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Premios Adra 2026 — Votación</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#eef1f6;color:#16233a}
+.wrap{max-width:820px;margin:0 auto;padding:16px 16px 120px}
+header{background:#1f3864;color:#fff;padding:18px 20px;border-radius:0 0 18px 18px;position:sticky;top:0;z-index:20;box-shadow:0 3px 14px rgba(0,0,0,.18)}
+header h1{margin:0;font-size:20px;letter-spacing:.3px}
+header p{margin:5px 0 0;font-size:13px;opacity:.85}
+.bar{height:6px;background:rgba(255,255,255,.22);border-radius:4px;margin-top:12px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:#5ec27a;transition:width .3s}
+.counter{position:absolute;top:16px;right:18px;background:rgba(255,255,255,.16);padding:5px 12px;border-radius:20px;font-size:13px;font-weight:600}
+.card{background:#fff;border-radius:14px;padding:18px;margin-top:16px;box-shadow:0 2px 10px rgba(20,35,60,.07)}
+.q{font-size:17px;font-weight:700;margin:0 0 4px}
+.hint{font-size:13px;color:#6b7684;margin:0 0 14px}
+label.opt{display:flex;align-items:center;gap:13px;padding:14px 15px;border:2px solid #dfe4ec;border-radius:11px;margin-bottom:9px;font-size:16px;cursor:pointer;background:#fff;transition:.12s}
+label.opt:active{transform:scale(.99)}
+label.opt input[type=radio],label.opt input[type=checkbox]{appearance:none;min-width:24px;height:24px;border:2px solid #b9c2d0;border-radius:50%;margin:0;position:relative;flex:none}
+label.opt input[type=checkbox]{border-radius:6px}
+label.opt input:checked{border-color:#1f3864}
+label.opt input[type=radio]:checked::after{content:"";position:absolute;inset:4px;background:#1f3864;border-radius:50%}
+label.opt input[type=checkbox]:checked::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#1f3864;font-weight:900;font-size:16px}
+label.opt:has(input:checked){border-color:#1f3864;background:#f2f6ff}
+label.opt.skip{border-style:dashed;color:#6b7684;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px}
+.grid label.opt{margin:0}
+select,input[type=text],input[type=tel],textarea{width:100%;padding:14px;font-size:16px;border:2px solid #dfe4ec;border-radius:11px;font-family:inherit;background:#fff}
+textarea{min-height:80px;resize:vertical}
+.otrobox{display:none;margin:-3px 0 9px;padding-left:6px}
+.otrobox.on{display:block}
+.step{display:none}.step.on{display:block}
+.nav{position:fixed;left:0;right:0;bottom:0;background:#fff;padding:12px 16px;box-shadow:0 -3px 14px rgba(20,35,60,.12);z-index:30}
+.nav .in{max-width:820px;margin:0 auto;display:flex;gap:10px;width:100%}
+button{flex:1;padding:16px;font-size:17px;font-weight:700;border:0;border-radius:12px;font-family:inherit;cursor:pointer}
+.b1{background:#1f3864;color:#fff}.b2{background:#e6eaf1;color:#41506b;flex:0 0 110px}
+.b3{background:#2e8b57;color:#fff}
+.done{text-align:center;padding:44px 20px}
+.done .tick{font-size:60px}
+.done h2{color:#1f3864;margin:10px 0 6px}
+.tools{margin-top:22px;padding:16px;background:#fff;border-radius:14px;font-size:14px}
+.tools button{width:100%;margin-top:9px;background:#41506b;color:#fff;padding:13px;font-size:15px}
+.tools .warn{color:#a33;font-size:12.5px;margin-top:10px;line-height:1.45}
+.pair{margin-bottom:16px;padding-bottom:16px;border-bottom:1px dashed #dfe4ec}
+.pair:last-child{border:0}
+.sec{font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:#8a94a3;font-weight:700;margin:0 0 10px}
+.rgpd{background:#f7f9fc;border:1px solid #dfe4ec;border-radius:11px;padding:13px;font-size:12.5px;color:#5b6675;line-height:1.5;margin-bottom:12px}
+.dup{background:#fff4e5;border:1px solid #f0c98a;color:#8a5a12;padding:12px;border-radius:11px;font-size:14px;margin-top:12px;display:none}
+.dup.on{display:block}
+</style></head><body>
+<header><div class="counter" id="cnt">0 votos</div>
+<h1>Premios Adra 2026</h1><p>Los mejores de cada sector · 2 minutos</p>
+<div class="bar"><i id="pb"></i></div></header>
+<div class="wrap">
+<div class="step on" id="s1"></div>
+<div class="step" id="s2"></div>
+<div class="step" id="s3"></div>
+<div class="step" id="s4"><div class="done"><div class="tick">✓</div><h2>¡Gracias por votar!</h2>
+<p>Tu voto ayuda a reconocer a los mejores negocios de Adra.</p></div>
+<div class="tools"><div class="sec">Solo para el encuestador</div>
+<b id="tot">0</b> votos guardados en este dispositivo.
+<button onclick="expo()">⬇ Descargar CSV con todos los votos</button>
+<button onclick="reset()">▶ Siguiente persona</button>
+<div class="warn">Descarga el CSV al final de cada jornada. Los votos se guardan en este navegador — si borras los datos de navegación, se pierden.</div></div></div>
+</div>
+<div class="nav"><div class="in">
+<button class="b2" id="back" onclick="go(-1)">Atrás</button>
+<button class="b1" id="next" onclick="go(1)">Siguiente</button></div></div>
+<script>
+const D={"core": [{"k": "rest", "e": "🍽️", "label": "Mejor RESTAURANTE", "opts": ["Restaurante Bonillo", "Taberna & Restaurante La Granja", "Bar Emilio", "Restaurante Garum Adra", "Restaurante El Refugio", "Restaurante Bar Melena2 Gourmet", "Restaurante Agrupaadra", "Mesón La Torre", "Gastrobar Mar de Adra", "Restaurante CASANOSTRA", "Bar Coines"]}, {"k": "bar", "e": "🍺", "label": "Mejor BAR DE TAPAS", "opts": ["Mesón Maruja Limón", "Bar La Campana", "Coffee Dawn Snack", "Bodega los Finos", "Bodega Del Tapeo", "Johanna", "Chiringuito La Pulpera", "Bar El Pajar", "Chiringuito Amalia", "Bar Muelle de Levante"]}, {"k": "cafe", "e": "☕", "label": "Mejor CAFETERÍA", "opts": ["Cafetería Minerva", "Cafe Bar Aire de Mar", "Cafetería La Fabriquilla", "Amsterdam Café", "Cafeteria Pub La Luna", "Cafetería Plaza Gades", "Pica y Pica 24 Horas Lonja Adra", "Café la Plaza", "Café bar La Parada", "Cafetería La Isla", "Café Pub El Chalé"]}, {"k": "pan", "e": "🥐", "label": "Mejor PANADERÍA O PASTELERÍA", "opts": ["Pastelería Ana", "Panadería Crespo", "Casapan Cake Funny", "La Corona Pan", "Panadería Romero y Sánchez (Tristes)", "La Espiga Croissantería Heladería", "Antonio Fernández Casquet", "Pastelería Virgen del Carmen", "Bakery", "Panadería Romero y Sánchez (C. Mercado)", "Mercedes Manzano Cara"]}, {"k": "pelu", "e": "💇", "label": "Mejor PELUQUERÍA O BARBERÍA", "opts": ["Olivencia Hair Study", "Etnica Peluqueros", "Peluquería de Antonio", "Rebeca Estilistas", "Chilao", "Peluquería Adra Tarik", "Silvia Peluquería Unisex", "SD HairSpa Peluquería & Estética", "Peluquería Salón 26", "Julia García Lidueña", "ARB Estudio", "La Barbería de Puga"]}, {"k": "super", "e": "🛒", "label": "Mejor SUPERMERCADO", "opts": ["Supermercado Covirán Adra", "CashSur", "Supermercados Dia", "Juan José Guglieri Martín", "Supermercado Covirán Hnos. Castro Jiménez", "Supermercado Spar", "Supermercados Consum", "El Balneario", "Supermercado Spar Hnos. Cebrián 2", "Supermercado Covirán (C. Mercado)", "La Pecera"]}], "extra": {"⚖️ Abogados": ["María Jesús Gaitán Peña Abogados", "Jaime Martín Martín", "Antonio Gaitán Abogados", "Leyem Consultores", "Indalegis Abogados y Asesores", "Figueroa & Arpón Abogados", "Diego Casado Cuadrado", "Atlántida Abogados & Asesores Adra"], "⚰️ Funerarias": ["Oliver Servicios Funerarios (Tanatorio Adra)"], "⛽ Gasolineras": ["Gasolinera CampoEjido Adra", "Estación de Servicio Repsol (N-340a)", "Galp", "Gasolinera Campoadra", "Estación de Servicio Repsol (La Alquería)", "Estación de Servicio Moeve", "Gasolinera 391 S.L."], "✈️ Agencias de viajes": ["Delorean Travel S.L.", "Viajes Narila", "Chematour", "Viajes Carrefour", "Viajes Rodriblán", "Viajes Puertadelmar S.L.", "Adra Turismo (oficina municipal)", "Sito Tour"], "🌙 Pubs / ocio nocturno": ["Pub Blacky", "Pub Bahía", "Pub Jaima de Adra", "Pub Las Palmeras", "Tropicana"], "🌯 Kebab / comida rápida": ["Restaurante Döner Kebab Alí Babá", "Adra - Döner Kebab"], "🌸 Floristerías": ["Floribel Floristas", "Agro Alfonso y José S.L.", "El Taller del Jardín - Jardines Adra S.L.", "Droguería Floristería Martín"], "🍎 Fruterías": ["Hortocampo", "AgroAdra Vulcano", "Frutas Zurifer S.L."], "🍔 Hamburgueserías": ["Patatas Conchi Adra", "Fusión Callejera"], "🍕 Pizzerías": ["Pizza Hits", "Europizza Adra", "Restaurante Pizzería Fergo", "Pizzería Voy Volando Adra"], "🍦 Heladerías": ["La Yaya Heladería Adra", "Helados de Adra", "Heladería Jijonenca Adra (Jijona y Mar S.L.)"], "🎓 Academias": ["Hello Adra School of Languages", "The Lighthouse Centro de Formación", "Academia de Peluquería y Barbería CEP Montserrat González", "Academia Agave", "Centro de Enseñanza Mar de Versos", "Easy Peasy Language School", "Cuban Rocks y Adra Baila", "Go! British School of Languages Adra"], "🏋️ Gimnasios": ["DEHAROFIT", "SANO Adra - Entrenamiento Personal", "Scorpio Karate Adra", "C.D. Scorpio Gym", "Royal Box Adra", "Atenea Centro de Pilates", "Gimnasio Gladiator", "Pabellón de Deportes"], "🏍️ Talleres de motos": ["Taller de Motos y Bicicletas Craviotto", "JetSki Adra - Alquiler de Motos de Agua"], "🏗️ Construcción": ["Construcciones Torralvo (Grupo Adraiba SLU)", "Linares y Huerga Arquitectos", "S'aqua Fontaneros", "Prefabricados Ibafersan S.L.", "Martín Sevilla S.L.", "Mellado Materiales de Construcción", "Big Mat", "Cocinas Maldonado"], "🏠 Inmobiliarias": ["JLDelinea Inmobiliaria", "Tecnocasa Agencia Inmobiliaria", "Grupo Vittaria Adra", "Lidercasa International", "Inmobiliaria Campillo Olivencia", "Grupo Adra Corporación Inmobiliaria", "Inmobiliaria Inversol Ferli", "Adra Costa Inmobiliaria"], "🏥 Clínicas": ["Psicoabdera - Centro de reconocimiento de conductores", "Clínica Medicina Estética Q10", "Ortopedia Oliva", "Centro Logros - Desarrollo Infantil", "Centro de Salud de Adra (público)"], "🏪 Bazar / multiprecio": ["Cotton Whim", "Casa Lupiáñez - Todo a Cien", "Bazar Oasis", "Perfumerías Leo's", "Zenter", "Toy Planet"], "🏪 Mercado / tiendas especializadas": ["420 Growshop Adra / CBD Premium", "Atmosfera Sport Adra", "Hortocampo", "Mercado de Abastos", "Deportes Blanes"], "🐕 Veterinarias": ["Clínica Veterinaria Adrafauna", "Acupuntura Veterinaria Granada", "Clínica Veterinaria San Marcos", "Veterinaria Sanivet", "Antonio Avilés López"], "🐟 Pescaderías": ["Pescadería La Roca Adra", "Pescados Frescos del Marenostrum", "Lonja de Adra", "Pescadería Natalio Rivas"], "🐶 Tiendas de animales": ["Adrakan - Residencia y Bienestar Canino", "Mundo Animal Adra", "Pajarería y Piensos El Revuelo"], "👓 Ópticas": ["Óptica Mares", "Óptica Vulcano", "OC Óptica", "Óptica Laborda", "Óptica Noelia Optometrista Adra", "Óptica Espejo Adra"], "👗 Ropa": ["Lencería Enbali", "Diva", "MARA Concept Store", "Tejidos y Confecciones Picón", "Creta Chic", "Tienda de ropa Different", "Maygu", "EGGO"], "👟 Calzado": ["Dana Shoes", "Pekymar Shoes", "Maribel Fernández Zapatería", "Eclipse Adra Zapatería", "Hiper Calzado Andalucía", "Gázquez Bravo Zapaterías"], "👶 Guarderías": ["Centro de Educación Infantil Había Una Vez...", "Centro de Educación Infantil Chispas", "Centro de Educación Infantil Mi Primer Cole", "Escuela Infantil Entrenubes", "La Casita de Fresa", "Centro de Educación Infantil AÚPA! School"], "👶 Infantil / bebé": ["Elfo Bebé"], "👶 Odontología infantil": ["Clínica Ayla - Pediatría, Psicología infantil y Logopedia"], "💅 Uñas / estética": ["Adriana Marcela Studio", "Centro Carmen Rivas Estética y Bienestar", "Pilar Pintor Centro de Estética", "Vietnam Nails Adra", "Medusa Estudio", "D'Gema Estética", "Salón de Estética y Bienestar Ninfa", "Alina Nails Art & Beauty"], "💆 Fisioterapia": ["Clínica Abdera", "Ápex Fisioterapia Adra", "Alexia Molina Fisio", "Atenea", "FisioAdra"], "💊 Farmacias": ["Farmacia Jiménez", "Farmacia Espejo", "Farmacia Sánchez Adra", "FarmaCurva", "Farmacia Adra - Guillén Aspilche", "Farmacia Pablo Jiménez Montoya", "Farmacia Guillén", "Farmacia Eva Navarro Lara"], "💍 Joyerías": ["Compro Oro Adra", "Joyería Paulino", "Tienda Cuarzo Rose", "Joyacoral S.L.", "Mar de Oro", "Joyería Lao Castro", "Joyería Neptuno"], "💻 Informática": ["licenciaoriginal.es", "PCMarket & WebDigital", "Iberanet Informática", "GDA Soluciones Informáticas Adra", "Adranet", "Adrawireless S.L."], "💼 Asesorías": ["Asesoría Ulisea", "Peláez & Gómez", "Miguel José Figueroa Sánchez", "López y García Asesores 2013 S.L.", "Vargas y Roda Asesores S.L.L.", "Rodavar.com", "Antonio Fco. Carmona Sánchez - Asesoría Laboral", "Clotilde Sánchez Martín"], "📑 Gestorías": ["Gestoría Rodríguez", "Gestoría Figueredo", "Gestoría Martín Sánchez"], "📚 Papelerías / librerías": ["La Tarara", "Bonillo Papelería-Librería", "Papelería Escobar"], "📦 Mensajería / paquetería": ["Locker InPost (P.º de los Tristes)", "Transportes Pintor S.A.", "Locker InPost (Cta. Correos)", "SEUR Pickup Parcelshop (C. Canarias)", "GLS Adra", "SEUR Pickup Parcelshop (Carr. Almería)", "MRW"], "📱 Telefonía": ["Neksus Telefonía y Móviles", "Tienda Orange", "Tienda Movistar", "Sorvilán Servicios", "The Fast Phone", "Locutorio Bogas", "AirWimax", "Rediber Adra"], "📸 Fotografía": ["Nani Sanz Fotografía", "Fradu Producciones - Fotografía y Vídeo de Bodas", "Fotovideo Ferrer Adra", "Nievas Fotógrafos", "Fernando Fotografía S.L."], "🔑 Cerrajería": ["Sergio Cerrajero", "Cerrajero David Cordovilla"], "🔧 Ferreterías": ["Ferretería La Purísima", "Ferretería La Parada", "Martín Sevilla S.L.", "Big Mat", "Ferretería La Clave (Gomera)", "Ferretería La Clave (Natalio Rivas)"], "🖨️ Imprentas / copisterías": ["Dibuprint", "Copy-Red"], "😬 Ortodoncia": ["Clínica Vega"], "🚗 Talleres mecánicos": ["Electromecánica Quintana", "Taller Mecánico Juan Funes", "Tobalo e Hijos", "FAN Taller", "Taller José Figueredo", "Automecánica GCT", "Electromecánica Fenicios", "Auto Joseba S.L.L."], "🚘 Chapa y pintura": ["GLASS Talleres Adra - Autoglass+", "David Garrido Chapa & Pintura", "Chapa y Pintura Aguilera", "Glassdrive Adra"], "🚬 Estancos": ["Exp. de Tabacos Adra 3", "Estanco nº4 Adra", "Estanco La Curva - Expendeduría nº1", "Estanco Adra 5", "Expendeduría Adra nº1"], "🛋️ Muebles / hogar": ["MEX Cocinas", "Galerías Carrera", "Muebles Fernando", "Muebles Rodríguez", "Muebles Oliver", "Rapimueble Adra", "Electro-Opción"], "🛞 Neumáticos": ["Neumáticos Argudo (Luis Argudo)", "Euromaster Adra - La Curva Neumáticos Coines"], "🛡️ Seguros": ["Ruiz Re en Adra", "Mapfre", "Utrera Asesores de Seguros", "Agencia de Santalucía Seguros", "Oficina Sanitas Adra", "Correduría de Seguros Cemove 21 S.L.L.", "Gexbrok Elite Adra", "Occident - Agencia de Seguros"], "🥡 Comida para llevar": ["IVAN Comida Casera Para Llevar"], "🥩 Carnicerías": ["LaCarnicería", "Carnicería Marín", "Carnicería Manrique"], "🦷 Odontología": ["Clínica Dental Cleardent Adra", "Curva Dental Adra", "Clínica FARO", "Clínicas DEA Adra (cerrado permanentemente)", "Clínica Dental Espejo Blanco", "Clínica Dental Celia Solvas", "Clínica Dental Martín Piqueras (MYPdental)", "Clínica Dental Agustín Espinosa"], "🧠 Psicología": ["Elisabet Ruiz Psicóloga", "Clínica Carmen Maldonado", "CRC Psicotécnico Granados", "REAL Centro de Psicología & Terapias (Julio A. Torres Olivencia)", "Psicóloga Forense María del Mar Piqueras"], "🧰 Otros servicios profesionales": ["Costa & Confort Apartamentos Adra", "Repuestos Vicente", "Semillero Cuatro Corrales", "Estación de Autobuses de Adra", "Paradise of Dreams Apartamentos", "Repuestos Abdera (antes Repuestos Moreno)"], "🧹 Limpieza": ["Lavandería Autoservicio Indalo Rosa Adra", "Mara Sec Tintorería y Lavandería Adra", "Dolores Salinas Fernández", "Desatascos Adra", "Claxon Lavaderos"], "🪚 Carpintería": ["Ibaglass", "Dagermetal", "EJSO Servicios S.L.", "Aluminios La Curva PVC", "Aluminios y PVC Rafran S.L.", "Paco Carpintero Decoración", "Windows Studio Finstral Almería", "Cocinas y Armarios Lidueña"]}};
+const ZONAS=["Adra (casco urbano)","Puente del Río","La Curva","La Alquería","Guainos","Venta Nueva / Las Cuatro Higueras","Los Llanos","Fuera de Adra"];
+const EDAD=["16-25","26-40","41-60","Más de 60"];
+const OTRO="Otro (escribir)";
+const NS="No lo conozco / prefiero no votar";
+let step=1;
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function opts(name,list,grid,ns){
+ let h='<div class="'+(grid?'grid':'')+'">';
+ list.forEach(o=>{h+='<label class="opt"><input type="radio" name="'+name+'" value="'+esc(o)+'" onchange="tog(\''+name+'\')"><span>'+esc(o)+'</span></label>'});
+ h+='</div>';
+ h+='<label class="opt skip"><input type="radio" name="'+name+'" value="'+OTRO+'" onchange="tog(\''+name+'\')"><span>➕ Otro — no está en la lista</span></label>';
+ h+='<div class="otrobox" id="ob_'+name+'"><input type="text" id="ot_'+name+'" placeholder="Escribe el nombre del negocio"></div>';
+ if(ns)h+='<label class="opt skip"><input type="radio" name="'+name+'" value="'+NS+'" onchange="tog(\''+name+'\')"><span>No lo conozco / prefiero no votar</span></label>';
+ return h}
+function tog(n){const s=document.querySelector('[name='+n+']:checked');
+ const b=document.getElementById('ob_'+n);if(!b)return;
+ const on=s&&s.value===OTRO;b.classList.toggle('on',on);if(on){const i=document.getElementById('ot_'+n);if(i)i.focus()}}
+function build(){
+ document.getElementById('s1').innerHTML=
+ '<div class="card"><p class="sec">Sobre ti · 20 segundos</p>'+
+ '<p class="q">Tu nombre</p><input type="text" id="nombre" placeholder="Nombre y apellido" autocomplete="off">'+
+ '<p class="q" style="margin-top:16px">Tu teléfono</p><p class="hint">Sirve para validar que cada persona vota una sola vez.</p>'+
+ '<input type="tel" id="telefono" placeholder="600 000 000" inputmode="tel" autocomplete="off">'+
+ '<div class="dup" id="dupw">⚠ Este teléfono ya ha votado. Puedes continuar, pero el voto quedará marcado como repetido.</div></div>'+
+ '<div class="card"><p class="q">¿En qué zona vives?</p>'+opts('zona',ZONAS,1,0)+'</div>'+
+ '<div class="card"><p class="q">Tu edad</p>'+opts('edad',EDAD,1,0)+'</div>'+
+ '<div class="card"><div class="rgpd"><b>Protección de datos (RGPD).</b> Tu nombre y teléfono se usan únicamente para comprobar que cada persona vota una sola vez y para avisarte si tu voto resulta premiado. No se publican, no se ceden a terceros y se eliminan al terminar el certamen. Puedes solicitar su acceso, rectificación o supresión escribiendo a la organización de los Premios Adra.</div>'+
+ '<label class="opt"><input type="checkbox" id="rgpd"><span>Acepto el tratamiento de mis datos con esa finalidad</span></label></div>';
+ let h='<div class="card"><p class="sec">Los imprescindibles</p><p class="hint">Marca un solo negocio por categoría. Si el tuyo no está, usa «Otro».</p></div>';
+ D.core.forEach(c=>{h+='<div class="card"><p class="q">'+c.e+' '+esc(c.label)+'</p>'+opts(c.k,sh(c.opts),0,1)+'</div>'});
+ document.getElementById('s2').innerHTML=h;
+ const cats=Object.keys(D.extra);
+ let e='<div class="card"><p class="sec">Categorías extra · opcional</p><p class="hint">Elige hasta 4 categorías más. Si tienes prisa, pulsa Enviar directamente.</p></div><div class="card">';
+ for(let i=1;i<=4;i++){
+  e+='<div class="pair"><p class="q">Categoría extra '+i+'</p><select id="ec'+i+'" onchange="fill('+i+')"><option value="">— Elegir categoría —</option>'+
+   cats.map(c=>'<option value="'+esc(c)+'">'+esc(c)+'</option>').join('')+
+   '<option value="'+OTRO+'">➕ Otra categoría que falta</option></select>'+
+   '<div id="ew'+i+'" style="margin-top:9px"></div></div>'}
+ e+='</div><div class="card"><p class="q">¿Algún negocio que merezca un premio especial?</p><p class="hint">Cuéntanos por qué (opcional)</p><textarea id="esp"></textarea></div>';
+ document.getElementById('s3').innerHTML=e;
+}
+function fill(i){
+ const c=document.getElementById('ec'+i).value,w=document.getElementById('ew'+i);
+ if(!c){w.innerHTML='';return}
+ if(c===OTRO){w.innerHTML='<input type="text" id="ecn'+i+'" placeholder="¿Qué categoría?" style="margin-bottom:8px"><input type="text" id="et'+i+'" placeholder="El mejor negocio de esa categoría">';return}
+ const l=D.extra[c]||[];
+ w.innerHTML='<p class="hint" style="margin:0 0 8px">El mejor de esa categoría:</p>'+(l.length?opts('ex'+i,sh(l),0,1):'<input type="text" id="et'+i+'" placeholder="Escribe el nombre">');
+}
+function go(d){
+ if(d>0&&step===1){
+  const n=document.getElementById('nombre').value.trim(),t=document.getElementById('telefono').value.trim();
+  const z=document.querySelector('[name=zona]:checked'),e=document.querySelector('[name=edad]:checked');
+  if(!n){alert('Escribe el nombre.');return}
+  if(t.replace(/\D/g,'').length<9){alert('Escribe un teléfono válido (9 dígitos).');return}
+  if(!z||!e){alert('Marca la zona y la edad para continuar.');return}
+  if(!document.getElementById('rgpd').checked){alert('Hay que aceptar el tratamiento de datos para poder votar.');return}}
+ if(d>0&&step===3){save();step=4;render();return}
+ step=Math.min(4,Math.max(1,step+d));render();
+}
+function val(n){const s=document.querySelector('[name='+n+']:checked');if(!s)return'';
+ if(s.value===OTRO){const i=document.getElementById('ot_'+n);return(i&&i.value.trim())?i.value.trim()+' (otro)':'Otro (sin especificar)'}
+ return s.value}
+function save(){
+ const tel=document.getElementById('telefono').value.trim();
+ const a=load();
+ const r={fecha:new Date().toISOString(),nombre:document.getElementById('nombre').value.trim(),telefono:tel,
+  repetido:a.some(x=>x.telefono.replace(/\D/g,'')===tel.replace(/\D/g,''))?'SI':'',
+  zona:val('zona'),edad:val('edad')};
+ D.core.forEach(c=>r[c.k]=val(c.k));
+ for(let i=1;i<=4;i++){
+  let c=(document.getElementById('ec'+i)||{}).value||'';
+  if(c===OTRO)c=((document.getElementById('ecn'+i)||{}).value||'').trim()+' (otra categoría)';
+  r['cat'+i]=c;
+  const s=val('ex'+i),t=((document.getElementById('et'+i)||{}).value||'').trim();
+  r['voto'+i]=s||t}
+ r.especial=(document.getElementById('esp')||{}).value||'';
+ a.push(r);try{localStorage.setItem('adra_votos',JSON.stringify(a))}catch(e){MEM=a}
+ upd();
+}
+let MEM=[];
+function load(){try{return JSON.parse(localStorage.getItem('adra_votos')||'[]')}catch(e){return MEM}}
+function upd(){const n=load().length;document.getElementById('cnt').textContent=n+(n===1?' voto':' votos');
+ const t=document.getElementById('tot');if(t)t.textContent=n}
+function render(){
+ for(let i=1;i<=4;i++)document.getElementById('s'+i).classList.toggle('on',i===step);
+ document.getElementById('pb').style.width=(step/4*100)+'%';
+ document.getElementById('back').style.display=(step===1||step===4)?'none':'block';
+ document.getElementById('next').style.display=step===4?'none':'block';
+ document.getElementById('next').textContent=step===3?'Enviar voto':'Siguiente';
+ document.getElementById('next').className=step===3?'b3':'b1';
+ document.querySelector('.nav').style.display=step===4?'none':'block';
+ window.scrollTo(0,0);
+}
+function reset(){step=1;build();render();upd();
+ document.getElementById('telefono').addEventListener('input',chk)}
+function chk(){const t=this.value.replace(/\D/g,'');
+ document.getElementById('dupw').classList.toggle('on',t.length>=9&&load().some(x=>x.telefono.replace(/\D/g,'')===t))}
+function expo(){
+ const a=load();if(!a.length){alert('Todavía no hay votos guardados.');return}
+ const cols=['fecha','nombre','telefono','repetido','zona','edad'].concat(D.core.map(c=>c.k)).concat(['cat1','voto1','cat2','voto2','cat3','voto3','cat4','voto4','especial']);
+ const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+ const csv='﻿'+cols.join(';')+'\n'+a.map(r=>cols.map(c=>q(r[c])).join(';')).join('\n');
+ const b=new Blob([csv],{type:'text/csv;charset=utf-8'}),u=URL.createObjectURL(b),l=document.createElement('a');
+ l.href=u;l.download='votos_premios_adra.csv';l.click();URL.revokeObjectURL(u);
+}
+build();render();upd();
+document.getElementById('telefono').addEventListener('input',chk);
+</script></body></html>

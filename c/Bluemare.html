@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bluemare Restaurante · Balanegra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Karla:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sea-900:#06232B;
+    --sea-800:#0B3B47;
+    --sea-700:#0F4B59;
+    --sea-600:#145D6E;
+    --turquoise:#3FA8A0;
+    --turquoise-dark:#1F726C;
+    --sand-100:#FAF4E4;
+    --sand-200:#F1E5C6;
+    --sand-300:#E4D2A1;
+    --coral:#D9622B;
+    --coral-dark:#B84E1F;
+    --gold:#C68A2E;
+    --ink:#10262B;
+    --ink-soft:#3C5158;
+    --font-display:'Fraunces', serif;
+    --font-body:'Karla', sans-serif;
+    --font-mono:'Space Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--sand-100);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- NAV ---------- */
+  #topnav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(6,35,43,0.96);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    transform:translateY(-100%);
+    transition:transform .35s ease;
+  }
+  #topnav.show{transform:translateY(0);}
+  #topnav .inner{
+    max-width:1080px;margin:0 auto;padding:12px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  #topnav .brandmini{display:flex;align-items:center;gap:10px;color:var(--sand-100);font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:.02em;white-space:nowrap;}
+  #topnav .brandmini svg{width:26px;height:26px;flex:none;}
+  #topnav nav{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none;}
+  #topnav nav::-webkit-scrollbar{display:none;}
+  #topnav nav a{
+    color:var(--sand-200);font-size:13.5px;text-decoration:none;white-space:nowrap;
+    padding:6px 2px;border-bottom:2px solid transparent;
+  }
+  #topnav nav a:hover, #topnav nav a.active{color:#fff;border-bottom-color:var(--coral);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:radial-gradient(120% 100% at 20% 0%, var(--sea-700) 0%, var(--sea-800) 45%, var(--sea-900) 100%);
+    color:var(--sand-100);
+    padding:64px 24px 0;
+    overflow:hidden;
+  }
+  .hero-inner{
+    max-width:1080px;margin:0 auto;
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    padding-bottom:120px;
+  }
+  .logo-mark{width:104px;height:104px;margin-bottom:22px;}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--turquoise);margin:0 0 14px;
+  }
+  h1.brand{
+    font-family:var(--font-display);font-weight:700;font-size:clamp(48px,9vw,88px);
+    line-height:.95;margin:0;letter-spacing:-.01em;
+  }
+  h1.brand em{font-style:italic;font-weight:500;color:var(--coral);}
+  .hero-tagline{
+    font-size:clamp(16px,2.4vw,20px);color:var(--sand-200);max-width:520px;
+    margin:20px 0 30px;line-height:1.55;
+  }
+  .hero-meta{
+    display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:34px;
+  }
+  .pill{
+    display:flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);
+    padding:9px 16px;border-radius:100px;font-size:13.5px;color:var(--sand-100);
+  }
+  .pill svg{width:15px;height:15px;flex:none;color:var(--turquoise);}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
+  .btn{
+    font-family:var(--font-body);font-weight:700;font-size:14.5px;
+    padding:14px 28px;border-radius:100px;text-decoration:none;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .btn-primary{background:var(--coral);color:#fff;}
+  .btn-primary:hover{background:var(--coral-dark);transform:translateY(-1px);}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.35);color:var(--sand-100);}
+  .btn-ghost:hover{background:rgba(255,255,255,0.1);}
+
+  .wave-divider{position:relative;width:100%;line-height:0;margin-top:-2px;}
+  .wave-divider svg{width:100%;height:auto;display:block;}
+  .boat{animation:drift 11s ease-in-out infinite;}
+  @keyframes drift{0%{transform:translateX(0);}50%{transform:translateX(18px) translateY(-3px);}100%{transform:translateX(0);}}
+  @media (prefers-reduced-motion: reduce){.boat{animation:none;}}
+
+  /* ---------- ABOUT ---------- */
+  .about{background:var(--sand-100);padding:64px 0 20px;}
+  .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start;}
+  @media (max-width:820px){.about-grid{grid-template-columns:1fr;gap:34px;}}
+  .about h2{
+    font-family:var(--font-display);font-weight:600;font-size:clamp(30px,4vw,42px);
+    margin:0 0 18px;color:var(--sea-900);line-height:1.08;
+  }
+  .about p{font-size:16px;line-height:1.75;color:var(--ink-soft);margin:0 0 16px;}
+  .feature-list{list-style:none;margin:24px 0 0;padding:0;display:flex;flex-direction:column;gap:16px;}
+  .feature-list li{display:flex;gap:14px;align-items:flex-start;}
+  .feature-list .ico{
+    width:38px;height:38px;flex:none;border-radius:50%;background:var(--sea-900);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .feature-list .ico svg{width:18px;height:18px;color:var(--turquoise);}
+  .feature-list strong{display:block;font-size:15px;color:var(--sea-900);margin-bottom:2px;}
+  .feature-list span{font-size:14px;color:var(--ink-soft);}
+  .rating-card{
+    background:var(--sea-900);color:var(--sand-100);border-radius:18px;padding:28px;
+  }
+  .rating-card .stars{display:flex;gap:3px;margin-bottom:10px;}
+  .rating-card .stars svg{width:16px;height:16px;color:var(--gold);}
+  .rating-card .score{font-family:var(--font-display);font-size:40px;font-weight:600;}
+  .rating-card .score span{font-size:16px;color:var(--sand-200);font-family:var(--font-body);}
+  .rating-card p{font-size:14px;color:var(--sand-200);line-height:1.6;margin:14px 0 0;}
+  .rating-card .quote{
+    margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.15);
+    font-family:var(--font-display);font-style:italic;font-size:15.5px;color:var(--sand-100);line-height:1.5;
+  }
+  .rating-card .quote cite{display:block;margin-top:10px;font-style:normal;font-family:var(--font-mono);font-size:11px;color:var(--turquoise);}
+
+  /* ---------- MENU CATEGORY NAV ---------- */
+  .catnav-wrap{position:sticky;top:0;z-index:40;background:var(--sand-100);border-bottom:1px solid var(--sand-300);padding:14px 0;}
+  #topnav.show ~ * .catnav-wrap{top:56px;}
+  .catnav{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:0 24px;max-width:1080px;margin:0 auto;}
+  .catnav::-webkit-scrollbar{display:none;}
+  .catnav a{
+    flex:none;font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;
+    padding:9px 16px;border-radius:100px;text-decoration:none;color:var(--sea-800);
+    border:1px solid var(--sand-300);background:#fff;
+  }
+  .catnav a.active,.catnav a:hover{background:var(--sea-900);color:#fff;border-color:var(--sea-900);}
+
+  /* ---------- MENU ---------- */
+  .menu{padding:56px 0 20px;}
+  .menu-note{
+    font-size:13px;color:var(--ink-soft);background:var(--sand-200);
+    border-left:3px solid var(--coral);padding:12px 16px;border-radius:0 8px 8px 0;
+    margin-bottom:48px;
+  }
+  .menu-cat{margin-bottom:56px;scroll-margin-top:120px;}
+  .menu-cat-head{display:flex;align-items:baseline;gap:16px;margin-bottom:22px;}
+  .menu-cat-head h3{
+    font-family:var(--font-display);font-weight:600;font-size:clamp(24px,3vw,30px);
+    color:var(--sea-900);margin:0;
+  }
+  .menu-cat-head .line{flex:1;height:1px;background:var(--sand-300);}
+  .menu-cat-head .num{font-family:var(--font-mono);font-size:12px;color:var(--turquoise-dark);}
+  .dish{display:flex;align-items:baseline;gap:10px;padding:13px 0;}
+  .dish-name{font-family:var(--font-display);font-weight:600;font-size:20px;color:var(--sea-900);white-space:nowrap;}
+  .dish-leader{flex:1;border-bottom:1.5px dotted var(--sand-300);margin-bottom:6px;min-width:24px;}
+  .dish-price{font-family:var(--font-mono);font-size:17px;color:var(--coral-dark);white-space:nowrap;}
+  .dish-tag{
+    display:block;font-family:var(--font-mono);font-size:13px;color:var(--turquoise-dark);margin-top:2px;
+  }
+  .legal-notes{margin-top:8px;padding-top:28px;border-top:1px solid var(--sand-300);}
+  .legal-notes p{font-size:12.5px;color:var(--ink-soft);line-height:1.7;margin:0 0 6px;}
+  .legal-notes strong{color:var(--sea-900);}
+
+  /* ---------- DESTACADOS ---------- */
+  .destacados{background:var(--sea-900);color:var(--sand-100);padding:64px 0;position:relative;}
+  .destacados h2{
+    font-family:var(--font-display);font-weight:600;font-size:clamp(28px,4vw,38px);
+    text-align:center;margin:0 0 40px;
+  }
+  .destacados-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media (max-width:820px){.destacados-grid{grid-template-columns:1fr;}}
+  .dcard{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:26px;}
+  .dcard .stars{display:flex;gap:2px;margin-bottom:14px;}
+  .dcard .stars svg{width:14px;height:14px;color:var(--gold);}
+  .dcard p{font-family:var(--font-display);font-style:italic;font-size:16px;line-height:1.55;margin:0 0 14px;color:var(--sand-100);}
+  .dcard cite{font-family:var(--font-mono);font-style:normal;font-size:11px;color:var(--turquoise);}
+
+  /* ---------- LOCATION ---------- */
+  .location{padding:64px 0;}
+  .loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch;}
+  @media (max-width:820px){.loc-grid{grid-template-columns:1fr;}}
+  .location h2{font-family:var(--font-display);font-weight:600;font-size:clamp(28px,4vw,38px);color:var(--sea-900);margin:0 0 22px;}
+  .info-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px;}
+  .info-row .ico{width:36px;height:36px;flex:none;border-radius:50%;background:var(--sand-200);display:flex;align-items:center;justify-content:center;}
+  .info-row .ico svg{width:17px;height:17px;color:var(--sea-800);}
+  .info-row strong{display:block;font-size:15px;color:var(--sea-900);margin-bottom:2px;}
+  .info-row span,.info-row a{font-size:14.5px;color:var(--ink-soft);text-decoration:none;line-height:1.5;}
+  .info-row a:hover{color:var(--coral-dark);}
+  .hours-table{width:100%;border-collapse:collapse;margin-top:6px;font-size:13.5px;}
+  .hours-table td{padding:4px 0;color:var(--ink-soft);}
+  .hours-table td:last-child{text-align:right;font-family:var(--font-mono);color:var(--sea-900);}
+  .map-frame{border-radius:18px;overflow:hidden;border:1px solid var(--sand-300);min-height:340px;}
+  .map-frame iframe{width:100%;height:100%;min-height:340px;border:0;display:block;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--sea-900);color:var(--sand-200);padding:40px 0 26px;}
+  .foot-inner{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:center;}
+  .foot-brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:600;font-size:17px;color:#fff;}
+  .foot-brand svg{width:24px;height:24px;}
+  footer .foot-links{display:flex;gap:18px;font-size:13px;}
+  footer .foot-links a{text-decoration:none;color:var(--sand-200);}
+  footer .foot-links a:hover{color:var(--turquoise);}
+  footer .copy{font-size:12px;color:rgba(255,255,255,0.4);margin-top:24px;text-align:center;}
+
+  section[id]{scroll-margin-top:110px;}
+</style>
+</head>
+<body>
+
+<div id="topnav">
+  <div class="inner">
+    <div class="brandmini">
+      <svg viewBox="0 0 48 48" fill="none"><rect x="9" y="9" width="30" height="30" transform="rotate(45 24 24)" stroke="currentColor" stroke-width="2"/><path d="M14 30h20l-3.5 5h-13z" fill="currentColor"/><path d="M24 30V14" stroke="currentColor" stroke-width="2"/><path d="M24 15l9 6H24z" fill="#D9622B"/><path d="M24 18l-7 4h7z" fill="currentColor" opacity=".85"/></svg>
+      Bluemare
+    </div>
+    <nav>
+      <a href="#sobre">Sobre nosotros</a>
+      <a href="#carta">La carta</a>
+      <a href="#opiniones">Opiniones</a>
+      <a href="#ubicacion">Ubicación</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <svg class="logo-mark" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="60" r="56" stroke="#F1E5C6" stroke-width="1.4" opacity=".5"/>
+      <rect x="27" y="27" width="66" height="66" transform="rotate(45 60 60)" stroke="#F1E5C6" stroke-width="2.5"/>
+      <path d="M34 76h52l-8 12H42z" fill="#FAF4E4"/>
+      <path d="M60 76V34" stroke="#FAF4E4" stroke-width="2.6"/>
+      <path d="M60 37l21 15H60z" fill="#D9622B"/>
+      <path d="M60 44l-16 9h16z" fill="#F1E5C6" opacity=".9"/>
+      <circle cx="60" cy="82" r="2.4" fill="#3FA8A0"/>
+    </svg>
+    <p class="eyebrow">Restaurante · Chiringuito de playa</p>
+    <h1 class="brand">Blue<em>mare</em></h1>
+    <p class="hero-tagline">Pescado fresco a la brasa y arroces marineros con los pies casi en la arena, en primera línea de la playa de Balanegra.</p>
+    <div class="hero-meta">
+      <div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>Av. del Mar, 114 · Balanegra, Almería</div>
+      <div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>Abierto todos los días</div>
+      <div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L7.9 9.6a16 16 0 006.5 6.5l1.2-1.2a2 2 0 012.1-.5c.9.3 1.8.5 2.6.6A2 2 0 0122 16.9z"/></svg>+34 632 25 52 26</div>
+    </div>
+    <div class="cta-row">
+      <a href="#carta" class="btn btn-primary">Ver la carta</a>
+      <a href="#ubicacion" class="btn btn-ghost">Cómo llegar</a>
+    </div>
+  </div>
+  <div class="wave-divider">
+    <svg viewBox="0 0 1200 90" preserveAspectRatio="none">
+      <path d="M0 40 C150 90 350 0 600 40 C850 80 1050 0 1200 40 L1200 90 L0 90 Z" fill="#FAF4E4"/>
+      <g class="boat" transform="translate(940,8)"><path d="M0 14h34l-5 9H5z" fill="#0B3B47"/><path d="M17 14V2l11 9z" fill="#D9622B"/></g>
+    </svg>
+  </div>
+</header>
+
+<section class="about" id="sobre">
+  <div class="wrap about-grid">
+    <div>
+      <h2>Cocina de mercado,<br>a un paso del agua</h2>
+      <p>Bluemare es un chiringuito de toda la vida en la playa de Balanegra: madera, brisa marina y la brasa siempre encendida. Pescado del día, pulpo de las lonjas de Almería y arroces que se preparan a fuego lento mientras se ve el mar desde la mesa.</p>
+      <p>Un sitio pensado para quedarse: desayunos frente al agua, comidas largas de fin de semana y atardeceres con una copa de vino blanco frío.</p>
+      <ul class="feature-list">
+        <li>
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg></div>
+          <div><strong>Primera línea de playa</strong><span>Terraza con vistas directas al Mediterráneo, en el Paseo Marítimo de Balanegra.</span></div>
+        </li>
+        <li>
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c1 3-2 4-2 7a2 2 0 004 0c0-1-1-2-1-3"/><path d="M6 13c0 5 3 9 6 9s6-4 6-9c0-2-1-3-1-3s-2 2-5 2-5-2-5-2-1 1-1 3z"/></svg></div>
+          <div><strong>A la brasa de carbón</strong><span>Pescado, pulpo y carnes cocinados al momento sobre parrilla de leña.</span></div>
+        </li>
+        <li>
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v4H4z"/><path d="M6 8v12h12V8"/><path d="M10 12h4"/></svg></div>
+          <div><strong>Trato de casa</strong><span>Un equipo pequeño y cercano, del tipo que se acuerda de cómo te gusta el pulpo.</span></div>
+        </li>
+      </ul>
+    </div>
+    <div class="rating-card">
+      <div class="stars">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg>
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg>
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg>
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg>
+        <svg viewBox="0 0 20 20" fill="currentColor" opacity=".5"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg>
+      </div>
+      <div class="score">4,4 <span>/ 5 en Google</span></div>
+      <p>Más de 140 reseñas destacan el pulpo a la brasa, los calamares con verduras y las vistas de la terraza sobre la arena.</p>
+      <div class="quote">
+        “Se sale del camino Sevilla–Almería para parar aquí. Precio justo y raciones generosas.”
+        <cite>— Reseña de Google</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="catnav-wrap">
+  <div class="catnav" id="catnav">
+    <a href="#entrantes" class="active">Entrantes</a>
+    <a href="#ensaladas">Ensaladas</a>
+    <a href="#pescados">Pescados y mariscos</a>
+    <a href="#especialidades">Especialidades</a>
+    <a href="#carnes">Nuestras carnes</a>
+    <a href="#postres">Postres</a>
+  </div>
+</div>
+
+<section class="menu" id="carta">
+  <div class="wrap">
+    <div class="menu-cat" id="entrantes">
+      <div class="menu-cat-head"><h3>Entrantes</h3><div class="line"></div><span class="num">01</span></div>
+      <div class="dish"><span class="dish-name">Lagrimitas de pollo</span><span class="dish-leader"></span><span class="dish-price">16€</span></div>
+      <div class="dish"><span class="dish-name">Berenjenas a la tempura con miel de caña</span><span class="dish-leader"></span><span class="dish-price">14€</span></div>
+      <div class="dish"><span class="dish-name">Jamón reserva y queso curado</span><span class="dish-leader"></span><span class="dish-price">18€</span></div>
+      <div class="dish"><span class="dish-name">Croquetas de jamón<span class="dish-tag">8 und. 13€ · 14 und. 19€</span></span><span class="dish-leader"></span><span class="dish-price"></span></div>
+      <div class="dish"><span class="dish-name">Croquetas de gambón<span class="dish-tag">10 und.</span></span><span class="dish-leader"></span><span class="dish-price">20€</span></div>
+      <div class="dish"><span class="dish-name">Tomate con ajos y anchoas</span><span class="dish-leader"></span><span class="dish-price">15€</span></div>
+      <div class="dish"><span class="dish-name">Huevos rotos con jamón</span><span class="dish-leader"></span><span class="dish-price">21€</span></div>
+      <div class="dish"><span class="dish-name">Huevos rotos con pescaíto frito</span><span class="dish-leader"></span><span class="dish-price">20€</span></div>
+      <div class="dish"><span class="dish-name">Tomate con queso burrata, melva y anchoas</span><span class="dish-leader"></span><span class="dish-price">13€</span></div>
+      <div class="dish"><span class="dish-name">Tomate con aguacate y sombrilla de jamón</span><span class="dish-leader"></span><span class="dish-price">19€</span></div>
+      <div class="dish"><span class="dish-name">Alitas de pollo</span><span class="dish-leader"></span><span class="dish-price">15€</span></div>
+      <div class="dish"><span class="dish-name">Patatas bravas</span><span class="dish-leader"></span><span class="dish-price">15€</span></div>
+      <div class="dish"><span class="dish-name">Wok de verduras</span><span class="dish-leader"></span><span class="dish-price">12€</span></div>
+    </div>
+
+    <div class="menu-cat" id="ensaladas">
+      <div class="menu-cat-head"><h3>Ensaladas</h3><div class="line"></div><span class="num">02</span></div>
+      <div class="dish"><span class="dish-name">Ensalada mixta<span class="dish-tag">tomate, lechuga, cebolla, maíz, zanahoria, remolacha, pepino, atún, huevo y aceitunas</span></span><span class="dish-leader"></span><span class="dish-price">14€</span></div>
+      <div class="dish"><span class="dish-name">Ensalada Cesar<span class="dish-tag">pollo empanado, picatostes, romana, parmesano, nueces, pasas y salsa Cesar</span></span><span class="dish-leader"></span><span class="dish-price">13€</span></div>
+    </div>
+
+    <div class="menu-cat" id="pescados">
+      <div class="menu-cat-head"><h3>Pescados y mariscos</h3><div class="line"></div><span class="num">03</span></div>
+      <div class="dish"><span class="dish-name">Boquerones fritos</span><span class="dish-leader"></span><span class="dish-price">16€</span></div>
+      <div class="dish"><span class="dish-name">Calamar nacional frito<span class="dish-tag">600 gr</span></span><span class="dish-leader"></span><span class="dish-price">26€</span></div>
+      <div class="dish"><span class="dish-name">Calamar a la plancha<span class="dish-tag">600 gr</span></span><span class="dish-leader"></span><span class="dish-price">29€</span></div>
+      <div class="dish"><span class="dish-name">Puntillita nacional frita</span><span class="dish-leader"></span><span class="dish-price">22€</span></div>
+      <div class="dish"><span class="dish-name">Lubina a la espalda<span class="dish-tag">600 gr</span></span><span class="dish-leader"></span><span class="dish-price">25€</span></div>
+      <div class="dish"><span class="dish-name">Gambón al ajillo</span><span class="dish-leader"></span><span class="dish-price">22€</span></div>
+      <div class="dish"><span class="dish-name">Gamba blanca de Adra</span><span class="dish-leader"></span><span class="dish-price">25€</span></div>
+      <div class="dish"><span class="dish-name">Gallo pedro frito</span><span class="dish-leader"></span><span class="dish-price">22€</span></div>
+      <div class="dish"><span class="dish-name">Atún rojo a la brasa</span><span class="dish-leader"></span><span class="dish-price">24€</span></div>
+      <div class="dish"><span class="dish-name">Jibia entera con aceite, ajo y perejil</span><span class="dish-leader"></span><span class="dish-price">24€</span></div>
+      <div class="dish"><span class="dish-name">Pulpo al ajillo</span><span class="dish-leader"></span><span class="dish-price">22€</span></div>
+    </div>
+
+    <div class="menu-cat" id="especialidades">
+      <div class="menu-cat-head"><h3>Especialidades</h3><div class="line"></div><span class="num">04</span></div>
+      <div class="dish"><span class="dish-name">Fritura de pescado<span class="dish-tag">1 kg</span></span><span class="dish-leader"></span><span class="dish-price">32€</span></div>
+      <div class="dish"><span class="dish-name">Fritura de pescado<span class="dish-tag">600 gr</span></span><span class="dish-leader"></span><span class="dish-price">25€</span></div>
+      <div class="dish"><span class="dish-name">Parrillada de pescado<span class="dish-tag">2 personas</span></span><span class="dish-leader"></span><span class="dish-price">50€</span></div>
+      <div class="dish"><span class="dish-name">Pulpo a la brasa especial Bluemare<span class="dish-tag">700 gr</span></span><span class="dish-leader"></span><span class="dish-price">38€</span></div>
+      <div class="dish"><span class="dish-name">Paella de marisco<span class="dish-tag">por persona · por encargo</span></span><span class="dish-leader"></span><span class="dish-price">16€</span></div>
+      <div class="dish"><span class="dish-name">Paella mixta<span class="dish-tag">por persona · por encargo</span></span><span class="dish-leader"></span><span class="dish-price">16€</span></div>
+      <div class="dish"><span class="dish-name">Arroz negro<span class="dish-tag">por persona · por encargo</span></span><span class="dish-leader"></span><span class="dish-price">16€</span></div>
+    </div>
+
+    <div class="menu-cat" id="carnes">
+      <div class="menu-cat-head"><h3>Nuestras carnes</h3><div class="line"></div><span class="num">05</span></div>
+      <div class="dish"><span class="dish-name">Pluma ibérica a la brasa</span><span class="dish-leader"></span><span class="dish-price">24€</span></div>
+      <div class="dish"><span class="dish-name">Secreto ibérico a la brasa</span><span class="dish-leader"></span><span class="dish-price">22€</span></div>
+      <div class="dish"><span class="dish-name">Solomillo a la brasa</span><span class="dish-leader"></span><span class="dish-price">23€</span></div>
+      <div class="dish"><span class="dish-name">Pechuga de pollo a la brasa</span><span class="dish-leader"></span><span class="dish-price">16€</span></div>
+      <div class="dish"><span class="dish-name">Choto al ajillo</span><span class="dish-leader"></span><span class="dish-price">24€</span></div>
+      <div class="dish"><span class="dish-name">Costillar a la brasa</span><span class="dish-leader"></span><span class="dish-price">24€</span></div>
+      <div class="dish"><span class="dish-name">Entrecot</span><span class="dish-leader"></span><span class="dish-price">25€</span></div>
+      <div class="dish"><span class="dish-name">Chuletillas de cordero</span><span class="dish-leader"></span><span class="dish-price">26€</span></div>
+      <div class="dish"><span class="dish-name">Hamburguesa de ternera</span><span class="dish-leader"></span><span class="dish-price">15€</span></div>
+    </div>
+
+    <div class="menu-cat" id="postres">
+      <div class="menu-cat-head"><h3>Postres</h3><div class="line"></div><span class="num">06</span></div>
+      <div class="dish"><span class="dish-name">Tarta de tres chocolates</span><span class="dish-leader"></span><span class="dish-price">6€</span></div>
+      <div class="dish"><span class="dish-name">Tarta de kit kat</span><span class="dish-leader"></span><span class="dish-price">6€</span></div>
+      <div class="dish"><span class="dish-name">Tarta de tiramisú</span><span class="dish-leader"></span><span class="dish-price">6€</span></div>
+      <div class="dish"><span class="dish-name">Tarta de queso con pistacho</span><span class="dish-leader"></span><span class="dish-price">7€</span></div>
+      <div class="dish"><span class="dish-name">Tarta whisky</span><span class="dish-leader"></span><span class="dish-price">6€</span></div>
+      <div class="dish"><span class="dish-name">Piña natural</span><span class="dish-leader"></span><span class="dish-price">6€</span></div>
+      <div class="dish"><span class="dish-name">Fruta del tiempo</span><span class="dish-leader"></span><span class="dish-price">5€</span></div>
+    </div>
+
+    <div class="legal-notes">
+      <p><strong>Todos nuestros precios llevan el IVA incluido.</strong></p>
+      <p>Todas nuestras raciones van acompañadas de patatas o verduras de temporada.</p>
+      <p>Nuestros postres van acompañados de nata y sirope. Las paellas son por encargo.</p>
+      <p>Si necesita información sobre los alérgenos, no dude en preguntar a nuestro personal de sala.</p>
+    </div>
+  </div>
+</section>
+
+<section class="destacados" id="opiniones">
+  <div class="wrap">
+    <h2>Lo que dicen en la playa</h2>
+    <div class="destacados-grid">
+      <div class="dcard">
+        <div class="stars"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg></div>
+        <p>Marisco perfecto y un tiramisú delicioso. La ubicación, justo en la arena, no tiene precio.</p>
+        <cite>Reseña de Google</cite>
+      </div>
+      <div class="dcard">
+        <div class="stars"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg></div>
+        <p>Parada obligada entre Sevilla y Almería. Los calamares con verduras a la brasa, de lo mejor de la costa.</p>
+        <cite>Reseña de Google</cite>
+      </div>
+      <div class="dcard">
+        <div class="stars"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg><svg viewBox="0 0 20 20" fill="currentColor" opacity=".4"><path d="M10 1l2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L10 14.9 4.4 18l1.4-6.3L1 7.4l6.4-.6z"/></svg></div>
+        <p>Bar de playa con tapas generosas, pan fresco y tortilla templada. Buen servicio, mejor cerveza fría.</p>
+        <cite>Reseña de Google</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="location" id="ubicacion">
+  <div class="wrap loc-grid">
+    <div>
+      <h2>Encuéntranos</h2>
+      <div class="info-row">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg></div>
+        <div><strong>Dirección</strong><a href="https://www.google.com/maps/search/?api=1&query=Bluemare+Restaurante+Av.+del+Mar+114+Balanegra" target="_blank" rel="noopener">Av. del Mar, 114 · 04713 Balanegra, Almería</a></div>
+      </div>
+      <div class="info-row">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L7.9 9.6a16 16 0 006.5 6.5l1.2-1.2a2 2 0 012.1-.5c.9.3 1.8.5 2.6.6A2 2 0 0122 16.9z"/></svg></div>
+        <div><strong>Reservas</strong><a href="tel:+34632255226">+34 632 25 52 26</a></div>
+      </div>
+      <div class="info-row">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+        <div>
+          <strong>Horario</strong>
+          <table class="hours-table">
+            <tr><td>Lunes – viernes</td><td>9:00 – 24:00</td></tr>
+            <tr><td>Sábado</td><td>9:00 – 24:00</td></tr>
+            <tr><td>Domingo</td><td>9:00 – 17:00</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="map-frame">
+      <iframe src="https://www.google.com/maps?q=Bluemare+Restaurante+Av.+del+Mar+114+Balanegra&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa Bluemare Restaurante"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <svg viewBox="0 0 48 48" fill="none"><rect x="9" y="9" width="30" height="30" transform="rotate(45 24 24)" stroke="currentColor" stroke-width="2"/><path d="M14 30h20l-3.5 5h-13z" fill="currentColor"/><path d="M24 30V14" stroke="currentColor" stroke-width="2"/><path d="M24 15l9 6H24z" fill="#D9622B"/><path d="M24 18l-7 4h7z" fill="currentColor" opacity=".85"/></svg>
+        Bluemare Restaurante
+      </div>
+      <div class="foot-links">
+        <a href="#carta">La carta</a>
+        <a href="tel:+34632255226">Llamar</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Bluemare+Restaurante+Av.+del+Mar+114+Balanegra" target="_blank" rel="noopener">Cómo llegar</a>
+      </div>
+    </div>
+    <p class="copy">Av. del Mar, 114 · Balanegra, Almería — Bluemare Restaurante</p>
+  </div>
+</footer>
+
+<script>
+  const topnav = document.getElementById('topnav');
+  window.addEventListener('scroll', () => {
+    topnav.classList.toggle('show', window.scrollY > 520);
+  });
+
+  const catlinks = document.querySelectorAll('#catnav a');
+  const cats = document.querySelectorAll('.menu-cat');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        catlinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector('#catnav a[href="#'+e.target.id+'"]');
+        if(link) link.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-40% 0px -50% 0px'});
+  cats.forEach(c => io.observe(c));
+</script>
+
+</body>
+</html>

@@ -76,6 +76,12 @@
   .link-btn:active{ transform:scale(.97); filter:brightness(.94); }
   .link-btn svg{ width:21px; height:21px; flex:none; }
   .link-btn.is-featured{ box-shadow:0 0 0 2px var(--gold-soft); }
+  .vcard-hint{
+    margin:14px 2px 0; padding:10px 12px;
+    background:rgba(235,179,94,.06); border:1px solid rgba(235,179,94,.25);
+    border-radius:8px; font-size:.74rem; color:var(--ink-dim); line-height:1.5;
+  }
+  .vcard-hint strong{ color:var(--gold-soft); }
   .footer-credit{
     text-align:center; margin-top:20px; flex:none;
     font-size:.72rem; color:rgba(154,167,187,.5);
@@ -92,6 +98,10 @@
       <h1 class="biz-name" id="bizName"></h1>
       <p class="biz-sub" id="bizSub"></p>
       <div class="links" id="linksList"></div>
+      <p class="vcard-hint" id="vcardHint" hidden>
+        📱 Después de tocar "Guardar contacto": abre la app <strong>Archivos</strong>,
+        toca el archivo descargado y elige <strong>"Añadir a contactos"</strong>.
+      </p>
     </div>
     <a href="https://ophiel.es" class="footer-credit">Creado con Ophiel</a>
   </div>
@@ -246,11 +256,21 @@
     const featuredCls = link.primary ? "is-featured" : "";
     const isVCard = link.type === "vcard";
     const href = isVCard ? buildVCardHref(link) : link.url;
-    const targetAttrs = isVCard ? "" : 'target="_blank" rel="noopener"'; // vCard abre na própria aba pra disparar a tela nativa de contato
+    // no iPhone, abrir numa aba nova costuma disparar a prévia nativa de
+    // contato do Safari com mais confiabilidade do que na mesma aba
+    const targetAttrs = isVCard ? (isIOS() ? 'target="_blank"' : "") : 'target="_blank" rel="noopener"';
     const downloadAttr = (isVCard && !isIOS()) ? `download="${(link.name || CONFIG.name || "contacto").replace(/[^a-z0-9]/gi, "-")}.vcf"` : ""; // no iPhone/iPad, NÃO força download — deixa o Safari reconhecer o contato sozinho
     const counterName = (link.counterName || `${CONFIG.slug}-${link.type}`).replace(/[^a-z0-9-]/gi, "-");
     return `<a href="${href}" ${targetAttrs} ${downloadAttr} onclick="trackClick('${counterName}')" class="link-btn ${featuredCls}" style="background:${bg}; color:${color}; ${border}">${meta.icon}<span>${label}</span></a>`;
   }).join("");
+
+  // mostra a dica de "Archivos → Añadir a contactos" só se tiver um botão
+  // de vCard na página E o visitante estiver num iPhone/iPad — no Android
+  // e no computador o fluxo já funciona liso, não precisa da dica
+  const hasVCard = CONFIG.links.some((l) => l.type === "vcard");
+  if(hasVCard && isIOS()){
+    document.getElementById("vcardHint").hidden = false;
+  }
 </script>
 </body>
 </html>

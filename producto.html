@@ -370,6 +370,11 @@
     }
   };
 
+  const WHATSAPP_NUMBER = "34641338556";
+  function buildWhatsAppLink(message){
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  }
+
   function euroToNumber(str){
     return parseFloat(str.replace("€", "").replace(/\./g, "").replace(",", "."));
   }
@@ -454,7 +459,7 @@
         <div class="price-box pricing-card">
           <div class="pricing-title">PRECIOS</div>
           <div class="qty-plans">${pricingHTML}</div>
-          <a href="index.html#contato" class="pricing-cta">Solicitar ahora</a>
+          <a href="${buildWhatsAppLink(`Hola Ophiel, tengo interés en vuestro producto ${p.name}. ¿Me podríais dar más información y el presupuesto?`)}" class="pricing-cta" target="_blank" rel="noopener">Solicitar ahora</a>
         </div>
       </div>`;
 

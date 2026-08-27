@@ -177,23 +177,32 @@
   };
 
   /* ---------------------------------------------------------
-     CONTADOR DE CLIQUES — usa o CounterAPI (counterapi.dev), que
-     guarda a contagem por fora, sem precisar de servidor próprio.
-     Preenche "workspace" e "apiKey" com os dados da SUA conta —
-     um workspace só serve pra TODOS os clientes (não precisa criar
-     um workspace novo por cliente, o "slug" acima já separa isso).
-     Enquanto não preencher, o site funciona normal — só não conta.
+     CONTADOR DE CLIQUES — trocamos de serviço nesta correção.
+
+     Usávamos o CounterAPI (counterapi.dev v2), mas na prática ele
+     nunca funcionou aqui: a versão atual da API deles EXIGE um token
+     de autenticação em toda chamada, e o navegador bloqueia isso por
+     CORS quando a chamada vem direto do JavaScript do site (a própria
+     documentação deles recomenda usar um servidor por trás pra isso —
+     o que não faz sentido pra um site estático simples como este).
+     Ou seja: os cliques nunca estavam sendo contados de verdade.
+
+     Trocamos pelo CountAPI (countapi.mileshilliard.com) — mesmo
+     princípio, mas público, sem conta, sem chave e sem servidor
+     próprio: funciona direto do navegador. Não precisa configurar
+     nada aqui embaixo pra isso funcionar.
+
+     Importante: por ser público e sem login, é um contador "de
+     curiosidade" (tipo os contadores de visita antigos de site) —
+     qualquer pessoa que soubesse o nome exato do contador poderia,
+     em teoria, inflar o número. Não é à prova de fraude, então serve
+     como indicador aproximado de engajamento, não pra decisões
+     críticas de negócio.
      --------------------------------------------------------- */
-  const COUNTER = {
-    workspace: "ophiels-team-5176",
-    apiKey: "ut_SN47rCqfeXIOawsSc4vXYMNcUaohkPjm2bP4arrO"
-  };
+  const COUNTER_BASE = "https://countapi.mileshilliard.com/api/v1";
 
   function trackClick(counterName){
-    if(!COUNTER.workspace || !COUNTER.apiKey) return; // contador não configurado ainda — não faz nada
-    fetch(`https://api.counterapi.dev/v2/${COUNTER.workspace}/${counterName}/up`, {
-      headers: { "Authorization": `Bearer ${COUNTER.apiKey}` }
-    }).catch(() => {}); // falha silenciosa — nunca deve travar o clique do visitante
+    fetch(`${COUNTER_BASE}/hit/${counterName}`).catch(() => {}); // falha silenciosa — nunca deve travar o clique do visitante
   }
 
   /* ---------------------------------------------------------
@@ -289,7 +298,7 @@
     // contato do Safari com mais confiabilidade do que na mesma aba
     const targetAttrs = isVCard ? (isIOS() ? 'target="_blank"' : "") : 'target="_blank" rel="noopener"';
     const downloadAttr = (isVCard && !isIOS()) ? `download="${(link.name || CONFIG.name || "contacto").replace(/[^a-z0-9]/gi, "-")}.vcf"` : ""; // no iPhone/iPad, NÃO força download — deixa o Safari reconhecer o contato sozinho
-    const counterName = (link.counterName || `${CONFIG.slug}-${link.type}`).replace(/[^a-z0-9-]/gi, "-");
+    const counterName = (link.counterName || `ophiel-${CONFIG.slug}-${link.type}`).replace(/[^a-z0-9-]/gi, "-");
     return `<a href="${href}" ${targetAttrs} ${downloadAttr} onclick="trackClick('${counterName}')" data-counter="${counterName}" class="link-btn ${featuredCls}" style="background:${bg}; color:${color}; ${border}">${meta.icon}<span class="link-label">${label}</span><span class="link-count" hidden></span></a>`;
   }).join("");
 
@@ -308,13 +317,20 @@
 
   async function fetchCounterValue(counterName){
     try{
-      const res = await fetch(`https://api.counterapi.dev/v2/${COUNTER.workspace}/${counterName}/`, {
-        headers: { "Authorization": `Bearer ${COUNTER.apiKey}` }
-      });
-      if(!res.ok) return null;
+      const res = await fetch(`${COUNTER_BASE}/get/${counterName}`);
+      if(!res.ok){
+        console.warn(`[stats] "${counterName}" respondió ${res.status}.`);
+        return null;
+      }
       const json = await res.json();
-      return json?.data?.up_count ?? json?.up_count ?? null;
+      const value = json?.value;
+      if(value === undefined || value === null){
+        console.warn(`[stats] "${counterName}" respondió pero no encontramos el número de clics — formato inesperado:`, json);
+        return null;
+      }
+      return Number(value);
     } catch(e) {
+      console.warn(`[stats] "${counterName}" falló al cargar:`, e);
       return null;
     }
   }
@@ -333,18 +349,14 @@
   }
 
   if(statsToggle){
-    if(!COUNTER.workspace || !COUNTER.apiKey){
-      statsToggle.hidden = true;
-    } else {
-      statsToggle.addEventListener("click", async () => {
-        statsOn = !statsOn;
-        statsToggle.classList.toggle("is-active", statsOn);
-        listEl.classList.toggle("stats-mode", statsOn);
-        if(statsOn && !statsLoaded){
-          await loadStats();
-        }
-      });
-    }
+    statsToggle.addEventListener("click", async () => {
+      statsOn = !statsOn;
+      statsToggle.classList.toggle("is-active", statsOn);
+      listEl.classList.toggle("stats-mode", statsOn);
+      if(statsOn && !statsLoaded){
+        await loadStats();
+      }
+    });
   }
 </script>
 </body>

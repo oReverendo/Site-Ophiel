@@ -170,9 +170,9 @@
       { type: "instagram", url: "https://instagram.com/ophiel.es" },
       { type: "whatsapp",  url: "https://wa.me/34641338556" },
       { type: "website",   url: "https://ophiel.es"},
-      { type: "tiktok",   url: "https://www.tiktok.com/ophiel.br"},
+      { type: "tiktok",   url: "https://www.tiktok.com/@ophiel.br"},
       { type: "facebook",   url: "https://ophiel.es"},
-      { type: "vcard",     phone: "+34641338556", email: "info@exemplo.com", website: "https://exemplo.com" }
+      { type: "phone",     url: "tel:+34641338556", label: "Ophiel" }
     ]
   };
 
@@ -296,7 +296,16 @@
     const href = isVCard ? buildVCardHref(link) : link.url;
     // no iPhone, abrir numa aba nova costuma disparar a prévia nativa de
     // contato do Safari com mais confiabilidade do que na mesma aba
-    const targetAttrs = isVCard ? (isIOS() ? 'target="_blank"' : "") : 'target="_blank" rel="noopener"';
+    // tel:, mailto: e sms: NÃO podem levar target="_blank" — o celular
+    // precisa "entregar" esses links pro app nativo (discador, email), e
+    // abrir numa aba nova atrapalha: no Chrome/Safari deixa uma aba em
+    // branco para trás, e nos navegadores internos do Instagram/Facebook
+    // simplesmente não acontece nada. Sites normais (http/https) continuam
+    // abrindo em aba nova pra não tirar o visitante da página de links.
+    const isAppLink = /^(tel:|mailto:|sms:)/i.test(link.url || "");
+    const targetAttrs = isVCard
+      ? (isIOS() ? 'target="_blank"' : "")
+      : (isAppLink ? "" : 'target="_blank" rel="noopener"');
     const downloadAttr = (isVCard && !isIOS()) ? `download="${(link.name || CONFIG.name || "contacto").replace(/[^a-z0-9]/gi, "-")}.vcf"` : ""; // no iPhone/iPad, NÃO força download — deixa o Safari reconhecer o contato sozinho
     const counterName = (link.counterName || `ophiel-${CONFIG.slug}-${link.type}`).replace(/[^a-z0-9-]/gi, "-");
     return `<a href="${href}" ${targetAttrs} ${downloadAttr} onclick="trackClick('${counterName}')" data-counter="${counterName}" class="link-btn ${featuredCls}" style="background:${bg}; color:${color}; ${border}">${meta.icon}<span class="link-label">${label}</span><span class="link-count" hidden></span></a>`;

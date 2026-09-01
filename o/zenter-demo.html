@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZENTER · El Ejido | Reserva online y recoge en tienda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bodoni+Moda:wght@700;800;900&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--tinta:#0E0F11;--carbon:#1B1D20;--plata:#B4B9BF;--plata2:#DCDFE3;
+--humo:#F4F5F6;--linea:#DEE0E3;--gris:#8B9096}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#fff;color:var(--tinta);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:15px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+button{font:inherit;cursor:pointer}
+.demo{background:#0E0F11;color:#9aa0a6;font-size:12px;padding:8px 0}
+.demo .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.demo .lg{font-family:Anton,Impact,sans-serif;letter-spacing:4px;font-size:13px;
+background:linear-gradient(180deg,#fff,var(--plata));-webkit-background-clip:text;background-clip:text;color:transparent}
+.demo .sp{margin-left:auto;display:flex;gap:8px}
+.demo button{background:transparent;border:1px solid #3a3d41;color:#9aa0a6;font-size:11px;padding:5px 11px;border-radius:2px}
+.demo button:hover{border-color:var(--plata);color:#fff}
+.demo button.hi{background:var(--plata2);border-color:var(--plata2);color:#0E0F11;font-weight:700}
+.aviso{background:var(--humo);border-bottom:1px solid var(--linea);font-size:12.5px;font-weight:600;text-align:center;padding:8px 18px;letter-spacing:.2px}
+header{border-bottom:1px solid var(--linea);position:sticky;top:0;background:#fff;z-index:40}
+.hrow{display:flex;align-items:center;gap:22px;padding:15px 0}
+.logo{display:flex;align-items:center;gap:11px;cursor:pointer}
+.logo .wm{font-family:"Bodoni Moda",Didot,"Times New Roman",serif;font-weight:900;font-size:26px;letter-spacing:3px;line-height:1}
+.logo .wm span{display:block;font-family:Inter,sans-serif;font-size:9px;font-weight:600;letter-spacing:2.4px;color:var(--gris);margin-top:3px}
+.mk{flex:0 0 auto;display:block}
+footer .lg{display:flex;align-items:center;gap:10px;font-family:"Bodoni Moda",Didot,serif;font-weight:900;font-size:21px;letter-spacing:3px;color:#fff;background:none;-webkit-background-clip:initial;background-clip:initial}
+.srch{flex:1;max-width:440px;position:relative}
+.srch input{width:100%;border:1.5px solid var(--linea);border-radius:24px;padding:10px 16px 10px 40px;font:inherit;font-size:14px}
+.srch input:focus{outline:0;border-color:var(--tinta)}
+.srch svg{position:absolute;left:14px;top:11px;color:var(--gris)}
+.cartbtn{margin-left:auto;background:var(--tinta);color:#fff;border:0;border-radius:24px;padding:10px 18px;font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.cartbtn .n{background:#fff;color:var(--tinta);border-radius:11px;min-width:21px;height:21px;display:flex;align-items:center;justify-content:center;font-size:11.5px;padding:0 5px}
+nav.cats{border-top:1px solid var(--linea);overflow-x:auto}
+nav.cats .wrap{display:flex}
+nav.cats::-webkit-scrollbar{display:none}
+nav.cats button{background:none;border:0;border-bottom:3px solid transparent;padding:11px 15px;font-size:13px;font-weight:600;color:var(--gris);white-space:nowrap}
+nav.cats button.on{color:var(--tinta);border-color:var(--tinta)}
+.hero{background:#0E0F11;color:#fff;padding:54px 0;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;opacity:.10;
+background-image:repeating-linear-gradient(90deg,#fff 0 1px,transparent 1px 62px),repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 62px)}
+.hero:after{content:"";position:absolute;inset:0;
+background:radial-gradient(120% 90% at 78% 8%,rgba(255,255,255,.16),transparent 60%)}
+.hero .wrap{position:relative;z-index:2}
+.hero .eye{font-family:"Space Mono",monospace;font-size:11.5px;letter-spacing:2.5px;color:var(--plata);margin-bottom:14px}
+.hero h1{font-family:Anton,Impact,sans-serif;font-size:clamp(34px,6vw,58px);line-height:1;margin:0 0 16px;max-width:16ch;font-weight:400;
+background:linear-gradient(175deg,#fff 30%,var(--plata));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:16px;line-height:1.55;max-width:52ch;color:#c8ccd0;margin:0 0 26px}
+.hbtn{background:#fff;color:var(--tinta);border:0;border-radius:3px;padding:14px 24px;font-weight:700;font-size:14.5px;margin-right:11px}
+.hbtn.o{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.38)}
+.pasos{background:var(--humo);padding:26px 0;border-bottom:1px solid var(--linea)}
+.pasos .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px}
+.paso{display:flex;gap:12px}
+.paso .n{font-family:"Space Mono",monospace;font-weight:700;font-size:12px;background:var(--tinta);color:#fff;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;border-radius:2px}
+.paso .t{font-size:13.5px;font-weight:700;margin-bottom:3px}
+.paso .d{font-size:12.5px;color:#5d6167;line-height:1.45}
+section{padding:44px 0}
+.shead{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+.shead h2{font-family:Anton,Impact,sans-serif;font-size:26px;margin:0;font-weight:400}
+.shead .c{font-size:12.5px;color:var(--gris);margin-left:auto}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:1px;background:var(--linea);border:1px solid var(--linea)}
+.p{background:#fff;padding:13px;display:flex;flex-direction:column}
+.p .im{background:var(--humo);border-radius:4px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:46px;margin-bottom:10px;position:relative;overflow:hidden}
+.p .im img{width:100%;height:100%;object-fit:cover}
+.tagA{position:absolute;top:6px;left:6px;background:var(--tinta);color:#fff;font-family:"Space Mono",monospace;font-size:9.5px;padding:2px 6px;border-radius:2px;z-index:2}
+.tagO{position:absolute;top:6px;right:6px;background:var(--tinta);color:#fff;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:2px;z-index:2;letter-spacing:.5px}
+.tagN{position:absolute;bottom:6px;left:6px;background:#fff;color:var(--tinta);border:1px solid var(--tinta);font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:2px;z-index:2}
+.p .cat{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--gris);margin-bottom:4px}
+.p .nm{font-size:13.5px;font-weight:600;line-height:1.32;margin-bottom:6px}
+.p .pr{font-family:"Space Mono",monospace;font-size:18px;font-weight:700}
+.p .old{font-size:12px;color:var(--gris);text-decoration:line-through}
+.p .es{font-size:10.5px;font-weight:600;display:flex;align-items:center;gap:5px;margin:6px 0 10px}
+.dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.d-ok{background:var(--tinta)}
+.d-lo{background:var(--plata);box-shadow:inset 0 0 0 1px var(--gris)}
+.d-no{background:#fff;box-shadow:inset 0 0 0 2px var(--plata)}
+.es .d-no+span,.d-no~*{color:var(--gris)}
+.add{margin-top:auto;border:1.5px solid var(--tinta);background:#fff;border-radius:3px;padding:9px;font-weight:700;font-size:12.5px;transition:.12s}
+.add:hover{background:var(--tinta);color:#fff}
+.add:disabled{border-color:var(--linea);color:var(--gris);background:#fff;cursor:not-allowed}
+.add.in{background:var(--tinta);border-color:var(--tinta);color:#fff}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px}
+.cc{border:1px solid var(--linea);border-radius:5px;padding:22px 15px;text-align:center;transition:.14s;cursor:pointer}
+.cc:hover{border-color:var(--tinta);transform:translateY(-2px)}
+.cc .e{font-size:32px;margin-bottom:9px;filter:grayscale(1)}
+.cc .t{font-weight:700;font-size:13.5px}
+.cc .q{font-size:11.5px;color:var(--gris);margin-top:2px}
+.conf{background:var(--humo);border-top:1px solid var(--linea)}
+.conf .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px;padding:38px 18px}
+.conf h3{font-size:11.5px;letter-spacing:1.6px;text-transform:uppercase;margin:0 0 8px;color:var(--tinta)}
+.conf p{font-size:13px;line-height:1.6;color:#5d6167;margin:0}
+footer{background:#0E0F11;color:#8f959b;font-size:12.5px;padding:36px 0 26px}
+footer .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:26px}
+footer h4{color:#fff;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;margin:0 0 10px}
+footer p{line-height:1.65;margin:0 0 6px}
+.legal{border-top:1px solid #26282b;margin-top:26px;padding-top:16px;font-size:11.5px;text-align:center;color:#666b70}
+.mask{position:fixed;inset:0;background:rgba(14,15,17,.5);z-index:60;opacity:0;pointer-events:none;transition:.2s}
+.mask.on{opacity:1;pointer-events:auto}
+.draw{position:fixed;top:0;right:0;bottom:0;width:392px;max-width:92vw;background:#fff;z-index:70;transform:translateX(102%);transition:transform .26s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+.draw.on{transform:none}
+.dh{padding:16px 18px;border-bottom:1px solid var(--linea);display:flex;align-items:center}
+.dh .t{font-family:Anton,Impact,sans-serif;font-size:19px}
+.dh .x{margin-left:auto;background:none;border:0;font-size:24px;line-height:1;color:var(--gris)}
+.db{flex:1;overflow-y:auto;padding:16px 18px}
+.df{border-top:1px solid var(--linea);padding:16px 18px}
+.li{display:flex;gap:11px;align-items:center;padding:11px 0;border-bottom:1px solid var(--linea)}
+.li .im{width:46px;height:46px;background:var(--humo);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:22px;flex:0 0 auto;overflow:hidden}
+.li .im img{width:100%;height:100%;object-fit:cover}
+.li .nm{font-size:13px;font-weight:600;line-height:1.3}
+.li .pr{font-family:"Space Mono",monospace;font-size:12.5px;color:var(--gris);margin-top:2px}
+.qty{margin-left:auto;display:flex;align-items:center;gap:9px}
+.qty button{width:25px;height:25px;border:1px solid var(--linea);background:#fff;border-radius:3px;font-size:15px;line-height:1}
+.qty .v{font-family:"Space Mono",monospace;font-weight:700;min-width:14px;text-align:center;font-size:13.5px}
+.tot{display:flex;justify-content:space-between;font-family:"Space Mono",monospace;font-weight:700;font-size:19px;margin-bottom:12px}
+.bg{width:100%;background:var(--tinta);color:#fff;border:0;border-radius:3px;padding:14px;font-weight:700;font-size:15px}
+.bg:disabled{background:var(--plata2);color:#8f959b;cursor:not-allowed}
+.bg.o{background:#fff;color:var(--tinta);border:1.5px solid var(--linea);margin-top:8px}
+label{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#5d6167;margin:0 0 5px}
+input,select{width:100%;font:inherit;font-size:14.5px;padding:11px;border:1px solid var(--linea);border-radius:3px;margin-bottom:14px}
+input:focus,select:focus{outline:2px solid var(--tinta);outline-offset:-1px;border-color:var(--tinta)}
+.hint{font-size:11.5px;color:var(--gris);margin:-10px 0 14px;line-height:1.45}
+.modo{border:1px solid var(--linea);border-radius:4px;padding:12px;margin-bottom:9px;display:flex;gap:11px;cursor:pointer}
+.modo.on{border:2px solid var(--tinta);background:var(--humo);padding:11px}
+.modo.no{opacity:.42;cursor:not-allowed}
+.modo .r{width:16px;height:16px;border:2px solid var(--linea);border-radius:50%;flex:0 0 auto;margin-top:2px}
+.modo.on .r{border:5px solid var(--tinta)}
+.modo .tt{font-size:13.5px;font-weight:700;margin-bottom:2px}
+.modo .dd{font-size:11.5px;color:var(--gris);line-height:1.4}
+.ticket{border:1px solid var(--tinta);padding:22px 18px;text-align:center;margin-bottom:16px}
+.ticket .k{font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gris)}
+.ticket .cd{font-family:"Space Mono",monospace;font-size:40px;font-weight:700;letter-spacing:2px;margin:5px 0 12px}
+.ticket .ms{font-size:12.5px;line-height:1.55;text-align:left;border-top:1px dashed var(--linea);padding-top:12px}
+.nota{background:var(--humo);border-left:3px solid var(--plata);padding:12px 14px;font-size:12.5px;line-height:1.55;margin-bottom:14px}
+.oknota{background:var(--humo);border-left:3px solid var(--tinta);padding:12px 14px;font-size:12.5px;line-height:1.55;margin-bottom:14px}
+.panel{position:fixed;inset:0;background:var(--humo);z-index:90;display:none;overflow-y:auto}
+.panel.on{display:block}
+.pw{max-width:430px;margin:0 auto;background:#fff;min-height:100%;border-left:1px solid var(--linea);border-right:1px solid var(--linea)}
+.ph{background:#0E0F11;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:9px;position:sticky;top:0;z-index:6}
+.ph .lg{font-family:Anton,Impact,sans-serif;letter-spacing:3px;font-size:13px;
+background:linear-gradient(180deg,#fff,var(--plata));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ph .x{margin-left:auto;background:none;border:1px solid #3a3d41;color:#9aa0a6;font-size:11px;padding:6px 12px;border-radius:2px}
+.tabs{display:flex;background:#1B1D20;position:sticky;top:51px;z-index:6}
+.tab{flex:1;background:none;border:0;border-bottom:3px solid transparent;color:#8f959b;font-size:11.5px;font-weight:600;padding:11px 3px;position:relative;line-height:1.3}
+.tab .cn{display:block;font-size:8.5px;opacity:.6;font-weight:400}
+.tab.on{color:#fff;border-color:var(--plata)}
+.pill{position:absolute;top:6px;right:9px;background:#fff;color:#0E0F11;font-size:9.5px;font-weight:700;min-width:16px;height:16px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+@keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+.pill.ring{animation:pop .55s 3}
+.ord{border-bottom:8px solid var(--humo);padding:15px 16px}
+.orow{display:flex;align-items:baseline;gap:9px;margin-bottom:9px}
+.ocd{font-family:"Space Mono",monospace;font-weight:700;font-size:18px}
+.otm{margin-left:auto;font-size:11px;color:var(--gris)}
+.omt{font-size:12px;color:#5d6167;line-height:1.55;margin-bottom:10px}
+.omt b{color:var(--tinta)}
+.it{display:flex;align-items:center;gap:11px;padding:8px 0;border-top:1px solid var(--linea)}
+.it .ic{width:40px;height:40px;background:var(--humo);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:20px;flex:0 0 auto;overflow:hidden}
+.it .ic img{width:100%;height:100%;object-fit:cover}
+.it .nm{font-size:13px;font-weight:600;line-height:1.3}
+.it .lo{font-family:"Space Mono",monospace;font-size:10.5px;color:#fff;background:var(--tinta);padding:1px 6px;border-radius:2px;display:inline-block;margin-top:3px}
+.it .qt{margin-left:auto;font-family:"Space Mono",monospace;font-weight:700;font-size:14px}
+.acts{display:flex;gap:6px;margin-top:13px}
+.act{flex:1;border:1.5px solid var(--tinta);border-radius:3px;padding:12px 4px;font-weight:700;font-size:12px;line-height:1.25}
+.act .cn{display:block;font-size:9px;font-weight:400;opacity:.75}
+.a1{background:var(--tinta);color:#fff}
+.a2{background:var(--plata2);color:var(--tinta);border-color:var(--plata2)}
+.a3{background:#fff;color:var(--tinta)}
+.wa{background:var(--humo);border:1px solid var(--linea);border-left:3px solid var(--tinta);border-radius:0 5px 5px 0;padding:12px;margin-top:12px}
+.wa .h{font-size:10.5px;font-weight:700;color:var(--tinta);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.wa .bub{background:#fff;border:1px solid var(--linea);border-radius:4px;padding:10px 11px;font-size:12.5px;line-height:1.5}
+.pasillo{background:var(--tinta);color:#fff;padding:7px 16px;font-family:"Space Mono",monospace;font-size:11px;font-weight:700;letter-spacing:1px}
+.prow{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--linea)}
+.prow .ic{width:42px;height:42px;background:var(--humo);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:21px;flex:0 0 auto;overflow:hidden}
+.prow .ic img{width:100%;height:100%;object-fit:cover}
+.prow .nm{font-size:13px;font-weight:600;line-height:1.3}
+.prow .sb{font-family:"Space Mono",monospace;font-size:11px;color:var(--gris);margin-top:2px}
+.tog{margin-left:auto;border:1px solid var(--linea);background:#fff;font-size:11px;font-weight:700;padding:7px 10px;border-radius:15px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.del{border:0;background:none;color:var(--gris);font-size:17px;padding:4px 2px 4px 6px;line-height:1}
+.empty{padding:60px 30px;text-align:center;color:var(--gris)}
+.empty .i{font-size:38px;opacity:.3;margin-bottom:14px;filter:grayscale(1)}
+.empty .t{font-size:14px;font-weight:600;color:#5d6167;margin-bottom:6px}
+.empty .d{font-size:12.5px;line-height:1.55}
+.pad{padding:16px}
+h4{font-family:Anton,Impact,sans-serif;font-size:17px;margin:0 0 14px;font-weight:400}
+.shot{width:100%;aspect-ratio:1;background:var(--humo);border:2px dashed var(--linea);border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--gris);font-size:13px;margin-bottom:14px;overflow:hidden;position:relative}
+.shot img{width:100%;height:100%;object-fit:cover}
+.shot .e{font-size:40px;filter:grayscale(1)}
+.shot .re{position:absolute;bottom:9px;right:9px;background:rgba(14,15,17,.78);color:#fff;border:0;font-size:11.5px;font-weight:600;padding:7px 12px;border-radius:3px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--tinta);color:#fff;font-size:13.5px;font-weight:600;padding:13px 22px;border-radius:4px;z-index:120;opacity:0;pointer-events:none;transition:.25s}
+.toast.on{opacity:1;transform:translate(-50%,-8px)}
+@media(max-width:640px){.hrow{flex-wrap:wrap;gap:12px}.srch{order:3;flex-basis:100%;max-width:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="demo"><div class="wrap">
+  <span class="lg">OPHIEL</span><span>Demo funcional</span>
+  <span class="sp">
+    <button onclick="reset()">Reiniciar</button>
+    <button class="hi" onclick="abrirPanel()">📱 Panel del tendero</button>
+  </span>
+</div></div>
+
+<div class="aviso" id="avisoTxt"></div>
+
+<header>
+  <div class="wrap hrow">
+    <div class="logo" onclick="setCat('Todo')" id="logo"></div>
+    <div class="srch">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q" placeholder="Buscar en la tienda…" oninput="buscar(this.value)">
+    </div>
+    <button class="cartbtn" onclick="abrir('cart')">Mi reserva <span class="n" id="cn">0</span></button>
+  </div>
+  <nav class="cats"><div class="wrap" id="nav"></div></nav>
+</header>
+
+<div id="portada">
+  <div class="hero"><div class="wrap">
+    <div class="eye">RESERVA Y RECOGE</div>
+    <h1>Tu tienda de siempre, ahora desde el móvil</h1>
+    <p>Mira lo que hay, resérvalo en un minuto y pásate a recogerlo cuando puedas. Te confirmamos en menos de dos horas y pagas aquí, en la tienda. Sin registros y sin pagar por adelantado.</p>
+    <button class="hbtn" onclick="setCat('Todo')">Ver todos los productos</button>
+    <button class="hbtn o" onclick="scrollTo({top:document.querySelector('.pasos').offsetTop-70,behavior:'smooth'})">Cómo funciona</button>
+  </div></div>
+  <div class="pasos"><div class="wrap">
+    <div class="paso"><span class="n">1</span><div><div class="t">Elige lo que necesitas</div><div class="d">Verás si está disponible antes de salir de casa.</div></div></div>
+    <div class="paso"><span class="n">2</span><div><div class="t">Deja tu nombre y móvil</div><div class="d">Nada más. Ni cuenta ni tarjeta.</div></div></div>
+    <div class="paso"><span class="n">3</span><div><div class="t">Te avisamos por WhatsApp</div><div class="d">En menos de 2 horas, en horario de tienda.</div></div></div>
+    <div class="paso"><span class="n">4</span><div><div class="t">Recoges y pagas</div><div class="d">En la tienda o te lo llevamos a casa.</div></div></div>
+  </div></div>
+</div>
+
+<section><div class="wrap">
+  <div class="shead"><h2 id="tit">NUESTROS PRODUCTOS</h2><span class="c" id="cont"></span></div>
+  <div class="pgrid" id="grid"></div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="shead"><h2>POR CATEGORÍAS</h2></div>
+  <div class="cgrid" id="cgrid"></div>
+</div></section>
+
+<div class="conf"><div class="wrap">
+  <div><h3>Lo ves antes de venir</h3><p>Cada producto muestra si está disponible. Y si algo se ha agotado justo antes, te avisamos al confirmar — nunca haces el viaje en balde.</p></div>
+  <div><h3>Pagas al recoger</h3><p>No pedimos tarjeta ni datos bancarios. Reservas ahora y pagas en la tienda como toda la vida.</p></div>
+  <div><h3>Reparto en El Ejido</h3><p>Centro, Santa María del Águila, Las Norias, San Agustín, Balerma, Almerimar y Matagorda.</p></div>
+</div></div>
+
+<footer><div class="wrap" id="foot"></div>
+<div class="legal wrap">Demostración creada por Ophiel Soluciones Digitales · ophiel.es</div></footer>
+
+<div class="mask" id="mask" onclick="cerrar()"></div>
+<aside class="draw" id="draw"><div id="drawc"></div></aside>
+<div class="panel" id="panel"><div class="pw" id="panelc"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- almacenamiento seguro ---------- */
+const DB={
+  ok:(()=>{try{localStorage.setItem("_t","1");localStorage.removeItem("_t");return true}catch(e){return false}})(),
+  get(k,d){if(!this.ok)return d;try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){if(!this.ok)return;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
+  del(k){if(!this.ok)return;try{localStorage.removeItem(k)}catch(e){}}
+};
+const MARCA=(k,sz)=>`<svg class="mk" width="${sz}" height="${sz}" viewBox="0 0 100 100" aria-hidden="true">
+ <defs><mask id="zm${k}">
+  <circle cx="50" cy="50" r="47" fill="#fff"/>
+  <g transform="rotate(-32 50 50)">
+   <rect x="-20" y="43.5" width="140" height="13" fill="#000"/>
+   <polygon points="63,33 115,22 115,43.5" fill="#000"/>
+   <polygon points="37,67 -15,78 -15,56.5" fill="#000"/>
+  </g>
+ </mask></defs>
+ <circle cx="50" cy="50" r="47" fill="currentColor" mask="url(#zm${k})"/></svg>`;
+const TIENDA_DEF={nombre:"ZENTER",lema:"EL EJIDO · ALMERÍA",dir:"Avenida Bulevar 239, 04700 El Ejido, Almería",tel:"950 00 00 00"};
+
+const BASE=[
+ {id:1,n:"Destornillador de estrella",p:4.50,c:"Ferretería",e:"ok",a:"P3·B",i:"🪛"},
+ {id:2,n:"Bombilla LED E27 10W",p:3.20,c:"Ferretería",e:"ok",a:"P3·A",i:"💡"},
+ {id:3,n:"Cinta métrica 5m",p:5.25,c:"Ferretería",e:"ok",a:"P3·C",i:"📏"},
+ {id:4,n:"Adhesivo instantáneo 3g",p:0.98,c:"Ferretería",e:"ok",a:"P3·D",i:"🧴"},
+ {id:5,n:"Juego 6 brocas",p:6.95,c:"Ferretería",e:"lo",a:"P3·B",i:"🪚"},
+ {id:6,n:"Martillo 300g",p:7.50,c:"Ferretería",e:"ok",a:"P3·E",i:"🔨"},
+ {id:7,n:"Cinta aislante 2 uds",p:1.85,c:"Ferretería",e:"ok",a:"P3·D",i:"🎗️"},
+ {id:8,n:"Cargador USB-C 20W",p:9.90,c:"Electrónica",e:"ok",a:"P1·A",i:"🔌"},
+ {id:9,n:"Alargador 3 tomas 3m",p:7.95,c:"Electrónica",e:"ok",a:"P1·B",i:"🔋"},
+ {id:10,n:"Auriculares con cable",p:6.90,c:"Electrónica",e:"lo",a:"P1·C",i:"🎧"},
+ {id:11,n:"Pilas AA pack 4",p:2.48,c:"Electrónica",e:"ok",a:"P1·D",i:"🔋"},
+ {id:12,n:"Cable USB-C 1m",p:3.95,c:"Electrónica",e:"ok",a:"P1·A",i:"🔗"},
+ {id:13,n:"Linterna LED",p:4.50,c:"Electrónica",e:"ok",a:"P1·E",i:"🔦"},
+ {id:14,n:"Mochila escolar",p:14.95,c:"Papelería",e:"lo",a:"P6·C",i:"🎒"},
+ {id:15,n:"Cuaderno A4 cuadros",p:3.40,c:"Papelería",e:"ok",a:"P6·B",i:"📓"},
+ {id:16,n:"Bolígrafos 4 uds surtido",p:2.98,c:"Papelería",e:"ok",a:"P6·A",i:"🖊️"},
+ {id:17,n:"Tijera escolar 13cm",p:1.48,c:"Papelería",e:"ok",a:"P6·D",i:"✂️"},
+ {id:18,n:"Estuche 3 cremalleras",p:6.50,c:"Papelería",e:"ok",a:"P6·A",i:"✏️"},
+ {id:19,n:"Pegamento en barra 21g",p:1.25,c:"Papelería",e:"ok",a:"P6·B",i:"🩹"},
+ {id:20,n:"Rotuladores 12 colores",p:3.85,c:"Papelería",e:"ok",a:"P6·C",i:"🖍️"},
+ {id:21,n:"Pack 5 esponjas",p:4.50,c:"Limpieza",e:"ok",a:"P2·D",i:"🧽"},
+ {id:22,n:"Fregona con mango",p:5.90,c:"Limpieza",e:"no",a:"P2·A",i:"🧹"},
+ {id:23,n:"Cubo con escurridor",p:8.50,c:"Limpieza",e:"ok",a:"P2·B",i:"🪣"},
+ {id:24,n:"Guantes de látex talla M",p:1.95,c:"Limpieza",e:"ok",a:"P2·C",i:"🧤"},
+ {id:25,n:"Bayetas microfibra 3 uds",p:2.40,c:"Limpieza",e:"ok",a:"P2·D",i:"🧻"},
+ {id:26,n:"Recogedor con cepillo",p:3.75,c:"Limpieza",e:"ok",a:"P2·A",i:"🧴"},
+ {id:27,n:"Ambientador de armario",p:1.68,c:"Hogar",e:"ok",a:"P4·A",i:"🌸"},
+ {id:28,n:"Juego 6 perchas",p:3.95,c:"Hogar",e:"ok",a:"P4·B",i:"🪝"},
+ {id:29,n:"Botella con tapa 750ml",p:2.88,c:"Hogar",e:"ok",a:"P4·C",i:"🍶",of:3.90},
+ {id:30,n:"Fiambrera hermética 1L",p:3.50,c:"Hogar",e:"ok",a:"P4·C",i:"🥡"},
+ {id:31,n:"Vasos de cristal 6 uds",p:7.90,c:"Hogar",e:"lo",a:"P4·D",i:"🥛"},
+ {id:32,n:"Alfombra de baño",p:6.95,c:"Hogar",e:"ok",a:"P4·E",i:"🛁"},
+ {id:33,n:"Globos colores 20 uds",p:2.20,c:"Fiesta",e:"ok",a:"P5·A",i:"🎈"},
+ {id:34,n:"Velas de cumpleaños",p:1.35,c:"Fiesta",e:"ok",a:"P5·B",i:"🕯️"},
+ {id:35,n:"Mantel de papel",p:1.80,c:"Fiesta",e:"ok",a:"P5·A",i:"🎊"},
+ {id:36,n:"Bolsas de chuches 12 uds",p:2.50,c:"Fiesta",e:"ok",a:"P5·B",i:"🍬"}
+];
+const EST={ok:{t:"Disponible",d:"d-ok"},lo:{t:"Últimas unidades",d:"d-lo"},no:{t:"Agotado",d:"d-no"}};
+const ICO={"Ferretería":"🔧","Electrónica":"🔌","Papelería":"✏️","Limpieza":"🧼","Hogar":"🏠","Fiesta":"🎉"};
+const ZONAS={
+ recoger:{t:"Recoger en la tienda",d:"Sin coste",min:0,env:0},
+ z1:{t:"Reparto Zona 1",d:"Centro, Sta. Mª del Águila, Pampanico · gratis",min:20,env:0},
+ z2:{t:"Reparto Zona 2",d:"Las Norias, San Agustín, Balerma, Almerimar, Matagorda",min:30,env:3}
+};
+
+let P=[],T={},cart={},orders=[],cat="Todo",q="",draw=null,tab="ped",nO=4820,
+    form={n:"",t:"",m:"recoger"},nuevo=0,foto=null;
+
+const eur=v=>v.toFixed(2).replace(".",",")+" €";
+const tot=()=>Object.entries(cart).reduce((s,[i,c])=>{const p=P.find(x=>x.id==+i);return s+(p?p.p*c:0)},0);
+const nIt=()=>Object.values(cart).reduce((a,b)=>a+b,0);
+const img=(p,cls)=>p.img?`<img src="${p.img}" alt="">`:p.i;
+const save=()=>{DB.set("bw_prod",P);DB.set("bw_ord",orders);DB.set("bw_t",T);DB.set("bw_n",nO)};
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("on");
+  clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("on"),2600)}
+
+/* ---------- render ---------- */
+function pintar(){
+  document.getElementById("logo").innerHTML=MARCA("h",34)+`<span class="wm">${T.nombre}<span>${T.lema}</span></span>`;
+  document.getElementById("avisoTxt").textContent="Reserva online · Te confirmamos en 2 horas · Recoge en tienda o reparto en El Ejido";
+  document.getElementById("foot").innerHTML=`
+    <div><div class="lg">${MARCA('f',26)}${T.nombre}</div><p style="margin-top:9px">Hogar, ferretería, papelería, limpieza y mucho más.</p></div>
+    <div><h4>Tienda</h4><p>${T.dir}</p><p>${T.tel}</p></div>
+    <div><h4>Horario</h4><p>Lunes a sábado<br>9:30–14:00 y 17:00–21:00</p></div>
+    <div><h4>Información</h4><p>Cómo funciona la reserva<br>Aviso legal<br>Política de privacidad<br>Política de cookies</p></div>`;
+  const cats=["Todo",...new Set(P.map(p=>p.c))];
+  document.getElementById("nav").innerHTML=cats.map(c=>`<button class="${c===cat&&!q?'on':''}" onclick="setCat('${c}')">${c}</button>`).join("");
+  const l=P.filter(p=>(cat==="Todo"||p.c===cat)&&(!q||p.n.toLowerCase().includes(q)));
+  document.getElementById("tit").textContent=q?"RESULTADOS DE «"+q.toUpperCase()+"»":(cat==="Todo"?"NUESTROS PRODUCTOS":cat.toUpperCase());
+  document.getElementById("cont").textContent=l.length+" artículo"+(l.length===1?"":"s");
+  document.getElementById("portada").style.display=(cat==="Todo"&&!q)?"":"none";
+  document.getElementById("grid").innerHTML=l.length?l.map(tarjeta).join(""):
+    `<div style="grid-column:1/-1;background:#fff;padding:50px;text-align:center;color:var(--gris);font-size:13.5px">No hemos encontrado nada. Prueba con otra palabra.</div>`;
+  document.getElementById("cgrid").innerHTML=cats.filter(c=>c!=="Todo").map(c=>
+    `<div class="cc" onclick="setCat('${c}')"><div class="e">${ICO[c]||"📦"}</div><div class="t">${c}</div>
+     <div class="q">${P.filter(p=>p.c===c).length} artículos</div></div>`).join("");
+  document.getElementById("cn").textContent=nIt();
+  if(draw)document.getElementById("drawc").innerHTML=draw==="cart"?vCart():draw==="check"?vCheck():vTicket();
+  document.getElementById("panelc").innerHTML=vPanel();
+  save();
+}
+function tarjeta(p){
+  const e=EST[p.e],c=cart[p.id]||0,no=p.e==="no";
+  return `<div class="p"><div class="im"><span class="tagA">${p.a}</span>
+   ${p.of?'<span class="tagO">OFERTA</span>':''}${p.nuevo?'<span class="tagN">NUEVO</span>':''}${img(p)}</div>
+   <div class="cat">${p.c}</div><div class="nm">${p.n}</div>
+   ${p.of?`<div class="old">${eur(p.of)}</div>`:""}<div class="pr">${eur(p.p)}</div>
+   <div class="es"><span class="dot ${e.d}"></span>${e.t}</div>
+   <button class="add ${c?'in':''}" ${no?'disabled':''} onclick="add(${p.id})">${no?'Sin existencias':(c?`En la reserva · ${c}`:'Reservar')}</button></div>`;
+}
+function vCart(){
+  if(!nIt())return `<div class="dh"><span class="t">MI RESERVA</span><button class="x" onclick="cerrar()">×</button></div>
+    <div class="db"><div class="empty"><div class="i">🧺</div><div class="t">Todavía está vacía</div>
+    <div class="d">Añade lo que necesites y resérvalo en un minuto.</div></div></div>`;
+  return `<div class="dh"><span class="t">MI RESERVA</span><button class="x" onclick="cerrar()">×</button></div>
+   <div class="db">${Object.entries(cart).map(([i,c])=>{const p=P.find(x=>x.id==+i);if(!p)return"";
+     return `<div class="li"><span class="im">${img(p)}</span><div><div class="nm">${p.n}</div><div class="pr">${eur(p.p)}</div></div>
+      <div class="qty"><button onclick="men(${p.id})">−</button><span class="v">${c}</span><button onclick="add(${p.id})">+</button></div></div>`}).join("")}</div>
+   <div class="df"><div class="tot"><span>Total</span><span>${eur(tot())}</span></div>
+   <button class="bg" onclick="draw='check';pintar()">Continuar con la reserva</button>
+   <button class="bg o" onclick="cerrar()">Seguir mirando</button></div>`;
+}
+function vCheck(){
+  const z=ZONAS[form.m],s=tot(),bajo=s<z.min;
+  const ok=form.n.trim().length>1&&form.t.replace(/\D/g,"").length>=9&&!bajo;
+  return `<div class="dh"><span class="t">TUS DATOS</span><button class="x" onclick="cerrar()">×</button></div>
+   <div class="db">
+    <label>Nombre</label><input value="${form.n}" oninput="form.n=this.value;refrescarBoton()" placeholder="María">
+    <label>Teléfono</label><input value="${form.t}" oninput="form.t=this.value;refrescarBoton()" placeholder="612 34 56 78" inputmode="tel">
+    <p class="hint">Te avisaremos por WhatsApp cuando esté listo. No hace falta correo ni crear cuenta.</p>
+    <label style="margin-bottom:9px">¿Cómo lo quieres?</label>
+    ${Object.entries(ZONAS).map(([k,v])=>{const no=s<v.min;
+      return `<div class="modo ${form.m===k?'on':''} ${no?'no':''}" ${no?'':`onclick="form.m='${k}';pintar()"`}>
+       <span class="r"></span><div><div class="tt">${v.t}</div><div class="dd">${v.d}${v.min?` · mínimo ${eur(v.min)}`:""}${v.env?` · ${eur(v.env)}`:""}</div></div></div>`}).join("")}
+    ${bajo?`<p class="hint" style="color:var(--tinta)">Te faltan ${eur(z.min-s)} para el mínimo de esta zona.</p>`:""}
+   </div>
+   <div class="df"><div class="tot"><span>Total</span><span>${eur(s+z.env)}</span></div>
+   <p class="hint" style="margin:-6px 0 12px">Se paga al ${form.m==='recoger'?'recoger':'recibir'}. No se cobra nada ahora.</p>
+   <button class="bg" id="bconf" ${ok?'':'disabled'} onclick="reservar()">Confirmar reserva</button>
+   <button class="bg o" onclick="draw='cart';pintar()">Volver</button></div>`;
+}
+function refrescarBoton(){
+  const z=ZONAS[form.m],s=tot();
+  const ok=form.n.trim().length>1&&form.t.replace(/\D/g,"").length>=9&&s>=z.min;
+  const b=document.getElementById("bconf"); if(b)b.disabled=!ok;
+}
+function vTicket(){
+  const o=orders[0];
+  return `<div class="dh"><span class="t">RESERVA HECHA</span><button class="x" onclick="cerrar()">×</button></div>
+   <div class="db"><div class="ticket"><div class="k">Tu código</div><div class="cd">${o.cod}</div>
+     <div class="ms"><b>${ZONAS[o.modo].t}</b><br>${o.items.map(i=>`${i.q} × ${i.n}`).join("<br>")}
+     <br><br><b>Total ${eur(o.tot)}</b> — se paga al ${o.modo==='recoger'?'recoger':'recibir'}.</div></div>
+    ${o.est==="pend"?`<div class="nota"><b>Te confirmamos en menos de 2 horas.</b><br>Recibirás un WhatsApp en el ${o.tel}.</div>`:""}
+    ${o.est==="ok"?`<div class="oknota"><b>¡Listo!</b><br>${o.wa}</div>`:""}
+    ${(o.est==="parc"||o.est==="no")?`<div class="nota">${o.wa}</div>`:""}
+    <p class="hint" style="margin-top:4px">Abre el <b>panel del tendero</b> arriba para confirmar este pedido.</p></div>
+   <div class="df"><button class="bg o" style="margin:0" onclick="cerrar()">Volver a la tienda</button></div>`;
+}
+function vPanel(){
+  const pend=orders.filter(o=>o.est==="pend").length;
+  const T_=(k,l,cn)=>`<button class="tab ${tab===k?'on':''}" onclick="setTab('${k}')">${l}<span class="cn">${cn}</span>${k==='ped'&&pend?`<span class="pill ${nuevo?'ring':''}">${pend}</span>`:""}</button>`;
+  return `<div class="ph"><span class="lg">OPHIEL</span><span style="font-size:12px">${T.nombre}</span>
+    <button class="x" onclick="document.getElementById('panel').classList.remove('on')">Cerrar</button></div>
+   <div class="tabs">${T_("ped","Pedidos","订单")}${T_("pro","Productos","我的商品")}${T_("new","Añadir","添加")}${T_("set","Ajustes","设置")}</div>
+   ${tab==='ped'?vPed():tab==='pro'?vPro():tab==='new'?vNew():vSet()}`;
+}
+function vPed(){
+  if(!orders.length)return `<div class="empty"><div class="i">📥</div><div class="t">Ningún pedido todavía</div>
+    <div class="d">Haz una reserva en la tienda y aparecerá aquí al momento.</div></div>`;
+  return orders.map(o=>{const h=o.est!=="pend";
+   return `<div class="ord"><div class="orow"><span class="ocd">${o.cod}</span>
+     <span style="font-size:12px;color:var(--gris)">${o.cli}</span><span class="otm">${o.hora}</span></div>
+    <div class="omt"><b>${ZONAS[o.modo].t}</b> · ${o.tel}<br>A cobrar: <b>${eur(o.tot)}</b></div>
+    ${o.items.map(i=>`<div class="it"><span class="ic">${i.img?`<img src="${i.img}">`:i.i}</span>
+      <div><div class="nm">${i.n}</div><span class="lo">${i.a}</span></div><span class="qt">×${i.q}</span></div>`).join("")}
+    ${h?`<div class="wa"><div class="h">✓ Mensaje enviado</div><div class="bub">${o.wa}</div></div>`
+      :`<div class="acts">
+        <button class="act a1" onclick="res('${o.cod}','ok')">✓ Todo disponible<span class="cn">全部有货</span></button>
+        <button class="act a2" onclick="res('${o.cod}','parc')">! Falta algo<span class="cn">缺少部分</span></button>
+        <button class="act a3" onclick="res('${o.cod}','no')">✕ No hay<span class="cn">没有货</span></button></div>`}</div>`}).join("");
+}
+function vPro(){
+  const g={};P.forEach(p=>{const k=p.a.split("·")[0];(g[k]=g[k]||[]).push(p)});
+  return `<div class="nota" style="margin:14px 16px">Toca el estado para cambiarlo. Un toque y queda guardado.<br>
+    <b>Ronda semanal:</b> recorre la tienda siguiendo este orden de pasillos.</div>
+   ${Object.keys(g).sort().map(k=>`<div class="pasillo">PASILLO ${k.replace("P","")}</div>
+    ${g[k].map(p=>{const e=EST[p.e];return `<div class="prow"><span class="ic">${img(p)}</span>
+     <div><div class="nm">${p.n}</div><div class="sb">${p.a} · ${eur(p.p)}</div></div>
+     <button class="tog" onclick="ciclo(${p.id})"><span class="dot ${e.d}"></span>${e.t}</button>
+     <button class="del" title="Quitar" onclick="quitar(${p.id})">×</button></div>`}).join("")}`).join("")}`;
+}
+function vNew(){
+  return `<div class="pad"><h4>AÑADIR UN PRODUCTO</h4>
+   <div class="shot" onclick="document.getElementById('fi').click()">
+     ${foto?`<img src="${foto}"><button class="re" onclick="event.stopPropagation();document.getElementById('fi').click()">Repetir</button>`
+           :`<div class="e">📷</div><div>Toca para hacer la foto</div>`}
+   </div>
+   <input type="file" id="fi" accept="image/*" capture="environment" style="display:none" onchange="cargarFoto(this)">
+   <label>Nombre</label><input id="nn" placeholder="Ej. Taladro percutor" value="${window._nn||""}">
+   <label>Precio (€)</label><input id="np" placeholder="24,90" inputmode="decimal">
+   <label>Categoría</label><select id="nc">${[...new Set(P.map(p=>p.c))].map(c=>`<option>${c}</option>`).join("")}</select>
+   <label>Pasillo y estante</label><input id="na" placeholder="P4·D">
+   <p class="hint">La descripción se escribe sola a partir del nombre y la categoría. Tú no tienes que redactar nada.</p>
+   <button class="bg" onclick="crear()">Publicar en la tienda</button></div>`;
+}
+function vSet(){
+  return `<div class="pad"><h4>DATOS DE LA TIENDA</h4>
+   <label>Nombre</label><input id="sn" value="${T.nombre}">
+   <label>Debajo del nombre</label><input id="sl" value="${T.lema}">
+   <label>Dirección</label><input id="sd" value="${T.dir}">
+   <label>Teléfono</label><input id="st" value="${T.tel}">
+   <button class="bg" onclick="guardarT()">Guardar</button>
+   <p class="hint" style="margin-top:14px">Cambia esto para enseñarle la demo con el nombre real de su tienda.</p></div>`;
+}
+
+/* ---------- acciones ---------- */
+function setCat(c){cat=c;q="";document.getElementById("q").value="";pintar();scrollTo({top:0,behavior:"smooth"})}
+function buscar(v){q=v.toLowerCase().trim();pintar()}
+function setTab(t){tab=t;nuevo=0;document.getElementById("panelc").innerHTML=vPanel()}
+function add(id){cart[id]=(cart[id]||0)+1;pintar()}
+function men(id){cart[id]--;if(!cart[id])delete cart[id];pintar()}
+function ciclo(id){const p=P.find(x=>x.id===id);p.e={ok:"lo",lo:"no",no:"ok"}[p.e];pintar()}
+function quitar(id){const p=P.find(x=>x.id===id);
+  if(!confirm(`¿Quitar "${p.n}" de la tienda?`))return;
+  P=P.filter(x=>x.id!==id);delete cart[id];pintar();toast("Producto quitado")}
+function abrir(v){draw=v;document.getElementById("draw").classList.add("on");document.getElementById("mask").classList.add("on");pintar()}
+function cerrar(){draw=null;document.getElementById("draw").classList.remove("on");document.getElementById("mask").classList.remove("on")}
+function abrirPanel(){document.getElementById("panel").classList.add("on");document.getElementById("panelc").innerHTML=vPanel()}
+
+/* foto: redimensiona en el navegador antes de guardar */
+function cargarFoto(inp){
+  const f=inp.files&&inp.files[0]; if(!f)return;
+  window._nn=document.getElementById("nn").value;
+  const fr=new FileReader();
+  fr.onload=e=>{
+    const im=new Image();
+    im.onload=()=>{
+      const M=900,esc=Math.min(1,M/Math.max(im.width,im.height));
+      const w=Math.round(im.width*esc),h=Math.round(im.height*esc);
+      const cv=document.createElement("canvas");cv.width=w;cv.height=h;
+      const cx=cv.getContext("2d");cx.fillStyle="#fff";cx.fillRect(0,0,w,h);cx.drawImage(im,0,0,w,h);
+      foto=cv.toDataURL("image/jpeg",.78);
+      document.getElementById("panelc").innerHTML=vPanel();
+      toast("Foto lista · "+Math.round(foto.length/1370)+" KB");
+    };
+    im.onerror=()=>toast("No se ha podido leer la foto");
+    im.src=e.target.result;
+  };
+  fr.readAsDataURL(f);
+}
+function crear(){
+  const n=document.getElementById("nn").value.trim();
+  const p=parseFloat(document.getElementById("np").value.replace(",","."));
+  const a=(document.getElementById("na").value.trim()||"P9·A").toUpperCase();
+  if(!n||isNaN(p)||p<=0){toast("Falta el nombre o el precio");return}
+  P.push({id:Date.now(),n,p,c:document.getElementById("nc").value,e:"ok",a,i:"📦",img:foto,nuevo:1});
+  foto=null;window._nn="";tab="pro";cat="Todo";q="";
+  document.getElementById("q").value="";
+  pintar();toast("Publicado en la tienda");
+}
+function guardarT(){
+  T={nombre:document.getElementById("sn").value.trim()||TIENDA_DEF.nombre,
+     lema:document.getElementById("sl").value.trim(),
+     dir:document.getElementById("sd").value.trim(),
+     tel:document.getElementById("st").value.trim()};
+  pintar();toast("Datos guardados");
+}
+function reservar(){
+  const z=ZONAS[form.m];nO++;
+  orders.unshift({cod:"A-"+nO,cli:form.n.trim(),tel:form.t.trim(),modo:form.m,est:"pend",
+   hora:new Date().toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"}),tot:tot()+z.env,
+   items:Object.entries(cart).map(([i,c])=>{const p=P.find(x=>x.id==+i);
+     return{n:p.n,q:c,a:p.a,i:p.i,img:p.img}})});
+  cart={};nuevo=1;tab="ped";draw="ticket";pintar();
+  setTimeout(()=>{nuevo=0;document.getElementById("panelc").innerHTML=vPanel()},2200);
+}
+function res(cod,r){
+  const o=orders.find(x=>x.cod===cod),nm=o.cli.split(" ")[0];
+  o.est=r;
+  o.wa=r==="ok"?`¡Hola ${nm}! Tu pedido <b>${o.cod}</b> ya está listo. ${o.modo==="recoger"?`Puedes recogerlo hasta el jueves en ${T.nombre}, ${T.dir}`:"Te lo llevamos esta tarde"}. Son ${eur(o.tot)}. ¡Gracias!`
+   :r==="parc"?`¡Hola ${nm}! De tu pedido <b>${o.cod}</b> tenemos casi todo, pero nos falta un artículo. ¿Te preparo el resto?`
+   :`¡Hola ${nm}! Lo siento, ahora mismo no tengo lo de <b>${o.cod}</b>. Me llega mercancía el martes — si quieres te aviso.`;
+  pintar();
+}
+function reset(){
+  if(orders.length&&!confirm("Se borrarán los pedidos y los productos que hayas añadido. ¿Seguir?"))return;
+  ["bw_prod","bw_ord","bw_t","bw_n"].forEach(k=>DB.del(k));
+  arranque(true);toast("Demo reiniciada");
+}
+function arranque(forzar){
+  P=forzar?JSON.parse(JSON.stringify(BASE)):DB.get("bw_prod",JSON.parse(JSON.stringify(BASE)));
+  orders=forzar?[]:DB.get("bw_ord",[]);
+  T=forzar?{...TIENDA_DEF}:DB.get("bw_t",{...TIENDA_DEF});
+  nO=forzar?4820:DB.get("bw_n",4820);
+  cart={};cat="Todo";q="";tab="ped";foto=null;form={n:"",t:"",m:"recoger"};
+  const qi=document.getElementById("q");if(qi)qi.value="";
+  cerrar();document.getElementById("panel").classList.remove("on");
+  pintar();
+}
+arranque(false);
+</script>
+</body>
+</html>

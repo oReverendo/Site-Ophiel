@@ -18,7 +18,7 @@
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html{ touch-action:manipulation; }
   body{
-    margin:0; min-height:100vh; min-height:100dvh;
+    margin:0; min-height:100vh; min-height:100svh;
     background:var(--navy);
     color:var(--ink);
     font-family:'Helvetica Neue', Arial, sans-serif;
@@ -28,10 +28,15 @@
      cantos arredondados, sem sobra em volta. É a tela cheia mesmo. */
   .card{
     width:100%;
-    min-height:100vh; min-height:100dvh;
+    /* 100svh = "small viewport height": a altura da tela JÁ DESCONTANDO
+       as barras do Safari do iPhone. Com 100vh (ou 100dvh) o cartao era
+       montado com a altura da tela SEM as barras, ficava mais alto do que
+       o espaco realmente visivel, e por isso a pagina abria rolada — era
+       preciso arrastar pra ver o topo centralizado. */
+    min-height:100vh; min-height:100svh;
     background:var(--navy-2);
     display:flex; flex-direction:column;
-    padding:56px 28px calc(20px + env(safe-area-inset-bottom));
+    padding:40px 28px calc(18px + env(safe-area-inset-bottom));
   }
   /* Miolo do cartão: avatar + nome + botões. "flex:1" faz ele ocupar
      todo o espaço acima do rodapé, e centraliza tudo dentro desse
@@ -39,7 +44,9 @@
      centralização, sempre colado embaixo. */
   .card-main{
     flex:1;
-    display:flex; flex-direction:column; justify-content:center;
+    display:flex; flex-direction:column;
+    justify-content:center;
+    justify-content:safe center;
   }
   /* Telas grandes (tablet/desktop): volta a virar um cartão flutuante
      centralizado, senão os botões ficariam esticados de ponta a ponta
@@ -63,8 +70,8 @@
   .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
   .avatar span{ font-family:Georgia, serif; font-size:42px; color:var(--gold); }
   .biz-name{ text-align:center; font-size:1.3rem; font-weight:600; margin:0 0 4px; line-height:1.3; }
-  .biz-sub{ text-align:center; font-size:.9rem; color:var(--ink-dim); margin:0 0 30px; }
-  .links{ display:flex; flex-direction:column; gap:13px; }
+  .biz-sub{ text-align:center; font-size:.9rem; color:var(--ink-dim); margin:0 0 26px; }
+  .links{ display:flex; flex-direction:column; gap:12px; }
   .link-btn{
     display:flex; align-items:center; gap:12px;
     text-decoration:none; border-radius:13px;
@@ -136,6 +143,12 @@
   </div>
 
 <script>
+  /* O Safari as vezes "lembra" a posicao de rolagem da ultima visita e
+     reabre a pagina no meio. Aqui desligamos essa restauracao e voltamos
+     ao topo no carregamento, pra pagina sempre abrir enquadrada. */
+  if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
+  window.addEventListener("load", () => window.scrollTo(0, 0));
+
   /* ============================================================
      DADOS DO CLIENTE — a ÚNICA parte que muda a cada cliente novo.
      Pra criar um cliente: duplica este arquivo, renomeia pra
@@ -186,6 +199,7 @@
       { type: "whatsapp",  url: "wa.me/34644713415" },
       { type: "website",   url: "https://www.alcomercio.es/comercios/jewelry-1763838729-es?zone=3&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAUEryRwZG9mAmZkaWQWUNpv1F_dyYtYqIPPZ6yRuI8qTELNjGV4dG4DYWVtAjExAHNydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABpwZEvXHSW45500QwIV_MajkYDuUTe8JFPFGiNHgAuL3dE841_aBtJfvzFOIJ_aem_cAYolRpVjirFQDzWjO_2vg" },
       { type: "phone",     url: "tel:+34644713415" },
+      { type: "email",     url: "joyeriaaguadulce@gmail.com" },
       { type: "facebook",  url: "https://www.facebook.com/share/1RzWJ67gf9/?mibextid=wwXIfr" }
     ]
   };

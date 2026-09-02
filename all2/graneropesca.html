@@ -18,7 +18,7 @@
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html{ touch-action:manipulation; }
   body{
-    margin:0; min-height:100vh; min-height:100dvh;
+    margin:0; min-height:100vh; min-height:100svh;
     background:var(--navy);
     color:var(--ink);
     font-family:'Helvetica Neue', Arial, sans-serif;
@@ -28,10 +28,14 @@
      cantos arredondados, sem sobra em volta. É a tela cheia mesmo. */
   .card{
     width:100%;
-    min-height:100vh; min-height:100dvh;
+    /* 100svh = "small viewport height": a altura da tela JA DESCONTANDO
+       as barras do Safari do iPhone. Com 100vh (ou 100dvh) o cartao era
+       montado com a altura da tela SEM as barras, ficava mais alto do que
+       o espaco visivel, e a pagina abria rolada. */
+    min-height:100vh; min-height:100svh;
     background:var(--navy-2);
     display:flex; flex-direction:column;
-    padding:56px 28px calc(20px + env(safe-area-inset-bottom));
+    padding:40px 28px calc(18px + env(safe-area-inset-bottom));
   }
   /* Miolo do cartão: avatar + nome + botões. "flex:1" faz ele ocupar
      todo o espaço acima do rodapé, e centraliza tudo dentro desse
@@ -40,6 +44,7 @@
   .card-main{
     flex:1;
     display:flex; flex-direction:column; justify-content:center;
+    justify-content:safe center;
   }
   /* Telas grandes (tablet/desktop): volta a virar um cartão flutuante
      centralizado, senão os botões ficariam esticados de ponta a ponta
@@ -63,51 +68,19 @@
   .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
   .avatar span{ font-family:Georgia, serif; font-size:32px; color:var(--gold); }
   .biz-name{ text-align:center; font-size:1.3rem; font-weight:600; margin:0 0 4px; line-height:1.3; }
-  .biz-sub{ text-align:center; font-size:.9rem; color:var(--ink-dim); margin:0 0 30px; }
-  .links{ display:flex; flex-direction:column; gap:13px; }
+  .biz-sub{ text-align:center; font-size:.9rem; color:var(--ink-dim); margin:0 0 26px; }
+  .links{ display:flex; flex-direction:column; gap:12px; }
   .link-btn{
     display:flex; align-items:center; gap:12px;
     text-decoration:none; border-radius:13px;
     padding:16px 20px; min-height:56px;
     font-size:1.02rem; font-weight:600;
-    transition:transform .12s ease, filter .12s ease, padding .2s ease, min-height .2s ease;
+    transition:transform .12s ease, filter .12s ease;
     border:1px solid transparent;
   }
   .link-btn:active{ transform:scale(.97); filter:brightness(.94); }
-  .link-btn svg{ width:21px; height:21px; flex:none; transition:opacity .15s ease; }
+  .link-btn svg{ width:21px; height:21px; flex:none; }
   .link-btn.is-featured{ box-shadow:0 0 0 2px var(--gold-soft); }
-  .link-btn .link-label{ flex:1; }
-  .link-count{ display:none; }
-  /* ---------- MODO ESTATÍSTICA — o botão vira um "card" grande com o
-     número de cliques em destaque, igual o exemplo que o cliente mandou,
-     em vez de um numerozinho pequeno do lado. ---------- */
-  .links.stats-mode .link-btn{
-    flex-direction:column; justify-content:center; align-items:center;
-    gap:6px; text-align:center; padding:22px 16px; min-height:88px;
-  }
-  .links.stats-mode .link-btn svg{ display:none; }
-  .links.stats-mode .link-count{
-    display:block; font-size:1.7rem; font-weight:800; line-height:1;
-  }
-  /* ---------- ÍCONE DE ESTATÍSTICAS ---------- */
-  .card{ position:relative; }
-  .stats-toggle{
-    position:absolute; top:16px; right:16px;
-    width:34px; height:34px; border-radius:50%;
-    background:rgba(235,179,94,.08); border:1px solid rgba(235,179,94,.3);
-    color:var(--gold-soft); display:flex; align-items:center; justify-content:center;
-    cursor:pointer; -webkit-tap-highlight-color:transparent;
-    transition:background .15s ease, transform .15s ease;
-  }
-  .stats-toggle:active{ transform:scale(.92); }
-  .stats-toggle.is-active{ background:var(--gold); color:var(--navy); border-color:var(--gold); }
-  .stats-toggle svg{ width:17px; height:17px; }
-  .vcard-hint{
-    margin:14px 2px 0; padding:10px 12px;
-    background:rgba(235,179,94,.06); border:1px solid rgba(235,179,94,.25);
-    border-radius:8px; font-size:.74rem; color:var(--ink-dim); line-height:1.5;
-  }
-  .vcard-hint strong{ color:var(--gold-soft); }
   .footer-credit{
     text-align:center; margin-top:20px; flex:none;
     font-size:.72rem; color:rgba(154,167,187,.5);
@@ -119,23 +92,21 @@
 <body>
 
   <div class="card">
-    <button type="button" class="stats-toggle" id="statsToggle" title="Ver estadísticas de clics" aria-label="Ver estadísticas de clics">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-    </button>
     <div class="card-main">
       <div class="avatar" id="avatar"></div>
       <h1 class="biz-name" id="bizName"></h1>
       <p class="biz-sub" id="bizSub"></p>
       <div class="links" id="linksList"></div>
-      <p class="vcard-hint" id="vcardHint" hidden>
-        📱 Después de tocar "Guardar contacto": abre la app <strong>Archivos</strong>,
-        toca el archivo descargado y elige <strong>"Añadir a contactos"</strong>.
-      </p>
     </div>
     <a href="https://ophiel.es" class="footer-credit">Creado con Ophiel</a>
   </div>
 
 <script>
+  /* O Safari as vezes lembra a posicao de rolagem da ultima visita e
+     reabre a pagina no meio. Aqui desligamos isso e voltamos ao topo. */
+  if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
+  window.addEventListener("load", () => window.scrollTo(0, 0));
+
   /* ============================================================
      DADOS DO CLIENTE — a ÚNICA parte que muda a cada cliente novo.
      Pra criar um cliente: duplica este arquivo, renomeia pra
@@ -163,43 +134,36 @@
   const CONFIG = {
     slug: "graneropesca",
     name: "Granero Pesca",
-    subtitle: "Calle Natalio Rivas 15 portal 2, Galerías Centro, 04770 Adra, Almería",
+    subtitle: "Calle Natalio Rivas 15 portal 2, Galerias centro, 04770 Adra, Almería",
     photo: "data:image/jpeg;base64,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",
+
     links: [
+            
       { type: "whatsapp",  url: "https://wa.me/34633592169" },
       { type: "instagram", url: "https://www.instagram.com/graneropesca/" },
-      { type: "tiktok",    url: "https://www.tiktok.com/@graneropesca" },
-      { type: "facebook",  url: "https://www.facebook.com/profile.php?id=61573154113500" }
+      { type: "tiktok",   url: "https://www.tiktok.com/@graneropesca"},
+      { type: "facebook",   url: "https://www.facebook.com/profile.php?id=61573154113500"},
     ]
   };
 
   /* ---------------------------------------------------------
-     CONTADOR DE CLIQUES — trocamos de serviço nesta correção.
-
-     Usávamos o CounterAPI (counterapi.dev v2), mas na prática ele
-     nunca funcionou aqui: a versão atual da API deles EXIGE um token
-     de autenticação em toda chamada, e o navegador bloqueia isso por
-     CORS quando a chamada vem direto do JavaScript do site (a própria
-     documentação deles recomenda usar um servidor por trás pra isso —
-     o que não faz sentido pra um site estático simples como este).
-     Ou seja: os cliques nunca estavam sendo contados de verdade.
-
-     Trocamos pelo CountAPI (countapi.mileshilliard.com) — mesmo
-     princípio, mas público, sem conta, sem chave e sem servidor
-     próprio: funciona direto do navegador. Não precisa configurar
-     nada aqui embaixo pra isso funcionar.
-
-     Importante: por ser público e sem login, é um contador "de
-     curiosidade" (tipo os contadores de visita antigos de site) —
-     qualquer pessoa que soubesse o nome exato do contador poderia,
-     em teoria, inflar o número. Não é à prova de fraude, então serve
-     como indicador aproximado de engajamento, não pra decisões
-     críticas de negócio.
+     CONTADOR DE CLIQUES — usa o CounterAPI (counterapi.dev), que
+     guarda a contagem por fora, sem precisar de servidor próprio.
+     Preenche "workspace" e "apiKey" com os dados da SUA conta —
+     um workspace só serve pra TODOS os clientes (não precisa criar
+     um workspace novo por cliente, o "slug" acima já separa isso).
+     Enquanto não preencher, o site funciona normal — só não conta.
      --------------------------------------------------------- */
-  const COUNTER_BASE = "https://countapi.mileshilliard.com/api/v1";
+  const COUNTER = {
+    workspace: "ophiels-team-5176",
+    apiKey: "ut_SN47rCqfeXIOawsSc4vXYMNcUaohkPjm2bP4arrO"
+  };
 
   function trackClick(counterName){
-    fetch(`${COUNTER_BASE}/hit/${counterName}`).catch(() => {}); // falha silenciosa — nunca deve travar o clique do visitante
+    if(!COUNTER.workspace || !COUNTER.apiKey) return; // contador não configurado ainda — não faz nada
+    fetch(`https://api.counterapi.dev/v2/${COUNTER.workspace}/${counterName}/up`, {
+      headers: { "Authorization": `Bearer ${COUNTER.apiKey}` }
+    }).catch(() => {}); // falha silenciosa — nunca deve travar o clique do visitante
   }
 
   /* ---------------------------------------------------------
@@ -251,12 +215,6 @@
   /* Monta o arquivo de contato (vCard) na hora — o celular reconhece
      esse formato e já abre a tela nativa de "Adicionar aos contatos",
      sem precisar de nenhum app ou servidor por trás. */
-  // Detecta iPhone/iPad — o Safari deles se comporta diferente de tudo
-  // mais (Android, desktop) na hora de reconhecer um cartão de contato.
-  function isIOS(){
-    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  }
-
   function buildVCardHref(link){
     const name = link.name || CONFIG.name || "";
     const org = link.org || CONFIG.name || "";
@@ -265,20 +223,7 @@
     if(link.email) lines.push(`EMAIL:${link.email}`);
     if(link.website) lines.push(`URL:${link.website}`);
     lines.push("END:VCARD");
-    const vcardText = lines.join("\r\n"); // vCard exige quebra de linha CRLF
-
-    if(isIOS()){
-      // No iPhone/iPad, um link "data:" SEM o atributo "download" é o que
-      // faz o Safari reconhecer o conteúdo como contato e abrir a tela
-      // nativa de "Adicionar Contato" direto. Com "download" forçado
-      // (que ajuda no Android), o Safari ignora esse reconhecimento e só
-      // baixa um arquivo cru — por isso os dois casos são tratados diferente.
-      return "data:text/vcard;charset=utf-8," + encodeURIComponent(vcardText);
-    }
-    // Fora do iOS (Android e a maioria dos outros), um arquivo de verdade
-    // (Blob) é mais confiável — o link "data:" às vezes é ignorado.
-    const blob = new Blob([vcardText], { type: "text/vcard;charset=utf-8" });
-    return URL.createObjectURL(blob);
+    return "data:text/vcard;charset=utf-8," + encodeURIComponent(lines.join("\n"));
   }
 
   const listEl = document.getElementById("linksList");
@@ -291,72 +236,10 @@
     const featuredCls = link.primary ? "is-featured" : "";
     const isVCard = link.type === "vcard";
     const href = isVCard ? buildVCardHref(link) : link.url;
-    // no iPhone, abrir numa aba nova costuma disparar a prévia nativa de
-    // contato do Safari com mais confiabilidade do que na mesma aba
-    const targetAttrs = isVCard ? (isIOS() ? 'target="_blank"' : "") : 'target="_blank" rel="noopener"';
-    const downloadAttr = (isVCard && !isIOS()) ? `download="${(link.name || CONFIG.name || "contacto").replace(/[^a-z0-9]/gi, "-")}.vcf"` : ""; // no iPhone/iPad, NÃO força download — deixa o Safari reconhecer o contato sozinho
-    const counterName = (link.counterName || `ophiel-${CONFIG.slug}-${link.type}`).replace(/[^a-z0-9-]/gi, "-");
-    return `<a href="${href}" ${targetAttrs} ${downloadAttr} onclick="trackClick('${counterName}')" data-counter="${counterName}" class="link-btn ${featuredCls}" style="background:${bg}; color:${color}; ${border}">${meta.icon}<span class="link-label">${label}</span><span class="link-count" hidden></span></a>`;
+    const targetAttrs = isVCard ? "" : 'target="_blank" rel="noopener"'; // vCard abre na própria aba pra disparar a tela nativa de contato
+    const counterName = (link.counterName || `${CONFIG.slug}-${link.type}`).replace(/[^a-z0-9-]/gi, "-");
+    return `<a href="${href}" ${targetAttrs} onclick="trackClick('${counterName}')" class="link-btn ${featuredCls}" style="background:${bg}; color:${color}; ${border}">${meta.icon}<span>${label}</span></a>`;
   }).join("");
-
-  // mostra a dica de "Archivos → Añadir a contactos" só se tiver um botão
-  // de vCard na página E o visitante estiver num iPhone/iPad — no Android
-  // e no computador o fluxo já funciona liso, não precisa da dica
-  const hasVCard = CONFIG.links.some((l) => l.type === "vcard");
-  if(hasVCard && isIOS()){
-    document.getElementById("vcardHint").hidden = false;
-  }
-
-  /* ---------- ÍCONE DE ESTATÍSTICAS ---------- */
-  // busca (sem somar!) o valor atual de cada contador e mostra um
-  // número ao lado de cada botão — alterna ligado/desligado no clique
-  const statsToggle = document.getElementById("statsToggle");
-  let statsOn = false;
-  let statsLoaded = false;
-
-  async function fetchCounterValue(counterName){
-    try{
-      const res = await fetch(`${COUNTER_BASE}/get/${counterName}`);
-      if(!res.ok){
-        console.warn(`[stats] "${counterName}" respondió ${res.status}.`);
-        return null;
-      }
-      const json = await res.json();
-      const value = json?.value;
-      if(value === undefined || value === null){
-        console.warn(`[stats] "${counterName}" respondió pero no encontramos el número de clics — formato inesperado:`, json);
-        return null;
-      }
-      return Number(value);
-    } catch(e) {
-      console.warn(`[stats] "${counterName}" falló al cargar:`, e);
-      return null;
-    }
-  }
-
-  async function loadStats(){
-    const badges = document.querySelectorAll(".link-count");
-    badges.forEach((b) => { b.textContent = "…"; });
-    await Promise.all(Array.from(badges).map(async (badge) => {
-      const btn = badge.closest("[data-counter]");
-      const counterName = btn?.dataset.counter;
-      if(!counterName) return;
-      const value = await fetchCounterValue(counterName);
-      badge.textContent = value === null ? "—" : `${value} ${value === 1 ? "clic" : "clics"}`;
-    }));
-    statsLoaded = true;
-  }
-
-  if(statsToggle){
-    statsToggle.addEventListener("click", async () => {
-      statsOn = !statsOn;
-      statsToggle.classList.toggle("is-active", statsOn);
-      listEl.classList.toggle("stats-mode", statsOn);
-      if(statsOn && !statsLoaded){
-        await loadStats();
-      }
-    });
-  }
 </script>
 </body>
 </html>

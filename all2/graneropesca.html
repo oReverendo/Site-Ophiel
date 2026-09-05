@@ -28,10 +28,11 @@
      cantos arredondados, sem sobra em volta. É a tela cheia mesmo. */
   .card{
     width:100%;
-    /* 100svh = "small viewport height": a altura da tela JA DESCONTANDO
+    /* 100svh = "small viewport height": a altura da tela JÁ DESCONTANDO
        as barras do Safari do iPhone. Com 100vh (ou 100dvh) o cartao era
        montado com a altura da tela SEM as barras, ficava mais alto do que
-       o espaco visivel, e a pagina abria rolada. */
+       o espaco realmente visivel, e por isso a pagina abria rolada — era
+       preciso arrastar pra ver o topo centralizado. */
     min-height:100vh; min-height:100svh;
     background:var(--navy-2);
     display:flex; flex-direction:column;
@@ -43,7 +44,8 @@
      centralização, sempre colado embaixo. */
   .card-main{
     flex:1;
-    display:flex; flex-direction:column; justify-content:center;
+    display:flex; flex-direction:column;
+    justify-content:center;
     justify-content:safe center;
   }
   /* Telas grandes (tablet/desktop): volta a virar um cartão flutuante
@@ -60,13 +62,13 @@
     .card-main{ flex:none; }
   }
   .avatar{
-    width:84px; height:84px; border-radius:50%;
+    width:112px; height:112px; border-radius:50%;
     margin:0 auto 18px; overflow:hidden;
     background:rgba(235,179,94,.08); border:1px solid var(--gold);
     display:flex; align-items:center; justify-content:center; flex:none;
   }
   .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .avatar span{ font-family:Georgia, serif; font-size:32px; color:var(--gold); }
+  .avatar span{ font-family:Georgia, serif; font-size:42px; color:var(--gold); }
   .biz-name{ text-align:center; font-size:1.3rem; font-weight:600; margin:0 0 4px; line-height:1.3; }
   .biz-sub{ text-align:center; font-size:.9rem; color:var(--ink-dim); margin:0 0 26px; }
   .links{ display:flex; flex-direction:column; gap:12px; }
@@ -75,12 +77,44 @@
     text-decoration:none; border-radius:13px;
     padding:16px 20px; min-height:56px;
     font-size:1.02rem; font-weight:600;
-    transition:transform .12s ease, filter .12s ease;
+    transition:transform .12s ease, filter .12s ease, padding .2s ease, min-height .2s ease;
     border:1px solid transparent;
   }
   .link-btn:active{ transform:scale(.97); filter:brightness(.94); }
-  .link-btn svg{ width:21px; height:21px; flex:none; }
+  .link-btn svg{ width:21px; height:21px; flex:none; transition:opacity .15s ease; }
   .link-btn.is-featured{ box-shadow:0 0 0 2px var(--gold-soft); }
+  .link-btn .link-label{ flex:1; }
+  .link-count{ display:none; }
+  /* ---------- MODO ESTATÍSTICA — o botão vira um "card" grande com o
+     número de cliques em destaque, igual o exemplo que o cliente mandou,
+     em vez de um numerozinho pequeno do lado. ---------- */
+  .links.stats-mode .link-btn{
+    flex-direction:column; justify-content:center; align-items:center;
+    gap:6px; text-align:center; padding:22px 16px; min-height:88px;
+  }
+  .links.stats-mode .link-btn svg{ display:none; }
+  .links.stats-mode .link-count{
+    display:block; font-size:1.7rem; font-weight:800; line-height:1;
+  }
+  /* ---------- ÍCONE DE ESTATÍSTICAS ---------- */
+  .card{ position:relative; }
+  .stats-toggle{
+    position:absolute; top:16px; right:16px;
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(235,179,94,.08); border:1px solid rgba(235,179,94,.3);
+    color:var(--gold-soft); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; -webkit-tap-highlight-color:transparent;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .stats-toggle:active{ transform:scale(.92); }
+  .stats-toggle.is-active{ background:var(--gold); color:var(--navy); border-color:var(--gold); }
+  .stats-toggle svg{ width:17px; height:17px; }
+  .vcard-hint{
+    margin:14px 2px 0; padding:10px 12px;
+    background:rgba(235,179,94,.06); border:1px solid rgba(235,179,94,.25);
+    border-radius:8px; font-size:.74rem; color:var(--ink-dim); line-height:1.5;
+  }
+  .vcard-hint strong{ color:var(--gold-soft); }
   .footer-credit{
     text-align:center; margin-top:20px; flex:none;
     font-size:.72rem; color:rgba(154,167,187,.5);
@@ -92,18 +126,26 @@
 <body>
 
   <div class="card">
+    <button type="button" class="stats-toggle" id="statsToggle" title="Ver estadísticas de clics" aria-label="Ver estadísticas de clics">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    </button>
     <div class="card-main">
       <div class="avatar" id="avatar"></div>
       <h1 class="biz-name" id="bizName"></h1>
       <p class="biz-sub" id="bizSub"></p>
       <div class="links" id="linksList"></div>
+      <p class="vcard-hint" id="vcardHint" hidden>
+        📱 Después de tocar "Guardar contacto": abre la app <strong>Archivos</strong>,
+        toca el archivo descargado y elige <strong>"Añadir a contactos"</strong>.
+      </p>
     </div>
     <a href="https://ophiel.es" class="footer-credit">Creado con Ophiel</a>
   </div>
 
 <script>
-  /* O Safari as vezes lembra a posicao de rolagem da ultima visita e
-     reabre a pagina no meio. Aqui desligamos isso e voltamos ao topo. */
+  /* O Safari as vezes "lembra" a posicao de rolagem da ultima visita e
+     reabre a pagina no meio. Aqui desligamos essa restauracao e voltamos
+     ao topo no carregamento, pra pagina sempre abrir enquadrada. */
   if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
   window.addEventListener("load", () => window.scrollTo(0, 0));
 
@@ -122,9 +164,47 @@
      dourado de destaque em volta do botão mais importante — a
      cor de fundo continua sendo a da rede, não muda pra dourado.
 
-     type "vcard" é diferente dos outros: em vez de "url", usa
-     "name" / "phone" / "email" / "website" (todos opcionais) pra
-     montar o cartão de contato na hora. Não precisa de "url".
+     type "phone" precisa da url no formato "tel:+34600000000".
+     Só dígitos e o "+", sem espaços nem parênteses.
+
+     type "vcard" (botão "Guardar contacto") tem dois modos:
+
+       RECOMENDADO — sobe um arquivo .vcf junto com este HTML e
+       aponta a "url" pra ele: { type: "vcard", url: "cliente.vcf" }.
+       Assim o servidor entrega o arquivo com o cabeçalho correto
+       (Content-Type: text/vcard) e o celular abre a tela nativa de
+       "Adicionar contato". É o único jeito confiável no iPhone.
+
+       ANTIGO — sem "url", usando "name" / "phone" / "email" /
+       "website", o arquivo é montado na hora pelo navegador. Ainda
+       funciona, mas de forma irregular: sem o cabeçalho do servidor
+       o celular às vezes só baixa um arquivo solto em vez de abrir
+       o contato. Só use se não puder hospedar o .vcf.
+
+     "photo" (foto ou logo do cliente): aceita duas coisas —
+       a) o nome de um arquivo de imagem que vá subir junto com este
+          HTML (ex: "logo.jpg"); ou
+       b) a imagem inteira embutida aqui dentro, em base64
+          ("data:image/jpeg;base64,....."). É o formato usado nos
+          clientes atuais: o HTML vira um arquivo único, que não
+          quebra se a imagem sumir do servidor.
+
+     COMO PREPARAR A IMAGEM (importante): o avatar é um CÍRCULO e a
+     imagem é recortada por "cover", ou seja, tudo que sobrar fora do
+     círculo é cortado. Então prepare sempre uma imagem QUADRADA
+     (340x340 já basta) com o assunto centralizado:
+       - Logo retangular: recorte as margens vazias que sobram em
+         volta e monte-a centralizada num quadrado preenchido com a
+         MESMA cor de fundo da logo. A emenda fica invisível e a logo
+         aproveita todo o círculo.
+       - Logo que já é redonda: recorte exatamente na borda do
+         círculo dela — aí o aro da logo casa com a borda do avatar.
+       - Foto de pessoa: recorte quadrado fechado no rosto.
+     Deixe uma folga nas pontas: os quatro cantos do quadrado sempre
+     somem no recorte redondo, então nada importante pode ficar lá.
+
+     Deixando "photo" vazio (""), o avatar mostra automaticamente a
+     primeira letra do nome do cliente em dourado.
 
      "slug": identificador único e curto do cliente (sem espaço,
      sem acento — ex: "bluemare", "sudokisushi"). É usado só pra dar
@@ -142,28 +222,37 @@
       { type: "whatsapp",  url: "https://wa.me/34633592169" },
       { type: "instagram", url: "https://www.instagram.com/graneropesca/" },
       { type: "tiktok",   url: "https://www.tiktok.com/@graneropesca"},
-      { type: "facebook",   url: "https://www.facebook.com/profile.php?id=61573154113500"},
+      { type: "facebook",   url: "https://www.facebook.com/profile.php?id=61573154113500" }
     ]
   };
 
   /* ---------------------------------------------------------
-     CONTADOR DE CLIQUES — usa o CounterAPI (counterapi.dev), que
-     guarda a contagem por fora, sem precisar de servidor próprio.
-     Preenche "workspace" e "apiKey" com os dados da SUA conta —
-     um workspace só serve pra TODOS os clientes (não precisa criar
-     um workspace novo por cliente, o "slug" acima já separa isso).
-     Enquanto não preencher, o site funciona normal — só não conta.
+     CONTADOR DE CLIQUES — trocamos de serviço nesta correção.
+
+     Usávamos o CounterAPI (counterapi.dev v2), mas na prática ele
+     nunca funcionou aqui: a versão atual da API deles EXIGE um token
+     de autenticação em toda chamada, e o navegador bloqueia isso por
+     CORS quando a chamada vem direto do JavaScript do site (a própria
+     documentação deles recomenda usar um servidor por trás pra isso —
+     o que não faz sentido pra um site estático simples como este).
+     Ou seja: os cliques nunca estavam sendo contados de verdade.
+
+     Trocamos pelo CountAPI (countapi.mileshilliard.com) — mesmo
+     princípio, mas público, sem conta, sem chave e sem servidor
+     próprio: funciona direto do navegador. Não precisa configurar
+     nada aqui embaixo pra isso funcionar.
+
+     Importante: por ser público e sem login, é um contador "de
+     curiosidade" (tipo os contadores de visita antigos de site) —
+     qualquer pessoa que soubesse o nome exato do contador poderia,
+     em teoria, inflar o número. Não é à prova de fraude, então serve
+     como indicador aproximado de engajamento, não pra decisões
+     críticas de negócio.
      --------------------------------------------------------- */
-  const COUNTER = {
-    workspace: "ophiels-team-5176",
-    apiKey: "ut_SN47rCqfeXIOawsSc4vXYMNcUaohkPjm2bP4arrO"
-  };
+  const COUNTER_BASE = "https://countapi.mileshilliard.com/api/v1";
 
   function trackClick(counterName){
-    if(!COUNTER.workspace || !COUNTER.apiKey) return; // contador não configurado ainda — não faz nada
-    fetch(`https://api.counterapi.dev/v2/${COUNTER.workspace}/${counterName}/up`, {
-      headers: { "Authorization": `Bearer ${COUNTER.apiKey}` }
-    }).catch(() => {}); // falha silenciosa — nunca deve travar o clique do visitante
+    fetch(`${COUNTER_BASE}/hit/${counterName}`).catch(() => {}); // falha silenciosa — nunca deve travar o clique do visitante
   }
 
   /* ---------------------------------------------------------
@@ -215,6 +304,12 @@
   /* Monta o arquivo de contato (vCard) na hora — o celular reconhece
      esse formato e já abre a tela nativa de "Adicionar aos contatos",
      sem precisar de nenhum app ou servidor por trás. */
+  // Detecta iPhone/iPad — o Safari deles se comporta diferente de tudo
+  // mais (Android, desktop) na hora de reconhecer um cartão de contato.
+  function isIOS(){
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  }
+
   function buildVCardHref(link){
     const name = link.name || CONFIG.name || "";
     const org = link.org || CONFIG.name || "";
@@ -223,7 +318,20 @@
     if(link.email) lines.push(`EMAIL:${link.email}`);
     if(link.website) lines.push(`URL:${link.website}`);
     lines.push("END:VCARD");
-    return "data:text/vcard;charset=utf-8," + encodeURIComponent(lines.join("\n"));
+    const vcardText = lines.join("\r\n"); // vCard exige quebra de linha CRLF
+
+    if(isIOS()){
+      // No iPhone/iPad, um link "data:" SEM o atributo "download" é o que
+      // faz o Safari reconhecer o conteúdo como contato e abrir a tela
+      // nativa de "Adicionar Contato" direto. Com "download" forçado
+      // (que ajuda no Android), o Safari ignora esse reconhecimento e só
+      // baixa um arquivo cru — por isso os dois casos são tratados diferente.
+      return "data:text/vcard;charset=utf-8," + encodeURIComponent(vcardText);
+    }
+    // Fora do iOS (Android e a maioria dos outros), um arquivo de verdade
+    // (Blob) é mais confiável — o link "data:" às vezes é ignorado.
+    const blob = new Blob([vcardText], { type: "text/vcard;charset=utf-8" });
+    return URL.createObjectURL(blob);
   }
 
   const listEl = document.getElementById("linksList");
@@ -235,11 +343,88 @@
     const border = meta.border ? `border:${meta.border};` : "";
     const featuredCls = link.primary ? "is-featured" : "";
     const isVCard = link.type === "vcard";
-    const href = isVCard ? buildVCardHref(link) : link.url;
-    const targetAttrs = isVCard ? "" : 'target="_blank" rel="noopener"'; // vCard abre na própria aba pra disparar a tela nativa de contato
-    const counterName = (link.counterName || `${CONFIG.slug}-${link.type}`).replace(/[^a-z0-9-]/gi, "-");
-    return `<a href="${href}" ${targetAttrs} onclick="trackClick('${counterName}')" class="link-btn ${featuredCls}" style="background:${bg}; color:${color}; ${border}">${meta.icon}<span>${label}</span></a>`;
+    // vCard hospedado (link.url apontando pra um .vcf que está no servidor)
+    // é um link comum: quem diz ao celular que aquilo é um contato é o
+    // cabeçalho Content-Type que o servidor manda junto. Por isso ele não
+    // leva target, nem download, nem passa pelo buildVCardHref.
+    const isHostedVCard = isVCard && !!link.url;
+    const href = (isVCard && !isHostedVCard) ? buildVCardHref(link) : link.url;
+    // no iPhone, abrir o vCard MONTADO NA HORA numa aba nova costuma
+    // disparar a prévia nativa de contato com mais confiabilidade
+    // tel:, mailto: e sms: NÃO podem levar target="_blank" — o celular
+    // precisa "entregar" esses links pro app nativo (discador, email), e
+    // abrir numa aba nova atrapalha: no Chrome/Safari deixa uma aba em
+    // branco para trás, e nos navegadores internos do Instagram/Facebook
+    // simplesmente não acontece nada. Sites normais (http/https) continuam
+    // abrindo em aba nova pra não tirar o visitante da página de links.
+    const isAppLink = /^(tel:|mailto:|sms:)/i.test(link.url || "");
+    const targetAttrs = isHostedVCard ? ""
+      : isVCard ? (isIOS() ? 'target="_blank"' : "")
+      : (isAppLink ? "" : 'target="_blank" rel="noopener"');
+    const downloadAttr = (isVCard && !isHostedVCard && !isIOS()) ? `download="${(link.name || CONFIG.name || "contacto").replace(/[^a-z0-9]/gi, "-")}.vcf"` : ""; // no iPhone/iPad, NÃO força download — deixa o Safari reconhecer o contato sozinho
+    const counterName = (link.counterName || `ophiel-${CONFIG.slug}-${link.type}`).replace(/[^a-z0-9-]/gi, "-");
+    return `<a href="${href}" ${targetAttrs} ${downloadAttr} onclick="trackClick('${counterName}')" data-counter="${counterName}" class="link-btn ${featuredCls}" style="background:${bg}; color:${color}; ${border}">${meta.icon}<span class="link-label">${label}</span><span class="link-count" hidden></span></a>`;
   }).join("");
+
+  // A dica de "Archivos → Añadir a contactos" só faz sentido no modo
+  // ANTIGO (vCard montado na hora) e num iPhone/iPad. Com o .vcf
+  // hospedado o contato abre sozinho, e no Android e no computador o
+  // fluxo já funciona liso — nos dois casos a dica só confundiria.
+  const hasGeneratedVCard = CONFIG.links.some((l) => l.type === "vcard" && !l.url);
+  if(hasGeneratedVCard && isIOS()){
+    document.getElementById("vcardHint").hidden = false;
+  }
+
+  /* ---------- ÍCONE DE ESTATÍSTICAS ---------- */
+  // busca (sem somar!) o valor atual de cada contador e mostra um
+  // número ao lado de cada botão — alterna ligado/desligado no clique
+  const statsToggle = document.getElementById("statsToggle");
+  let statsOn = false;
+  let statsLoaded = false;
+
+  async function fetchCounterValue(counterName){
+    try{
+      const res = await fetch(`${COUNTER_BASE}/get/${counterName}`);
+      if(!res.ok){
+        console.warn(`[stats] "${counterName}" respondió ${res.status}.`);
+        return null;
+      }
+      const json = await res.json();
+      const value = json?.value;
+      if(value === undefined || value === null){
+        console.warn(`[stats] "${counterName}" respondió pero no encontramos el número de clics — formato inesperado:`, json);
+        return null;
+      }
+      return Number(value);
+    } catch(e) {
+      console.warn(`[stats] "${counterName}" falló al cargar:`, e);
+      return null;
+    }
+  }
+
+  async function loadStats(){
+    const badges = document.querySelectorAll(".link-count");
+    badges.forEach((b) => { b.textContent = "…"; });
+    await Promise.all(Array.from(badges).map(async (badge) => {
+      const btn = badge.closest("[data-counter]");
+      const counterName = btn?.dataset.counter;
+      if(!counterName) return;
+      const value = await fetchCounterValue(counterName);
+      badge.textContent = value === null ? "—" : `${value} ${value === 1 ? "clic" : "clics"}`;
+    }));
+    statsLoaded = true;
+  }
+
+  if(statsToggle){
+    statsToggle.addEventListener("click", async () => {
+      statsOn = !statsOn;
+      statsToggle.classList.toggle("is-active", statsOn);
+      listEl.classList.toggle("stats-mode", statsOn);
+      if(statsOn && !statsLoaded){
+        await loadStats();
+      }
+    });
+  }
 </script>
 </body>
 </html>

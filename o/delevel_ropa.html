@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#030a12">
+<title id="pageTitle">Enlaces</title>
+
+<style>
+  :root{
+    --navy: #030a12;
+    --navy-2: #0b131c;
+    --gold: #ebb35e;
+    --gold-soft: #f1cd96;
+    --ink: #eef1f6;
+    --ink-dim: #9aa7bb;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html{ touch-action:manipulation; }
+  body{
+    margin:0; min-height:100vh; min-height:100dvh;
+    background:var(--navy);
+    color:var(--ink);
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    display:flex; align-items:stretch; justify-content:center;
+  }
+  /* Mobile (padrão): o "cartão" VIRA a tela inteira — sem bordas, sem
+     cantos arredondados, sem sobra em volta. É a tela cheia mesmo. */
+  .card{
+    width:100%;
+    min-height:100vh; min-height:100dvh;
+    background:var(--navy-2);
+    display:flex; flex-direction:column;
+    padding:56px 28px calc(20px + env(safe-area-inset-bottom));
+  }
+  /* Miolo do cartão: avatar + nome + botões. "flex:1" faz ele ocupar
+     todo o espaço acima do rodapé, e centraliza tudo dentro desse
+     espaço — o rodapé (fora daqui) fica sempre de fora dessa
+     centralização, sempre colado embaixo. */
+  .card-main{
+    flex:1;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  /* Telas grandes (tablet/desktop): volta a virar um cartão flutuante
+     centralizado, senão os botões ficariam esticados de ponta a ponta
+     numa tela de monitor. */
+  @media (min-width:560px){
+    body{ align-items:center; padding:32px 18px; }
+    .card{
+      width:100%; max-width:420px; min-height:auto;
+      border:1px solid rgba(235,179,94,.25);
+      border-radius:22px;
+      padding:38px 28px 26px;
+    }
+    .card-main{ flex:none; }
+  }
+  .avatar{
+    width:84px; height:84px; border-radius:50%;
+    margin:0 auto 18px; overflow:hidden;
+    background:rgba(235,179,94,.08); border:1px solid var(--gold);
+    display:flex; align-items:center; justify-content:center; flex:none;
+  }
+  .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .avatar span{ font-family:Georgia, serif; font-size:32px; color:var(--gold); }
+  .biz-name{ text-align:center; font-size:1.3rem; font-weight:600; margin:0 0 4px; line-height:1.3; }
+  .biz-sub{ text-align:center; font-size:.9rem; color:var(--ink-dim); margin:0 0 30px; }
+  .links{ display:flex; flex-direction:column; gap:13px; }
+  .link-btn{
+    display:flex; align-items:center; gap:12px;
+    text-decoration:none; border-radius:13px;
+    padding:16px 20px; min-height:56px;
+    font-size:1.02rem; font-weight:600;
+    transition:transform .12s ease, filter .12s ease, padding .2s ease, min-height .2s ease;
+    border:1px solid transparent;
+  }
+  .link-btn:active{ transform:scale(.97); filter:brightness(.94); }
+  .link-btn .link-label{ flex:1; }
+  .link-count{ display:none; }
+  /* ---------- MODO ESTATÍSTICA — o botão vira um "card" grande com o
+     número de cliques em destaque, igual o exemplo que o cliente mandou,
+     em vez de um numerozinho pequeno do lado. ---------- */
+  .links.stats-mode .link-btn{
+    flex-direction:column; justify-content:center; align-items:center;
+    gap:6px; text-align:center; padding:22px 16px; min-height:88px;
+  }
+  .links.stats-mode .link-btn svg{ display:none; }
+  .links.stats-mode .link-count{
+    display:block; font-size:1.7rem; font-weight:800; line-height:1;
+  }
+  /* ---------- ÍCONE DE ESTATÍSTICAS ---------- */
+  .card{ position:relative; }
+  .stats-toggle{
+    position:absolute; top:16px; right:16px;
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(235,179,94,.08); border:1px solid rgba(235,179,94,.3);
+    color:var(--gold-soft); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; -webkit-tap-highlight-color:transparent;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .stats-toggle:active{ transform:scale(.92); }
+  .stats-toggle.is-active{ background:var(--gold); color:var(--navy); border-color:var(--gold); }
+  .stats-toggle svg{ width:17px; height:17px; }
+  .link-btn svg{ width:21px; height:21px; flex:none; transition:opacity .15s ease; }
+  .link-btn.is-featured{ box-shadow:0 0 0 2px var(--gold-soft); }
+  .vcard-hint{
+    margin:14px 2px 0; padding:10px 12px;
+    background:rgba(235,179,94,.06); border:1px solid rgba(235,179,94,.25);
+    border-radius:8px; font-size:.74rem; color:var(--ink-dim); line-height:1.5;
+  }
+  .vcard-hint strong{ color:var(--gold-soft); }
+  .footer-credit{
+    text-align:center; margin-top:20px; flex:none;
+    font-size:.72rem; color:rgba(154,167,187,.5);
+    text-decoration:none; display:block;
+    padding:8px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <button type="button" class="stats-toggle" id="statsToggle" title="Ver estadísticas de clics" aria-label="Ver estadísticas de clics">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    </button>
+    <div class="card-main">
+      <div class="avatar" id="avatar"></div>
+      <h1 class="biz-name" id="bizName"></h1>
+      <p class="biz-sub" id="bizSub"></p>
+      <div class="links" id="linksList"></div>
+      <p class="vcard-hint" id="vcardHint" hidden>
+        📱 Después de tocar "Guardar contacto": abre la app <strong>Archivos</strong>,
+        toca el archivo descargado y elige <strong>"Añadir a contactos"</strong>.
+      </p>
+    </div>
+    <a href="https://ophiel.es" class="footer-credit">Creado con Ophiel</a>
+  </div>
+
+<script>
+  /* ============================================================
+     DADOS DO CLIENTE — a ÚNICA parte que muda a cada cliente novo.
+     Pra criar um cliente: duplica este arquivo, renomeia pra
+     all2/NomeDaEmpresa.html, e edita só o bloco abaixo.
+
+     "type" precisa ser um dos nomes já cadastrados no LINK_TYPES
+     (veja a lista logo depois deste bloco). Se um tipo não estiver
+     na lista "links" do cliente, o botão dele simplesmente não
+     aparece — não precisa "desativar" nada. A cor do botão já vem
+     pronta (cor oficial de cada rede), não precisa escolher cor.
+
+     "primary" (true/false, opcional): só adiciona um contorno
+     dourado de destaque em volta do botão mais importante — a
+     cor de fundo continua sendo a da rede, não muda pra dourado.
+
+     type "vcard" é diferente dos outros: em vez de "url", usa
+     "name" / "phone" / "email" / "website" (todos opcionais) pra
+     montar o cartão de contato na hora. Não precisa de "url".
+
+     "slug": identificador único e curto do cliente (sem espaço,
+     sem acento — ex: "bluemare", "sudokisushi"). É usado só pra dar
+     nome aos contadores de clique de cada botão, então dois clientes
+     diferentes nunca misturam estatística um do outro.
+     ============================================================ */
+  const CONFIG = {
+    slug: "delevel_ropa",
+    name: "Moda Level ",
+    subtitle: "📍Bulevar El Ejido 330A, El Ejido, Spain 04700",
+    photo: "data:image/png;base64,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",
+    links: [
+      { type: "google",    url: "https://search.google.com/local/writereview?placeid=ChIJUSdICEFDcA0RauvFoRl67nI", primary: true },
+      { type: "instagram", url: "https://www.instagram.com/moda_level.style/" },
+      { type: "tiktok",   url: "https://www.tiktok.com/@moda_level.style"},
+      { type: "whatsapp",  url: "https://wa.me/34618824806" },
+          
+            
+    ]
+  };
+
+  /* ---------------------------------------------------------
+     CONTADOR DE CLIQUES — trocamos de serviço nesta correção.
+
+     Usávamos o CounterAPI (counterapi.dev v2), mas na prática ele
+     nunca funcionou aqui: a versão atual da API deles EXIGE um token
+     de autenticação em toda chamada, e o navegador bloqueia isso por
+     CORS quando a chamada vem direto do JavaScript do site (a própria
+     documentação deles recomenda usar um servidor por trás pra isso —
+     o que não faz sentido pra um site estático simples como este).
+     Ou seja: os cliques nunca estavam sendo contados de verdade.
+
+     Trocamos pelo CountAPI (countapi.mileshilliard.com) — mesmo
+     princípio, mas público, sem conta, sem chave e sem servidor
+     próprio: funciona direto do navegador. Não precisa configurar
+     nada aqui embaixo pra isso funcionar.
+
+     Importante: por ser público e sem login, é um contador "de
+     curiosidade" (tipo os contadores de visita antigos de site) —
+     qualquer pessoa que soubesse o nome exato do contador poderia,
+     em teoria, inflar o número. Não é à prova de fraude, então serve
+     como indicador aproximado de engajamento, não pra decisões
+     críticas de negócio.
+     --------------------------------------------------------- */
+  const COUNTER_BASE = "https://countapi.mileshilliard.com/api/v1";
+
+  function trackClick(counterName){
+    fetch(`${COUNTER_BASE}/hit/${counterName}`).catch(() => {}); // falha silenciosa — nunca deve travar o clique do visitante
+  }
+
+  /* ---------------------------------------------------------
+     CATÁLOGO DE REDES DISPONÍVEIS — não precisa mexer aqui pra
+     criar um cliente novo. Só edita se quiser ADICIONAR um tipo
+     de rede que ainda não existe na lista (ex: Spotify, LinkedIn),
+     ou trocar a cor oficial de alguma marca se ela mudar no futuro.
+     "bg" aceita cor sólida ou gradient CSS (ex: Instagram).
+     --------------------------------------------------------- */
+  const LINK_TYPES = {
+    google:    { label: "Reseña en Google", bg: "#4285F4", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg>' },
+    instagram: { label: "Instagram", bg: "linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>' },
+    facebook:  { label: "Facebook", bg: "#1877F2", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v6h3v-6h3l1-3h-4v-2c0-.6.4-1 1-1z"/></svg>' },
+    tiktok:    { label: "TikTok", bg: "#010101", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 3v10.2a2.8 2.8 0 1 1-2-2.7V8.4a5 5 0 1 0 4 4.9V8a5.2 5.2 0 0 0 3 1V6.8A3.4 3.4 0 0 1 16.5 3H14z"/></svg>' },
+    whatsapp:  { label: "WhatsApp", bg: "#25D366", color: "#06301a",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>' },
+    phone:     { label: "Llamar", bg: "rgba(235,179,94,.08)", color: "#f1cd96", border: "1px solid rgba(235,179,94,.3)",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.1-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2z"/></svg>' },
+    email:     { label: "Email", bg: "rgba(235,179,94,.08)", color: "#f1cd96", border: "1px solid rgba(235,179,94,.3)",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>' },
+    website:   { label: "Sitio web", bg: "var(--gold)", color: "#030a12",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>' },
+    maps:      { label: "Cómo llegar", bg: "#34A853", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>' },
+    booking:   { label: "Reservar", bg: "#1F3B57", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>' },
+    custom:    { label: "Enlace", bg: "rgba(235,179,94,.08)", color: "#f1cd96", border: "1px solid rgba(235,179,94,.3)",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.2M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.2-1.2"/></svg>' },
+    vcard:     { label: "Guardar contacto", bg: "rgba(235,179,94,.08)", color: "#f1cd96", border: "1px solid rgba(235,179,94,.3)",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M6 16c.5-1.7 1.8-2.5 3-2.5s2.5.8 3 2.5M14 9h4M14 13h4"/></svg>' }
+  };
+
+  document.title = CONFIG.name;
+  document.getElementById("pageTitle").textContent = CONFIG.name;
+  document.getElementById("bizName").textContent = CONFIG.name;
+  document.getElementById("bizSub").textContent = CONFIG.subtitle || "";
+
+  const avatarEl = document.getElementById("avatar");
+  if(CONFIG.photo){
+    avatarEl.innerHTML = `<img src="${CONFIG.photo}" alt="${CONFIG.name}">`;
+  } else {
+    avatarEl.innerHTML = `<span>${(CONFIG.name || "?").trim().charAt(0).toUpperCase()}</span>`;
+  }
+
+  /* Monta o arquivo de contato (vCard) na hora — o celular reconhece
+     esse formato e já abre a tela nativa de "Adicionar aos contatos",
+     sem precisar de nenhum app ou servidor por trás. */
+  // Detecta iPhone/iPad — o Safari deles se comporta diferente de tudo
+  // mais (Android, desktop) na hora de reconhecer um cartão de contato.
+  function isIOS(){
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  }
+
+  function buildVCardHref(link){
+    const name = link.name || CONFIG.name || "";
+    const org = link.org || CONFIG.name || "";
+    const lines = ["BEGIN:VCARD", "VERSION:3.0", `N:;${name};;;`, `FN:${name}`, `ORG:${org}`];
+    if(link.phone) lines.push(`TEL;TYPE=CELL:${link.phone}`);
+    if(link.email) lines.push(`EMAIL:${link.email}`);
+    if(link.website) lines.push(`URL:${link.website}`);
+    lines.push("END:VCARD");
+    const vcardText = lines.join("\r\n"); // vCard exige quebra de linha CRLF
+
+    if(isIOS()){
+      // No iPhone/iPad, um link "data:" SEM o atributo "download" é o que
+      // faz o Safari reconhecer o conteúdo como contato e abrir a tela
+      // nativa de "Adicionar Contato" direto. Com "download" forçado
+      // (que ajuda no Android), o Safari ignora esse reconhecimento e só
+      // baixa um arquivo cru — por isso os dois casos são tratados diferente.
+      return "data:text/vcard;charset=utf-8," + encodeURIComponent(vcardText);
+    }
+    // Fora do iOS (Android e a maioria dos outros), um arquivo de verdade
+    // (Blob) é mais confiável — o link "data:" às vezes é ignorado.
+    const blob = new Blob([vcardText], { type: "text/vcard;charset=utf-8" });
+    return URL.createObjectURL(blob);
+  }
+
+  const listEl = document.getElementById("linksList");
+  listEl.innerHTML = CONFIG.links.map((link) => {
+    const meta = LINK_TYPES[link.type] || LINK_TYPES.custom;
+    const label = link.label || meta.label;
+    const bg = link.bg || meta.bg;
+    const color = link.color || meta.color;
+    const border = meta.border ? `border:${meta.border};` : "";
+    const featuredCls = link.primary ? "is-featured" : "";
+    const isVCard = link.type === "vcard";
+    const href = isVCard ? buildVCardHref(link) : link.url;
+    // no iPhone, abrir numa aba nova costuma disparar a prévia nativa de
+    // contato do Safari com mais confiabilidade do que na mesma aba
+    // tel:, mailto: e sms: NÃO podem levar target="_blank" — o celular
+    // precisa "entregar" esses links pro app nativo (discador, email), e
+    // abrir numa aba nova atrapalha: no Chrome/Safari deixa uma aba em
+    // branco para trás, e nos navegadores internos do Instagram/Facebook
+    // simplesmente não acontece nada. Sites normais (http/https) continuam
+    // abrindo em aba nova pra não tirar o visitante da página de links.
+    const isAppLink = /^(tel:|mailto:|sms:)/i.test(link.url || "");
+    const targetAttrs = isVCard
+      ? (isIOS() ? 'target="_blank"' : "")
+      : (isAppLink ? "" : 'target="_blank" rel="noopener"');
+    const downloadAttr = (isVCard && !isIOS()) ? `download="${(link.name || CONFIG.name || "contacto").replace(/[^a-z0-9]/gi, "-")}.vcf"` : ""; // no iPhone/iPad, NÃO força download — deixa o Safari reconhecer o contato sozinho
+    const counterName = (link.counterName || `ophiel-${CONFIG.slug}-${link.type}`).replace(/[^a-z0-9-]/gi, "-");
+    return `<a href="${href}" ${targetAttrs} ${downloadAttr} onclick="trackClick('${counterName}')" data-counter="${counterName}" class="link-btn ${featuredCls}" style="background:${bg}; color:${color}; ${border}">${meta.icon}<span class="link-label">${label}</span><span class="link-count" hidden></span></a>`;
+  }).join("");
+
+  // mostra a dica de "Archivos → Añadir a contactos" só se tiver um botão
+  // de vCard na página E o visitante estiver num iPhone/iPad — no Android
+  // e no computador o fluxo já funciona liso, não precisa da dica
+  const hasVCard = CONFIG.links.some((l) => l.type === "vcard");
+  if(hasVCard && isIOS()){
+    document.getElementById("vcardHint").hidden = false;
+  }
+
+  /* ---------- ÍCONE DE ESTATÍSTICAS ---------- */
+  const statsToggle = document.getElementById("statsToggle");
+  let statsOn = false;
+  let statsLoaded = false;
+
+  async function fetchCounterValue(counterName){
+    try{
+      const res = await fetch(`${COUNTER_BASE}/get/${counterName}`);
+      if(!res.ok){
+        console.warn(`[stats] "${counterName}" respondió ${res.status}.`);
+        return null;
+      }
+      const json = await res.json();
+      const value = json?.value;
+      if(value === undefined || value === null){
+        console.warn(`[stats] "${counterName}" respondió pero no encontramos el número de clics — formato inesperado:`, json);
+        return null;
+      }
+      return Number(value);
+    } catch(e) {
+      console.warn(`[stats] "${counterName}" falló al cargar:`, e);
+      return null;
+    }
+  }
+
+  async function loadStats(){
+    const badges = document.querySelectorAll(".link-count");
+    badges.forEach((b) => { b.textContent = "…"; });
+    await Promise.all(Array.from(badges).map(async (badge) => {
+      const btn = badge.closest("[data-counter]");
+      const counterName = btn?.dataset.counter;
+      if(!counterName) return;
+      const value = await fetchCounterValue(counterName);
+      badge.textContent = value === null ? "—" : `${value} ${value === 1 ? "clic" : "clics"}`;
+    }));
+    statsLoaded = true;
+  }
+
+  if(statsToggle){
+    statsToggle.addEventListener("click", async () => {
+      statsOn = !statsOn;
+      statsToggle.classList.toggle("is-active", statsOn);
+      listEl.classList.toggle("stats-mode", statsOn);
+      if(statsOn && !statsLoaded){
+        await loadStats();
+      }
+    });
+  }
+</script>
+</body>
+</html>

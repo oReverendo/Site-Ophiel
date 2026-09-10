@@ -483,6 +483,12 @@
     min-height:100vh;
     display:flex; align-items:center;
     padding:100px 12vw;
+    /* o menu lateral flutuante (.services-menu) fica fixo a ~158px da
+       borda esquerda enquanto está visível (901px de largura pra cima).
+       Em telas de tablet/notebook, 12vw sozinho fica menor que isso e a
+       foto do serviço passa por cima do menu — por isso o mínimo
+       absoluto aqui. */
+    padding-left:max(12vw, 190px);
     position:relative;
     overflow-x:hidden;
     border-top:1px solid rgba(255,255,255,.06);

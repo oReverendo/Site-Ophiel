@@ -81,6 +81,31 @@
      nao fica presa ao fluxo da segunda quando o endereco quebra sozinho. */
   .biz-sub{ text-align:center; font-size:.9rem; color:var(--ink-dim); margin:0 0 26px; }
   .biz-sub span{ display:block; }
+  /* ---------- HORÁRIO ----------
+     A faixa mostra sozinha se está aberto, e ao tocar abre a semana toda.
+     O cálculo usa o relógio de Madrid, não o do celular do visitante: um
+     turista com o telefone em outro fuso veria "aberto" na hora errada. */
+  .horario{ margin:0 0 22px; }
+  .horario-btn{
+    display:flex; align-items:center; gap:9px; margin:0 auto;
+    appearance:none; font:inherit; cursor:pointer;
+    padding:8px 14px; border-radius:999px;
+    background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14);
+    color:var(--ink); font-size:.86rem; -webkit-tap-highlight-color:transparent;
+  }
+  .horario-ponto{ width:9px; height:9px; border-radius:50%; flex:none; background:#9aa7bb; }
+  .horario-btn.aberto .horario-ponto{ background:#33d17a; box-shadow:0 0 0 4px rgba(51,209,122,.18); }
+  .horario-btn.fechado .horario-ponto{ background:#e0604d; box-shadow:0 0 0 4px rgba(224,96,77,.18); }
+  .horario-btn .seta{ transition:transform .2s ease; opacity:.6; }
+  .horario-btn.is-open .seta{ transform:rotate(180deg); }
+  .horario-lista{
+    list-style:none; margin:10px auto 0; padding:0 4px;
+    max-width:260px; font-size:.83rem; color:var(--ink-dim);
+    display:none;
+  }
+  .horario-lista.is-open{ display:block; }
+  .horario-lista li{ display:flex; justify-content:space-between; gap:12px; padding:3px 0; }
+  .horario-lista li.hoy{ color:var(--ink); font-weight:600; }
   .links{ display:flex; flex-direction:column; gap:12px; }
   .link-btn{
     display:flex; align-items:center; gap:12px;
@@ -189,6 +214,15 @@
       <div class="avatar" id="avatar"></div>
       <h1 class="biz-name" id="bizName"></h1>
       <p class="biz-sub" id="bizSub"></p>
+      <div class="horario" id="horario" hidden>
+        <button type="button" class="horario-btn" id="horarioBtn" aria-expanded="false">
+          <span class="horario-ponto"></span>
+          <span id="horarioTexto"></span>
+          <svg class="seta" viewBox="0 0 24 24" width="13" height="13" fill="none"
+               stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <ul class="horario-lista" id="horarioLista"></ul>
+      </div>
       <div class="links" id="linksList"></div>
       <p class="vcard-hint" id="vcardHint" hidden>
         📱 Después de tocar "Guardar contacto": abre la app <strong>Archivos</strong>,
@@ -272,6 +306,18 @@
     name: "Fusión Callejera",
     subtitle: "📍Calle Paseo Navegantes, 25\nAdra, Almería, España",
     photo: "",
+    // horário tirado do perfil do Google: 19:30–23:30 todos os dias,
+    // lunes cerrado. Uma lista por dia, começando no domingo; [] = fechado.
+    zonaHoraria: "Europe/Madrid",
+    horario: [
+      [["19:30","23:30"]],   // domingo
+      [],                    // lunes — cerrado
+      [["19:30","23:30"]],   // martes
+      [["19:30","23:30"]],   // miércoles
+      [["19:30","23:30"]],   // jueves
+      [["19:30","23:30"]],   // viernes
+      [["19:30","23:30"]]    // sábado
+    ],
     links: [
       // o azul padrao do Google brigava com o azul do Facebook logo abaixo;
       // aqui a resenha fica branca e a carta com o amarelo da propria logo
@@ -399,6 +445,92 @@
     const blob = new Blob([vcardText], { type: "text/vcard;charset=utf-8" });
     return URL.createObjectURL(blob);
   }
+
+  /* ============================================================
+     HORÁRIO DE ATENDIMENTO
+     "horario" no CONFIG: uma lista por dia, começando no domingo.
+     Cada dia é uma lista de turnos ["abre","fecha"]; dia fechado = [].
+     Dois turnos no mesmo dia: [["09:00","14:00"],["17:00","20:30"]].
+     Turno que vira a noite (fecha depois da meia-noite) também funciona:
+     ["20:00","02:00"] é entendido como madrugada do dia seguinte.
+     ============================================================ */
+  const DIAS_NOME = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+
+  function emMinutos(hhmm){
+    const [h, m] = hhmm.split(":").map(Number);
+    return h * 60 + m;
+  }
+
+  // que horas são no fuso do estabelecimento (não no do celular de quem visita)
+  function agoraNoLocal(zona){
+    const p = new Intl.DateTimeFormat("en-GB", {
+      timeZone: zona, weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false
+    }).formatToParts(new Date());
+    const achar = (t) => p.find((x) => x.type === t).value;
+    const idx = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 }[achar("weekday")];
+    return { dia: idx, min: (Number(achar("hour")) % 24) * 60 + Number(achar("minute")) };
+  }
+
+  function estadoHorario(horario, zona){
+    const { dia, min } = agoraNoLocal(zona);
+    const ontem = (dia + 6) % 7;
+
+    // turno de ontem que atravessou a meia-noite e ainda está correndo
+    for(const [abre, fecha] of (horario[ontem] || [])){
+      const a = emMinutos(abre), f = emMinutos(fecha);
+      if(f <= a && min < f) return { aberto: true, fecha };
+    }
+    for(const [abre, fecha] of (horario[dia] || [])){
+      const a = emMinutos(abre), f = emMinutos(fecha);
+      if(min >= a && (f <= a || min < f)) return { aberto: true, fecha };
+      if(min < a) return { aberto: false, quando: "hoy", abre };
+    }
+    // fechado pelo resto do dia: procura o próximo dia com turno
+    for(let i = 1; i <= 7; i++){
+      const d = (dia + i) % 7;
+      const turnos = horario[d] || [];
+      if(turnos.length){
+        const quando = i === 1 ? "mañana" : `el ${DIAS_NOME[d]}`;
+        return { aberto: false, quando, abre: turnos[0][0] };
+      }
+    }
+    return null;
+  }
+
+  (function montarHorario(){
+    const caixa = document.getElementById("horario");
+    if(!caixa || !CONFIG.horario) return;
+    const zona = CONFIG.zonaHoraria || "Europe/Madrid";
+    const est = estadoHorario(CONFIG.horario, zona);
+    if(!est) return;
+
+    const btn = document.getElementById("horarioBtn");
+    const txt = document.getElementById("horarioTexto");
+    const lista = document.getElementById("horarioLista");
+
+    btn.classList.add(est.aberto ? "aberto" : "fechado");
+    txt.textContent = est.aberto
+      ? `Abierto ahora · cierra a las ${est.fecha}`
+      : `Cerrado · abre ${est.quando} a las ${est.abre}`;
+
+    const hoy = agoraNoLocal(zona).dia;
+    const ordem = [1, 2, 3, 4, 5, 6, 0];   // a semana começa na segunda
+    lista.innerHTML = ordem.map((d) => {
+      const turnos = (CONFIG.horario[d] || []);
+      const texto = turnos.length
+        ? turnos.map(([a, f]) => `${a}–${f}`).join(" · ")
+        : "Cerrado";
+      return `<li class="${d === hoy ? "hoy" : ""}"><span>${DIAS_NOME[d]}</span><span>${texto}</span></li>`;
+    }).join("");
+
+    btn.addEventListener("click", () => {
+      const abrir = !lista.classList.contains("is-open");
+      lista.classList.toggle("is-open", abrir);
+      btn.classList.toggle("is-open", abrir);
+      btn.setAttribute("aria-expanded", abrir ? "true" : "false");
+    });
+    caixa.hidden = false;
+  })();
 
   const listEl = document.getElementById("linksList");
   listEl.innerHTML = CONFIG.links.map((link) => {

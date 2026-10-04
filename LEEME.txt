@@ -12,11 +12,11 @@ Cómo subirla a GitHub (repositorio Site-Ophiel):
    /o
    Siguen funcionando igual.
 
-3. vercel.json:
-   - Si en el repositorio NO hay vercel.json: renombra "vercel.nuevo.json" a "vercel.json".
-   - Si YA hay un vercel.json: no lo sustituyas. Añade dentro la línea
-       "cleanUrls": true,
-     (sin ella, direcciones como ophiel.es/servicios/pagina-web dan error 404).
+3. vercel.json (IMPORTANTE):
+   Tiene que llamarse exactamente "vercel.json" y estar en la raíz del repositorio.
+   Lleva "cleanUrls": true, que es lo que hace funcionar las direcciones sin .html
+   (ophiel.es/all2/ophiel, ophiel.es/c/fusion-callejera, ophiel.es/servicios/pagina-web).
+   Si en GitHub tienes un archivo "vercel.nuevo.json", bórralo: no sirve con ese nombre.
 
 4. Puedes borrar el producto.html antiguo: "Productos" lleva a ophiel.eu.
 

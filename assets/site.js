@@ -254,6 +254,24 @@
     if (e.dataTransfer.files.length) { input.files = e.dataTransfer.files; mostrar(); }
   });
 
+  // las casillas Logo y Código QR eligen la placa: logo → personalizada; QR → NFC + QR; nada → NFC
+  const tp = document.getElementById("tu-placa");
+  const modelo = document.getElementById("f-modelo");
+  const MOD = JSON.parse(tp.dataset.modelos);
+  const cLogo = document.getElementById("c-logo"), cQr = document.getElementById("c-qr");
+  const pon = (id, txt) => {
+    const el = document.getElementById(id);
+    if (el.textContent === txt) return;
+    el.innerHTML = ""; const s = document.createElement("span"); s.className = "cambia"; s.textContent = txt; el.append(s);
+  };
+  const elegir = () => {
+    const [n, l, pr, v] = MOD[cLogo.checked ? "logo" : cQr.checked ? "qr" : "nfc"];
+    modelo.value = `${n} | ${l} (${pr} €)`; modelo.dataset.variante = v;
+    pon("tp-nombre", n); pon("tp-linea", l); pon("tp-precio", `${pr} €`);
+  };
+  [cLogo, cQr].forEach((c) => c.addEventListener("change", elegir));
+  elegir(); // por si el navegador recuerda casillas marcadas al volver atrás
+
   // asunto del correo con el nombre del negocio
   form.addEventListener("submit", (e) => {
     if (!form.reportValidity()) { e.preventDefault(); return; }
@@ -261,10 +279,9 @@
     form.querySelector("[name=_subject]").value = `Nueva placa: ${n || "sin nombre"}`;
     // la página de gracias recibe el modelo elegido para abrir el pago con la placa en el carrito
     const next = form.querySelector("[name=_next]");
-    const modelo = form.querySelector("[name='Modelo de placa']:checked");
     const q = new URLSearchParams();
     if (n) q.set("n", n);
-    if (modelo) q.set("v", modelo.dataset.variante);
+    q.set("v", modelo.dataset.variante);
     next.value = next.value.split("?")[0] + (q.toString() ? "?" + q : "");
     const boton = form.querySelector("button[type=submit]");
     boton.disabled = true; boton.textContent = "Enviando…";
@@ -334,7 +351,7 @@
   const btn = document.getElementById("ir-pago");
   if (!btn) return;
   // solo se aceptan los modelos que vendemos: nadie puede colar otro producto por la URL
-  const MODELOS = ["55144201978183", "54958289682759", "55116367462727", "54958279459143", "55116352389447", "54958208680263"];
+  const MODELOS = ["54958279459143", "55116367462727", "55144201978183"];
   const qs = new URLSearchParams(location.search);
   const n = (qs.get("n") || "").slice(0, 80), v = qs.get("v") || "";
   if (MODELOS.includes(v)) {

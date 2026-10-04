@@ -1,0 +1,32 @@
+OPHIEL — NUEVA WEB
+==================
+
+Cómo subirla a GitHub (repositorio Site-Ophiel):
+
+1. Sube TODO el contenido de esta carpeta a la raíz del repositorio,
+   reemplazando el index.html antiguo.
+
+2. NO borres las carpetas que ya existen y que no están aquí:
+   /all2  (páginas de cada placa; el carrusel "Nuestras placas" enlaza a ellas)
+   /c     (carta de Fusión Callejera)
+   /o
+   Siguen funcionando igual.
+
+3. vercel.json:
+   - Si en el repositorio NO hay vercel.json: renombra "vercel.nuevo.json" a "vercel.json".
+   - Si YA hay un vercel.json: no lo sustituyas. Añade dentro la línea
+       "cleanUrls": true,
+     (sin ella, direcciones como ophiel.es/servicios/pagina-web dan error 404).
+
+4. Puedes borrar el producto.html antiguo: "Productos" lleva a ophiel.eu.
+
+5. Con la web publicada, da de alta ophiel.es/sitemap.xml en Google Search Console.
+
+6. FORMULARIO "CONFIGURA TU PLACA" (ophiel.es/placa) — ACTIVARLO UNA VEZ:
+   Los envíos llegan a hola@ophiel.es a través de FormSubmit (gratis, con el logo adjunto).
+   La primera vez que alguien lo envíe (hazlo tú mismo de prueba), FormSubmit manda
+   un correo a hola@ophiel.es con el botón "Activate Form". Púlsalo y listo: a partir de
+   ahí cada solicitud llega como correo, con el logotipo como archivo adjunto.
+   Mira también en la carpeta de spam la primera vez.
+
+Pendiente: Aviso legal y Política de privacidad (necesitan NIF y dirección fiscal).

@@ -26,9 +26,9 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="assets/fonts/plex-serif-300.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css">
-<script src="assets/site.js" defer></script>
-<script src="assets/vetas.js" defer></script>
+<link rel="stylesheet" href="assets/site.css?v=7192fe18">
+<script src="assets/site.js?v=fea1b2db" defer></script>
+<script src="assets/vetas.js?v=01ae3859" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://www.ophiel.es/"},{"@type":"ListItem","position":2,"name":"Configura tu placa","item":"https://www.ophiel.es/placa"}]}</script>
 </head>
 <body class="">
@@ -57,7 +57,7 @@
 <section class="heroe heroe-corto" aria-labelledby="t-h1"><canvas class="vetas" aria-hidden="true" data-seed="/placa"></canvas><div class="wrap">
   <nav class="migas" aria-label="Migas de pan"><ol><li><a href="index.html">Inicio</a></li><li aria-current="page">Configura tu placa</li></ol></nav>
   <h1 class="display entra" id="t-h1" style="--i:0">Configura <em>tu placa</em></h1>
-  <p class="bajada entra" style="--i:1">Cuéntanos qué quieres que abra tu placa NFC, elige el modelo y págala online. Con estos datos diseñamos la placa y la página de tu negocio.</p>
+  <p class="bajada entra" style="--i:1">Cuéntanos qué quieres que abra tu placa NFC, personalízala y págala online. Con estos datos diseñamos la placa y la página de tu negocio.</p>
 </div></section>
 <section class="seccion seccion-pegada" aria-label="Formulario de placa"><div class="wrap placa-layout">
   <aside class="pg" aria-label="Placas que ya hemos hecho">
@@ -100,32 +100,42 @@
     </fieldset>
 
     <fieldset class="bloque-form">
-      <legend><span class="num">3</span>Contacto de tu negocio</legend>
+      <legend><span class="num">3</span>Personaliza tu placa</legend>
+      <p class="ayuda" style="margin:-4px 0 10px">Marca lo que quieras y te diremos qué placa es la tuya.</p>
+      <div class="opciones">
+        <div class="opcion" data-opcion><label class="check"><input type="checkbox" id="c-logo" name="Con logo" value="Sí" data-activa="f-logo" data-extra><span class="caja" aria-hidden="true"></span>Logo<small class="check-nota">Tu marca en la placa</small></label>
+          <div class="opcion-campo"><div>
+            <label class="subida" for="f-logo" style="margin:4px 0 18px">
+              <input id="f-logo" name="Logotipo" type="file" disabled accept=".png,.jpg,.jpeg,.bmp,.webp,.svg,image/png,image/jpeg,image/bmp,image/webp,image/svg+xml">
+              <span class="subida-vista" aria-hidden="true"></span>
+              <span class="subida-texto"><strong>Subir logotipo</strong><span id="logo-nombre">PNG, JPG o SVG · máx. 10 MB</span></span>
+            </label>
+          </div></div>
+        </div>
+        <div class="opcion"><label class="check"><input type="checkbox" id="c-qr" name="Código QR" value="Sí" data-extra><span class="caja" aria-hidden="true"></span>Código QR<small class="check-nota">Para móviles sin NFC</small></label></div>
+      </div>
+      <input type="hidden" name="Modelo de placa" id="f-modelo" value="Placa NFC | Reseñas + redes sociales (39,90 €)" data-variante="54958279459143">
+      <div class="tu-placa" id="tu-placa" data-modelos='{"nfc":["Placa NFC","Reseñas + redes sociales","39,90","54958279459143"],"qr":["Placa NFC + QR","Reseñas + redes sociales, con código QR","44,90","55116367462727"],"logo":["Placa NFC Personalizada","Con tu logo, reseñas + redes sociales","59,90","55144201978183"]}' aria-live="polite">
+        <span class="tu-placa-eti">Tu placa</span>
+        <span class="tu-placa-nombre" id="tp-nombre">Placa NFC</span>
+        <span class="tu-placa-linea" id="tp-linea">Reseñas + redes sociales</span>
+        <span class="tu-placa-precio" id="tp-precio">39,90 €</span>
+      </div>
+    </fieldset>
+
+    <fieldset class="bloque-form">
+      <legend><span class="num">4</span>Contacto de tu negocio</legend>
       <p class="ayuda" style="margin:-4px 0 14px">Es el contacto que tus clientes guardarán en su agenda. Podrás cambiarlo cuando quieras.</p>
       <div class="campo"><label for="f-nombre">Nombre del negocio</label><input id="f-nombre" name="Nombre del negocio" autocomplete="organization" required></div>
       <div class="fila-2">
         <div class="campo"><label for="f-tel">Teléfono</label><input id="f-tel" name="Teléfono" type="tel" autocomplete="tel" required></div>
         <div class="campo"><label for="f-email">Correo electrónico</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
       </div>
-    </fieldset>
-
-    <fieldset class="bloque-form">
-      <legend><span class="num">4</span>Logotipo de tu negocio</legend>
-      <label class="subida" for="f-logo">
-        <input id="f-logo" name="Logotipo" type="file" accept=".png,.jpg,.jpeg,.bmp,.webp,.svg,image/png,image/jpeg,image/bmp,image/webp,image/svg+xml">
-        <span class="subida-vista" aria-hidden="true"></span>
-        <span class="subida-texto"><strong>Subir logotipo</strong><span id="logo-nombre">PNG, JPG, BMP o SVG. Máximo 10 MB.</span></span>
-      </label>
-      <div class="campo" style="margin-top:18px"><label for="f-notas">¿Algo más? <span>(opcional)</span></label>
+      <div class="campo"><label for="f-notas">¿Algo más? <span>(opcional)</span></label>
         <textarea id="f-notas" name="Comentarios" placeholder="Cantidad de placas, ideas…"></textarea></div>
     </fieldset>
 
-    <fieldset class="bloque-form">
-      <legend><span class="num">5</span>Elige tu placa</legend>
-      <div class="modelos"><label class="modelo"><input type="radio" name="Modelo de placa" value="Placa NFC Personalizada (59,90 €)" data-variante="55144201978183" checked required><span class="modelo-caja"><span class="modelo-nombre">Placa NFC Personalizada</span><span class="modelo-linea">Reseñas + redes sociales, con tu marca</span><span class="modelo-precio">59,90 €</span></span></label><label class="modelo"><input type="radio" name="Modelo de placa" value="Placa Redonda (49,90 €)" data-variante="54958289682759" required><span class="modelo-caja"><span class="modelo-nombre">Placa Redonda</span><span class="modelo-linea">Reseñas y redes</span><span class="modelo-precio">49,90 €</span></span></label><label class="modelo"><input type="radio" name="Modelo de placa" value="Placa NFC + QR (44,90 €)" data-variante="55116367462727" required><span class="modelo-caja"><span class="modelo-nombre">Placa NFC + QR</span><span class="modelo-linea">Redes sociales</span><span class="modelo-precio">44,90 €</span></span></label><label class="modelo"><input type="radio" name="Modelo de placa" value="Placa NFC (39,90 €)" data-variante="54958279459143" required><span class="modelo-caja"><span class="modelo-nombre">Placa NFC</span><span class="modelo-linea">Reseñas + redes sociales</span><span class="modelo-precio">39,90 €</span></span></label><label class="modelo"><input type="radio" name="Modelo de placa" value="Placa NFC + QR (34,90 €)" data-variante="55116352389447" required><span class="modelo-caja"><span class="modelo-nombre">Placa NFC + QR</span><span class="modelo-linea">Reseña de Google</span><span class="modelo-precio">34,90 €</span></span></label><label class="modelo"><input type="radio" name="Modelo de placa" value="Placa NFC (29,90 €)" data-variante="54958208680263" required><span class="modelo-caja"><span class="modelo-nombre">Placa NFC</span><span class="modelo-linea">Reseñas de Google</span><span class="modelo-precio">29,90 €</span></span></label></div>
-      <p class="aviso-pago" style="margin-top:16px">Al enviar, te llevamos al pago seguro de nuestra tienda <a class="enlace" href="https://www.ophiel.eu" target="_blank" rel="noopener">ophiel.eu</a> con tu placa ya en el carrito: tarjeta, Apple Pay o Google Pay. Empezamos a fabricarla en cuanto el pago está confirmado.</p>
-    </fieldset>
-
+    <p class="aviso-pago">Al enviar, te llevamos al pago seguro de nuestra tienda <a class="enlace" href="https://www.ophiel.eu" target="_blank" rel="noopener">ophiel.eu</a> con tu placa ya en el carrito: tarjeta, Apple Pay o Google Pay. Empezamos a fabricarla en cuanto el pago está confirmado.</p>
     <button class="pill pill-acento" type="submit" style="width:100%">Enviar y pagar</button>
     <p class="estado" id="estado-placa" role="status" aria-live="polite"></p>
     <p class="nota">Usaremos estos datos solo para preparar tu placa y tu página.</p>

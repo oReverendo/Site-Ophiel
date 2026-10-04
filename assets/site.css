@@ -768,3 +768,42 @@ html.enviando .cargador{ animation:cargador-dentro 250ms var(--ease-out) both; }
 .atajo:active{ transform:scale(.97); }
 @media (hover:hover) and (pointer:fine){ .atajo:hover{ border-color:var(--oro); color:var(--crema); } }
 @media (prefers-reduced-motion:reduce){ .cifra-404 .cero img{ animation:none; } }
+
+/* pago */
+.aviso-pago{ padding:16px 18px; border-left:2px solid var(--oro); background:rgba(235,179,94,.06); border-radius:0 var(--radio-sm) var(--radio-sm) 0; color:var(--crema); font-weight:300; font-size:.9375rem; line-height:1.55; }
+.pagos{ display:flex; flex-wrap:wrap; gap:10px; }
+.pago{ position:relative; cursor:pointer; }
+.pago input{ position:absolute; opacity:0; width:1px; height:1px; }
+.pago span{
+  display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:var(--pill);
+  border:1px solid var(--ceniza); font-size:.9375rem; color:var(--crema-2); -webkit-user-select:none; user-select:none;
+  transition:border-color var(--t-ui) ease, color var(--t-ui) ease, background-color var(--t-ui) ease, transform var(--t-press) var(--ease-out);
+}
+.pago:active span{ transform:scale(.97); }
+.pago input:checked + span{ background:var(--oro); border-color:var(--oro); color:var(--vacio); font-weight:500; }
+.pago input:focus-visible + span{ outline:2px solid var(--oro); outline-offset:3px; }
+@media (hover:hover) and (pointer:fine){ .pago:hover span{ border-color:var(--oro); color:var(--crema); } .pago input:checked + span{ color:var(--vacio); } }
+
+/* modelos de placa */
+.modelos{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; }
+@media (max-width:520px){ .modelos{ grid-template-columns:1fr; } }
+.modelo{ position:relative; cursor:pointer; display:block; }
+.modelo input{ position:absolute; opacity:0; width:1px; height:1px; }
+.modelo-caja{
+  position:relative; display:grid; grid-template-columns:1fr auto; grid-template-areas:"n p" "l p"; column-gap:14px; row-gap:3px;
+  align-items:center; min-height:72px; padding:14px 16px 14px 44px; border:1px solid var(--carbon); border-radius:var(--radio-sm);
+  -webkit-user-select:none; user-select:none;
+  transition:border-color var(--t-ui) ease, background-color var(--t-ui) ease, transform var(--t-press) var(--ease-out);
+}
+/* indicador circular */
+.modelo-caja::before{ content:""; position:absolute; left:16px; top:50%; width:16px; height:16px; margin-top:-8px; border-radius:50%; border:1px solid var(--ceniza); transition:border-color var(--t-ui) ease; }
+.modelo-caja::after{ content:""; position:absolute; left:20px; top:50%; width:8px; height:8px; margin-top:-4px; border-radius:50%; background:var(--oro); opacity:0; transform:scale(.5); transition:opacity var(--t-ui) ease, transform var(--t-ui) var(--ease-out); }
+.modelo-nombre{ grid-area:n; color:var(--crema); font-size:.9375rem; line-height:1.3; }
+.modelo-linea{ grid-area:l; color:var(--crema-2); font-size:.8125rem; line-height:1.35; }
+.modelo-precio{ grid-area:p; font-family:var(--serif, "IBM Plex Serif", serif); font-weight:300; font-size:1.125rem; color:var(--oro); white-space:nowrap; font-variant-numeric:tabular-nums; }
+.modelo:active .modelo-caja{ transform:scale(.98); }
+.modelo input:checked + .modelo-caja{ border-color:var(--oro); background:rgba(235,179,94,.07); }
+.modelo input:checked + .modelo-caja::before{ border-color:var(--oro); }
+.modelo input:checked + .modelo-caja::after{ opacity:1; transform:scale(1); }
+.modelo input:focus-visible + .modelo-caja{ outline:2px solid var(--oro); outline-offset:3px; }
+@media (hover:hover) and (pointer:fine){ .modelo:hover .modelo-caja{ border-color:var(--ceniza); } .modelo:hover input:checked + .modelo-caja{ border-color:var(--oro); } }

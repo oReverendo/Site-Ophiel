@@ -259,6 +259,13 @@
     if (!form.reportValidity()) { e.preventDefault(); return; }
     const n = document.getElementById("f-nombre").value.trim();
     form.querySelector("[name=_subject]").value = `Nueva placa: ${n || "sin nombre"}`;
+    // la página de gracias recibe el modelo elegido para abrir el pago con la placa en el carrito
+    const next = form.querySelector("[name=_next]");
+    const modelo = form.querySelector("[name='Modelo de placa']:checked");
+    const q = new URLSearchParams();
+    if (n) q.set("n", n);
+    if (modelo) q.set("v", modelo.dataset.variante);
+    next.value = next.value.split("?")[0] + (q.toString() ? "?" + q : "");
     const boton = form.querySelector("button[type=submit]");
     boton.disabled = true; boton.textContent = "Enviando…";
     const txt = document.querySelector(".cargador-txt");
@@ -269,7 +276,7 @@
   // si vuelve con el botón atrás, el botón vuelve a estar disponible
   window.addEventListener("pageshow", () => {
     const boton = form.querySelector("button[type=submit]");
-    boton.disabled = false; boton.textContent = "Enviar mi placa";
+    boton.disabled = false; boton.textContent = "Enviar y pagar";
   });
 })();
 
@@ -320,4 +327,25 @@
   }
   // al volver atrás desde otra página, el cargador de envío no debe seguir puesto
   addEventListener("pageshow", () => html.classList.remove("enviando"));
+})();
+
+/* ---- tras enviar la placa: llevar al cliente al pago (Shopify, ophiel.eu) con la placa en el carrito ---- */
+(() => {
+  const btn = document.getElementById("ir-pago");
+  if (!btn) return;
+  // solo se aceptan los modelos que vendemos: nadie puede colar otro producto por la URL
+  const MODELOS = ["55144201978183", "54958289682759", "55116367462727", "54958279459143", "55116352389447", "54958208680263"];
+  const qs = new URLSearchParams(location.search);
+  const n = (qs.get("n") || "").slice(0, 80), v = qs.get("v") || "";
+  if (MODELOS.includes(v)) {
+    const extra = new URLSearchParams();
+    if (n) { extra.set("attributes[Negocio]", n); extra.set("note", `Placa para ${n}. Datos enviados desde el formulario de ophiel.es.`); }
+    btn.href = `https://www.ophiel.eu/cart/${v}:1` + (extra.toString() ? "?" + extra : "");
+    const wa = document.getElementById("pago-wa");
+    if (wa) wa.href = "https://wa.me/34602711318?text=" + encodeURIComponent(`¡Hola! Ya os he enviado los datos de mi placa NFC${n ? ` para ${n}` : ""} por la web. Prefiero pagar por Bizum o transferencia, ¿cómo lo hacemos?`);
+  }
+  // una sola vez: si vuelve atrás desde la tienda no se le redirige de nuevo
+  let ya = false;
+  try { ya = sessionStorage.getItem("ophiel-pago-placa") === location.search; sessionStorage.setItem("ophiel-pago-placa", location.search); } catch {}
+  if (!ya && MODELOS.includes(v)) setTimeout(() => { location.href = btn.href; }, 1600);
 })();

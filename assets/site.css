@@ -798,3 +798,11 @@ html.enviando .cargador{ animation:cargador-dentro 250ms var(--ease-out) both; }
 @keyframes tp-entra{ from{ opacity:0; transform:translateY(6px); } }
 @media (prefers-reduced-motion:reduce){ .tu-placa .cambia{ animation-name:tp-fade; } @keyframes tp-fade{ from{ opacity:0; } } }
 .form-placa > .aviso-pago{ margin:4px 0 18px; }
+
+/* zonas */
+.zonas-pills{ display:flex; flex-wrap:wrap; gap:10px; }
+.rasgo h3 a{ color:inherit; text-decoration:none; background-image:linear-gradient(var(--oro), var(--oro)); background-size:0 1px; background-repeat:no-repeat; background-position:0 100%; transition:background-size var(--t-ui) var(--ease-out); }
+.rasgo h3 a::after{ content:" →"; color:var(--oro); }
+@media (hover:hover) and (pointer:fine){ .rasgo h3 a:hover{ background-size:100% 1px; } }
+.zonas-linea{ margin-top:18px; }
+.proyectos:has(> .proyecto:only-child){ max-width:560px; }

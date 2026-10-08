@@ -360,7 +360,7 @@ html.menu-abierto{ overflow:hidden; }
 .nivel li{ position:relative; padding:9px 0 9px 22px; border-top:1px solid var(--carbon); font-size:.9375rem; font-weight:300; color:var(--crema-2); }
 .nivel li::before{ content:""; position:absolute; left:2px; top:17px; width:6px; height:6px; border-radius:50%; background:var(--oro); }
 .nivel .pill{ margin-top:auto; }
-@media (max-width:960px){ .niveles{ grid-template-columns:1fr; max-width:540px; } }
+@media (max-width:960px){ .niveles{ grid-template-columns:1fr; max-width:540px; margin-inline:auto; } }
 
 /* galería con lupa */
 .galeria{ display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:20px; }
@@ -819,8 +819,8 @@ html.enviando .cargador{ animation:cargador-dentro 250ms var(--ease-out) both; }
 .proyectos:has(> .proyecto:only-child){ max-width:560px; }
 
 /* niveles: variantes */
-.niveles.dos-col{ grid-template-columns:repeat(2, minmax(0, 1fr)); max-width:920px; }
-@media (max-width:960px){ .niveles.dos-col{ grid-template-columns:1fr; max-width:540px; } }
+.niveles.dos-col{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+@media (max-width:960px){ .niveles.dos-col{ grid-template-columns:1fr; } }
 .niveles-sub{ font-family:var(--serif); font-weight:300; font-size:var(--t-heading-sm); margin:56px 0 20px; }
 .rasgos-sm .rasgo{ padding:22px 24px; }
 .niveles-notas{ margin-top:32px; max-width:760px; display:grid; gap:10px; }
@@ -874,26 +874,24 @@ html.enviando .cargador{ animation:cargador-dentro 250ms var(--ease-out) both; }
 @keyframes rota4{ 0%{opacity:0} 4%{opacity:1} 25%{opacity:1} 29%{opacity:0} 100%{opacity:0} }
 @media (prefers-reduced-motion:reduce){ .rota-i{ animation:none !important; } .rota-i:first-child{ opacity:1; } }
 
-/* servicios: cabeceras centradas y tarjetas simétricas */
-.capitulo-cabeza{ display:block; text-align:center; max-width:760px; margin-inline:auto; margin-bottom:44px; }
-.capitulo-cabeza .bajada{ max-width:54ch; margin:16px auto 0; justify-self:auto; }
-.obras, .obras.destacado{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
-.obras.tres{ grid-template-columns:repeat(3, minmax(0, 1fr)); grid-template-rows:none; }
-.obras.tres > :first-child{ grid-row:auto; }
-.obras.tres > :first-child .obra-img, .obras.destacado > :first-child .obra-img{ aspect-ratio:4 / 3; flex:none; min-height:0; }
-.obra-pie{ text-align:center; justify-content:center; }
-@media (max-width:960px){ .obras.tres{ grid-template-columns:repeat(2, minmax(0, 1fr)); } .obras.tres > :last-child{ grid-column:1 / -1; max-width:calc(50% - 10px); justify-self:center; width:100%; } }
-@media (max-width:760px){ .obras, .obras.tres, .obras.destacado{ grid-template-columns:1fr; } .obras.tres > :last-child{ max-width:none; } }
-/* tarjetas de servicio (página Servicios): todo centrado */
-.tarj{ text-align:center; gap:22px; }
-.tarj-txt{ display:flex; flex-direction:column; align-items:center; gap:10px; padding:0 8px 10px; }
-.tarj-txt h3{ font-size:clamp(1.5rem, 2.4vw, 1.875rem); line-height:1.15; transition:color var(--t-ui) ease; }
-.tarj-txt p{ color:var(--crema-2); font-weight:300; font-size:var(--t-body); max-width:42ch; transition:color var(--t-ui) ease; }
-.tarj .obra-img img, .tarj .obra-img .rota-i img{ transition:transform 420ms var(--ease-out); }
-@media (hover:hover) and (pointer:fine){
-  .tarj:hover{ border-color:var(--oro); }
-  .tarj:hover h3{ color:var(--oro); }
-  .tarj:hover p{ color:var(--crema); }
-  .tarj:hover .obra-img > img{ transform:scale(1.03); }
+
+/* móvil: objetivos táctiles de 44px y cabecera sin apreturas en pantallas estrechas */
+@media (max-width:560px){
+  .btn-menu{ min-width:44px; }
+  .redes-movil .red{ width:40px; height:44px; }
+  .cabecera .pill-sm{ min-height:44px; }
 }
-@media (prefers-reduced-motion:reduce){ .tarj .obra-img img{ transition:none; } .tarj:hover .obra-img > img{ transform:none; } }
+@media (max-width:389px){
+  .redes-movil{ display:none; }
+}
+@media (max-width:420px){
+  .marca{ gap:8px; }
+  .marca img{ width:26px; height:26px; }
+  .marca span{ font-size:1.3rem; }
+  .cabecera .pill-sm{ padding:0 14px; font-size:.8125rem; }
+}
+@media (max-width:560px){
+  .pie-grid{ gap:32px 20px; }
+  .pie-grid > *{ min-width:0; }
+  .pie li a, .pie p a{ white-space:normal; min-height:40px; }
+}

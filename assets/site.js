@@ -376,3 +376,24 @@
   const io = new IntersectionObserver((es) => es.forEach((en) => { const v = en.target; if (en.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: .25 });
   vs.forEach((v) => io.observe(v));
 })();
+
+/* ---- medición de clics (solo si hay analítica cargada; sin datos personales) ---- */
+(() => {
+  const evento = (nombre, datos) => { try { window.umami && window.umami.track(nombre, datos); } catch {} };
+  const donde = () => location.pathname.replace(/\/$/, "") || "/";
+  document.addEventListener("click", (ev) => {
+    const a = ev.target.closest && ev.target.closest("a[href]");
+    if (!a) return;
+    const h = a.getAttribute("href") || "";
+    const boton = (a.getAttribute("aria-label") || a.textContent || "").trim().replace(/\s+/g, " ").slice(0, 40);
+    if (/wa\.me|whatsapp/i.test(h)) evento("whatsapp", { pagina: donde(), boton });
+    else if (h.startsWith("tel:")) evento("llamada", { pagina: donde() });
+    else if (h.startsWith("mailto:")) evento("correo", { pagina: donde() });
+    else if (/instagram\.com/i.test(h)) evento("instagram", { pagina: donde(), destino: /\/p\//.test(h) ? "video-gema" : "perfil" });
+    else if (/ophiel\.eu/i.test(h)) evento("tienda", { pagina: donde() });
+  }, { passive: true });
+  document.addEventListener("submit", (ev) => {
+    const f = ev.target;
+    if (f && f.matches && f.matches("form")) evento("formulario", { pagina: donde(), tipo: f.id || "contacto" });
+  }, { capture: true, passive: true });
+})();

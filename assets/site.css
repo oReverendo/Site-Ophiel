@@ -862,3 +862,13 @@ html.enviando .cargador{ animation:cargador-dentro 250ms var(--ease-out) both; }
 @media (hover:hover) and (pointer:fine){ .video-ig:hover .video-etq{ background:var(--oro); color:var(--vacio); } }
 @media (max-width:760px){ .video-ej{ grid-template-columns:1fr; } .video-ig{ max-width:300px; margin:0 auto; } }
 .duo-img[hidden]{ display:none; }
+
+/* alternancia de capturas (solo opacidad) */
+.rota{ position:absolute; inset:0; }
+.rota-i{ position:absolute; inset:0; opacity:0; }
+.rota-i img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 0; }
+.rota-3 .rota-i{ animation:rota3 15s infinite backwards; animation-delay:calc(var(--i) * 5s); }
+.rota-4 .rota-i{ animation:rota4 20s infinite backwards; animation-delay:calc(var(--i) * 5s); }
+@keyframes rota3{ 0%{opacity:0} 5%{opacity:1} 33.3%{opacity:1} 38.3%{opacity:0} 100%{opacity:0} }
+@keyframes rota4{ 0%{opacity:0} 4%{opacity:1} 25%{opacity:1} 29%{opacity:0} 100%{opacity:0} }
+@media (prefers-reduced-motion:reduce){ .rota-i{ animation:none !important; } .rota-i:first-child{ opacity:1; } }

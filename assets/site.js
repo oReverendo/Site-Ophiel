@@ -366,3 +366,13 @@
   try { ya = sessionStorage.getItem("ophiel-pago-placa") === location.search; sessionStorage.setItem("ophiel-pago-placa", location.search); } catch {}
   if (!ya && MODELOS.includes(v)) setTimeout(() => { location.href = btn.href; }, 1600);
 })();
+
+/* ---- vídeos en bucle: sin movimiento si el usuario lo pide, y en pausa fuera de pantalla ---- */
+(() => {
+  const vs = document.querySelectorAll("video.video-loop");
+  if (!vs.length) return;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { vs.forEach((v) => { v.removeAttribute("autoplay"); v.pause(); }); return; }
+  if (!("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver((es) => es.forEach((en) => { const v = en.target; if (en.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: .25 });
+  vs.forEach((v) => io.observe(v));
+})();

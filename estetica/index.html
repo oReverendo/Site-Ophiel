@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alba · Estética Facial en Almería</title>
+<meta name="description" content="Tratamientos faciales personalizados en Almería. Primera valoración gratuita: escuchamos tu piel y elegimos lo que de verdad necesita.">
+<meta name="theme-color" content="#fef9ef">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://images.pexels.com">
+<link rel="preconnect" href="https://videos.pexels.com">
+<style>
+:root {
+  --terracotta: #b05a36;
+  --terracotta-deep: #9c4e2e;      /* mismo tono, más oscuro: texto pequeño con contraste AA */
+  --parchment: #fef9ef;
+  --aged-paper: #f5eee1;
+  --taupe: #d1c9bf;
+  --ink: #2a2b2f;
+  --charcoal: #333333;
+  --graphite: #515151;
+  --ash: #808988;
+
+  --font-display: 'Newsreader', 'Times New Roman', serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --shadow-lg: rgba(0, 0, 0, 0.15) 0 0 20px 0;
+  --shadow-xl: rgba(42, 43, 47, 0.1) 12px 32px 80px 0;
+
+  --radius-card: 24px;
+  --radius-btn: 40px;
+  --radius-pill: 9999px;
+  --gutter: clamp(24px, 4vw, 40px);
+  --max: 1280px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.023em;
+  -webkit-font-smoothing: antialiased;
+}
+img, video { display: block; max-width: 100%; }
+a { color: inherit; }
+h1, h2, h3, p, figure, blockquote { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 3px; border-radius: 6px; }
+.skip { position: absolute; left: 16px; top: -60px; background: var(--ink); color: var(--parchment); padding: 10px 16px; border-radius: var(--radius-pill); z-index: 100; }
+.skip:focus { top: 12px; }
+
+/* ---------- tipografía ---------- */
+.display { font-family: var(--font-display); font-weight: 400; letter-spacing: normal; line-height: 1.05; }
+.display em { font-style: italic; font-weight: 300; }
+.h2 { font-size: clamp(34px, 4.6vw, 45px); line-height: 1.1; }
+.eyebrow {
+  font-size: 12px; font-weight: 600; text-transform: uppercase; line-height: 1.4;
+  color: var(--terracotta-deep); letter-spacing: 0.04em; margin-bottom: 12px;
+}
+.lead { font-size: 18px; line-height: 1.4; font-weight: 300; color: var(--charcoal); letter-spacing: -0.41px; max-width: 54ch; }
+
+/* ---------- estructura ---------- */
+.wrap { width: 100%; max-width: calc(var(--max) + 2 * var(--gutter)); margin: 0 auto; padding-inline: var(--gutter); }
+.section { padding-block: clamp(64px, 9vw, 96px); }
+.section--paper { background: var(--aged-paper); }
+.section__head { display: grid; gap: 16px; margin-bottom: clamp(32px, 5vw, 56px); max-width: 720px; }
+
+/* ---------- botones ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 12px 24px;
+  font: 600 16px/1.2 var(--font-body); letter-spacing: -0.37px; text-decoration: none;
+  border: 1.5px solid transparent; border-radius: var(--radius-btn);
+  cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.btn:active { transform: scale(0.97); }
+.btn--primary { background: var(--terracotta); color: var(--parchment); }
+.btn--outline { background: transparent; color: var(--terracotta-deep); border-color: var(--terracotta); }
+.btn--light { background: transparent; color: var(--parchment); border-color: rgba(254, 249, 239, 0.7); }
+.btn--sm { min-height: 44px; padding: 10px 20px; font-size: 15px; }
+.link-ghost { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 12px; border-radius: var(--radius-pill); text-decoration: none; font-size: 15px; transition: background-color 160ms var(--ease-out); }
+
+/* ---------- barra de anuncio ---------- */
+.announce { background: var(--terracotta); color: var(--parchment); text-align: center; font-size: 14px; padding: 8px 16px; letter-spacing: -0.32px; }
+.announce a { color: var(--parchment); text-decoration: underline; text-underline-offset: 3px; margin-left: 6px; font-weight: 600; }
+
+/* ---------- navegación ---------- */
+.nav { position: sticky; top: 0; z-index: 50; background: var(--parchment); border-bottom: 1px solid transparent; transition: border-color 200ms var(--ease-out); }
+.nav.is-scrolled { border-bottom-color: var(--taupe); }
+.nav__inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 68px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--font-display); font-size: 26px; letter-spacing: normal; line-height: 1; }
+.logo__seal { width: 20px; height: 20px; border-radius: 50%; background: var(--terracotta); box-shadow: inset 0 0 0 5px var(--parchment), 0 0 0 1.5px var(--terracotta); }
+.logo small { font-family: var(--font-body); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--graphite); margin-left: 2px; }
+.nav__links { display: flex; align-items: center; gap: 8px; }
+.nav__right { display: flex; align-items: center; gap: 8px; }
+.burger { display: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: transparent; cursor: pointer; color: var(--ink); align-items: center; justify-content: center; }
+.burger svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+.burger .x { display: none; }
+.burger[aria-expanded="true"] .bars { display: none; }
+.burger[aria-expanded="true"] .x { display: block; }
+
+/* ---------- hero ---------- */
+.hero { position: relative; isolation: isolate; color: var(--parchment); min-height: min(100svh, 880px); display: flex; align-items: flex-end; overflow: hidden; background: #3a2a22 center / cover no-repeat url("https://images.pexels.com/videos/4264878/pexels-photo-4264878.jpeg"); }
+.hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; opacity: 0; }
+.hero__video.is-playing { opacity: 1; transition: opacity 800ms var(--ease-out); }
+.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(58, 36, 26, 0.55) 0%, rgba(48, 30, 22, 0.62) 55%, rgba(42, 27, 20, 0.78) 100%); }
+.hero__content { padding-block: clamp(72px, 12vw, 140px) clamp(40px, 6vw, 64px); display: grid; gap: 24px; }
+.hero .eyebrow { color: var(--parchment); opacity: 0.9; margin: 0; }
+.hero h1 { font-size: clamp(48px, 9vw, 88px); line-height: 0.95; max-width: 11ch; }
+.hero .lead { color: rgba(254, 249, 239, 0.85); }
+.hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.stats { display: flex; flex-wrap: wrap; gap: 24px 0; margin-top: clamp(24px, 5vw, 48px); }
+.stat { padding-right: 32px; margin-right: 32px; border-right: 1px solid rgba(254, 249, 239, 0.3); }
+.stat:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+.stat strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: clamp(34px, 4.4vw, 45px); line-height: 1.1; letter-spacing: normal; }
+.stat span { font-size: 14px; color: rgba(254, 249, 239, 0.8); }
+.hero__enter { animation: rise 600ms var(--ease-out) both; animation-delay: calc(var(--d, 0) * 80ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* ---------- tratamientos ---------- */
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.card { background: var(--aged-paper); border-radius: var(--radius-card); overflow: hidden; display: flex; flex-direction: column; }
+.section--paper .card { background: var(--parchment); }
+.card__media { aspect-ratio: 4 / 3; overflow: hidden; background: var(--taupe); }
+.card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out); }
+.card__body { padding: 24px 28px 32px; display: grid; gap: 12px; align-content: start; flex: 1; }
+.card h3 { font-size: clamp(28px, 2.6vw, 34px); line-height: 1.1; }
+.card p { color: var(--charcoal); }
+.meta { font-size: 14px; color: var(--graphite); }
+.tags { display: flex; flex-wrap: wrap; row-gap: 8px; font-size: 14px; color: var(--charcoal); margin-top: 4px; }
+.tags li + li::before { content: "·"; color: var(--terracotta); font-weight: 700; padding-inline: 12px; }
+
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; margin-top: clamp(32px, 5vw, 48px); padding: 28px 32px; border: 1px solid var(--taupe); border-radius: var(--radius-card); }
+.cta-row p { font-family: var(--font-display); font-size: clamp(24px, 3vw, 34px); line-height: 1.15; letter-spacing: normal; max-width: 26ch; }
+.cta-row p em { font-style: italic; font-weight: 300; }
+
+/* ---------- enfoque ---------- */
+.principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.principle { border-top: 1px solid var(--taupe); padding-top: 20px; display: grid; gap: 8px; align-content: start; }
+.principle h3 { font-size: 28px; line-height: 1.1; }
+.principle p { color: var(--charcoal); }
+
+/* ---------- método ---------- */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; counter-reset: s; }
+.step { background: var(--aged-paper); border-radius: var(--radius-card); padding: 40px 32px; display: grid; gap: 12px; align-content: start; }
+.step .num { font-size: 14px; font-weight: 600; color: var(--terracotta-deep); letter-spacing: -0.32px; }
+.step h3 { font-size: 34px; line-height: 1.1; }
+.step p { color: var(--charcoal); }
+
+/* ---------- banda ---------- */
+.band { position: relative; border-radius: var(--radius-card); overflow: hidden; min-height: clamp(320px, 42vw, 480px); display: flex; align-items: flex-end; color: var(--parchment); background: var(--taupe); isolation: isolate; }
+.band img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.band::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(48, 30, 22, 0.15) 20%, rgba(42, 27, 20, 0.75) 100%); }
+.band p { font-size: clamp(34px, 4.6vw, 45px); padding: clamp(24px, 4vw, 48px); max-width: 20ch; }
+
+/* ---------- opiniones ---------- */
+.quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.quote { display: grid; gap: 20px; align-content: start; }
+.quote blockquote { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 22px; line-height: 1.3; letter-spacing: normal; }
+.quote figcaption { display: flex; align-items: center; gap: 14px; }
+.avatar { width: 48px; height: 48px; flex: none; border-radius: 50%; background: var(--taupe); display: grid; place-items: center; font-weight: 600; font-size: 15px; color: var(--ink); }
+.who strong { display: block; font-size: 14px; font-weight: 600; }
+.who span { font-size: 14px; color: var(--graphite); }
+
+/* ---------- FAQ ---------- */
+.faq { max-width: 820px; display: grid; }
+.faq details { border-top: 1px solid var(--taupe); interpolate-size: allow-keywords; }
+.faq details:last-child { border-bottom: 1px solid var(--taupe); }
+.faq summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 64px; padding-block: 16px; font-family: var(--font-display); font-size: 24px; line-height: 1.2; letter-spacing: normal; -webkit-tap-highlight-color: transparent; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: none; width: 10px; height: 10px; border-right: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); transform: rotate(45deg) translateY(-3px); transition: transform 220ms var(--ease-out); }
+.faq details[open] summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.faq details[open] summary { color: var(--terracotta-deep); }
+.faq details::details-content { block-size: 0; overflow: clip; opacity: 0; transition: block-size 220ms var(--ease-out), opacity 220ms var(--ease-out), content-visibility 220ms allow-discrete; }
+.faq details[open]::details-content { block-size: auto; opacity: 1; }
+.faq .answer { padding: 0 0 24px; color: var(--charcoal); max-width: 62ch; }
+
+/* ---------- reserva ---------- */
+.book { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: start; }
+.book__intro { display: grid; gap: 20px; }
+.book__intro ul { display: grid; gap: 10px; color: var(--charcoal); margin-top: 8px; }
+.book__intro li::before { content: "·"; color: var(--terracotta); font-weight: 700; margin-right: 12px; }
+.form { background: var(--parchment); border-radius: var(--radius-card); padding: clamp(24px, 4vw, 40px); display: grid; gap: 18px; box-shadow: var(--shadow-xl); }
+.field { display: grid; gap: 6px; }
+.field label { font-size: 14px; font-weight: 600; }
+.field input, .field select {
+  width: 100%; min-height: 48px; padding: 12px 20px; font: 400 16px/1.4 var(--font-body); letter-spacing: -0.37px; color: var(--ink);
+  background: var(--parchment); border: 1px solid var(--ash); border-radius: var(--radius-pill);
+  transition: box-shadow 160ms var(--ease-out), border-color 160ms var(--ease-out);
+}
+.field select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%); background-position: calc(100% - 26px) 50%, calc(100% - 20px) 50%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 48px; }
+.field input::placeholder { color: var(--graphite); }
+.field input:focus, .field select:focus { outline: none; border-color: var(--terracotta); box-shadow: 0 0 0 3px rgba(176, 90, 54, 0.2); }
+.field[data-invalid] input, .field[data-invalid] select { border-color: var(--terracotta-deep); }
+.err { min-height: 0; font-size: 13px; color: var(--terracotta-deep); padding-left: 20px; }
+.form .btn { width: 100%; }
+.form small { color: var(--graphite); font-size: 13px; text-align: center; }
+
+/* ---------- pie ---------- */
+.foot { background: var(--aged-paper); border-top: 1px solid var(--taupe); padding-block: 64px 32px; }
+.foot__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+.foot h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--charcoal); margin-bottom: 12px; font-family: var(--font-body); }
+.foot p, .foot li { font-size: 14px; color: var(--charcoal); }
+.foot ul { display: grid; gap: 6px; }
+.foot a { text-underline-offset: 3px; }
+.foot__legal { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--taupe); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; font-size: 13px; color: var(--graphite); }
+
+/* ---------- revelación al hacer scroll ---------- */
+.js .reveal { opacity: 0; transform: translateY(12px); }
+.js .reveal.is-in { opacity: 1; transform: none; transition: opacity 500ms var(--ease-out) calc(var(--i, 0) * 60ms), transform 500ms var(--ease-out) calc(var(--i, 0) * 60ms); }
+
+/* ---------- hover solo en dispositivos con puntero fino ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover { background: var(--terracotta-deep); }
+  .btn--outline:hover { background: rgba(176, 90, 54, 0.08); }
+  .btn--light:hover { background: rgba(254, 249, 239, 0.14); }
+  .link-ghost:hover, .burger:hover { background: var(--aged-paper); }
+  .card:hover .card__media img { transform: scale(1.03); }
+  .faq summary:hover { color: var(--terracotta-deep); }
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 1024px) {
+  .grid, .steps, .quotes { grid-template-columns: repeat(2, 1fr); }
+  .principles { grid-template-columns: 1fr; gap: 28px; }
+  .quotes .quote:last-child { grid-column: 1 / -1; max-width: 560px; }
+  .foot__grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .burger { display: inline-flex; }
+  .nav__links {
+    position: absolute; left: var(--gutter); right: var(--gutter); top: calc(100% + 8px);
+    flex-direction: column; align-items: stretch; gap: 0; padding: 12px;
+    background: var(--parchment); border: 1px solid var(--taupe); border-radius: 12px; box-shadow: var(--shadow-xl);
+    visibility: hidden; opacity: 0; transform: translateY(-6px);
+    transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s linear 180ms;
+  }
+  .nav__links.is-open { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+  .nav__links .link-ghost { min-height: 48px; font-size: 16px; padding-inline: 16px; }
+  .nav__cta { display: none; }
+  .book { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .grid, .steps, .quotes { grid-template-columns: 1fr; }
+  .quotes .quote:last-child { max-width: none; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 16px; }
+  .stat, .stat:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+  .stat:last-child { grid-column: 1 / -1; }
+  .hero__cta .btn { flex: 1 1 100%; }
+  .foot__grid { grid-template-columns: 1fr; }
+  .announce { font-size: 13px; }
+}
+
+/* ---------- movimiento reducido: solo fundidos ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { transform: none; }
+  .js .reveal.is-in { transition: opacity 300ms ease-out; }
+  @keyframes rise { from { opacity: 0; } to { opacity: 1; } }
+  .btn:active { transform: none; }
+  .card:hover .card__media img { transform: none; }
+  .nav__links { transform: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#tratamientos">Saltar al contenido</a>
+
+<div class="announce">Primera valoración facial gratuita <a href="#reserva">Reserva tu cita</a></div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="logo" href="#top" aria-label="Alba · Estética Facial, inicio"><span class="logo__seal" aria-hidden="true"></span>Alba <small>Estética facial</small></a>
+    <nav class="nav__right" aria-label="Principal">
+      <div class="nav__links" id="menu">
+        <a class="link-ghost" href="#tratamientos">Tratamientos</a>
+        <a class="link-ghost" href="#metodo">Método</a>
+        <a class="link-ghost" href="#opiniones">Opiniones</a>
+        <a class="link-ghost" href="#contacto">Contacto</a>
+      </div>
+      <a class="btn btn--primary btn--sm nav__cta" href="#reserva">Reservar cita</a>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+        <svg class="bars" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+        <svg class="x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-title">
+    <video class="hero__video" id="heroVideo" autoplay muted loop playsinline preload="metadata" poster="https://images.pexels.com/videos/4264878/pexels-photo-4264878.jpeg" aria-hidden="true" tabindex="-1">
+      <source src="https://videos.pexels.com/video-files/4264878/4264878-hd_1280_720_30fps.mp4" type="video/mp4">
+    </video>
+    <div class="wrap hero__content">
+      <p class="eyebrow hero__enter" style="--d:0">Estética facial · Almería</p>
+      <h1 class="display hero__enter" id="hero-title" style="--d:1">Tu piel, <em>con calma</em></h1>
+      <p class="lead hero__enter" style="--d:2">Tratamientos faciales a medida. Primero escuchamos tu piel; después, elegimos solo lo que de verdad necesita.</p>
+      <div class="hero__cta hero__enter" style="--d:3">
+        <a class="btn btn--primary" href="#reserva">Reservar valoración gratuita</a>
+        <a class="btn btn--light" href="#tratamientos">Ver tratamientos</a>
+      </div>
+      <div class="stats hero__enter" style="--d:4" role="list">
+        <div class="stat" role="listitem"><strong>+2.000</strong><span>tratamientos realizados</span></div>
+        <div class="stat" role="listitem"><strong>12 años</strong><span>de experiencia</span></div>
+        <div class="stat" role="listitem"><strong>4,9</strong><span>valoración en Google</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tratamientos" aria-labelledby="t-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Tratamientos</p>
+        <h2 class="display h2" id="t-title">Cuidado facial, <em>sin prisas</em></h2>
+        <p class="lead">Seis tratamientos pensados para distintos momentos de tu piel. En la valoración elegimos juntas cuál encaja contigo.</p>
+      </div>
+      <div class="grid">
+        <article class="card reveal" style="--i:0">
+          <div class="card__media"><img src="https://images.pexels.com/photos/9775108/pexels-photo-9775108.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Mujer limpiándose el rostro con discos de algodón" width="900" height="675" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <h3 class="display">Limpieza profunda</h3>
+            <p>Elimina impurezas y renueva la superficie de la piel con extracción suave y mascarilla calmante.</p>
+            <p class="meta">60 min · desde 55 €</p>
+            <ul class="tags"><li>Poros</li><li>Piel apagada</li><li>Imperfecciones</li></ul>
+          </div>
+        </article>
+        <article class="card reveal" style="--i:1">
+          <div class="card__media"><img src="https://images.pexels.com/photos/3762890/pexels-photo-3762890.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Mujer aplicándose crema hidratante en el rostro" width="900" height="675" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <h3 class="display">Hidratación facial</h3>
+            <p>Aporta agua y confort a las pieles tirantes con activos hidratantes y un masaje relajante.</p>
+            <p class="meta">50 min · desde 60 €</p>
+            <ul class="tags"><li>Piel seca</li><li>Tirantez</li><li>Luminosidad</li></ul>
+          </div>
+        </article>
+        <article class="card reveal" style="--i:2">
+          <div class="card__media"><img src="https://images.pexels.com/photos/36930786/pexels-photo-36930786.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Tratamiento facial profesional en una clínica estética" width="900" height="675" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <h3 class="display">Peeling suave</h3>
+            <p>Exfoliación controlada para afinar la textura y unificar el tono, adaptada a tu tipo de piel.</p>
+            <p class="meta">45 min · desde 65 €</p>
+            <ul class="tags"><li>Textura</li><li>Tono irregular</li><li>Renovación</li></ul>
+          </div>
+        </article>
+        <article class="card reveal" style="--i:0">
+          <div class="card__media"><img src="https://images.pexels.com/photos/36930299/pexels-photo-36930299.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Clienta recibiendo un tratamiento facial con aparatología avanzada" width="900" height="675" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <h3 class="display">Radiofrecuencia facial</h3>
+            <p>Calor suave y aparatología avanzada para cuidar la firmeza y la apariencia del óvalo facial.</p>
+            <p class="meta">45 min · desde 70 €</p>
+            <ul class="tags"><li>Firmeza</li><li>Óvalo facial</li><li>Cuidado anti-edad</li></ul>
+          </div>
+        </article>
+        <article class="card reveal" style="--i:1">
+          <div class="card__media"><img src="https://images.pexels.com/photos/29648626/pexels-photo-29648626.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Primer plano de un tratamiento de microneedling facial" width="900" height="675" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <h3 class="display">Microneedling y mesoterapia</h3>
+            <p>Estimula la renovación de la piel y favorece la absorción de activos con técnica precisa y cuidada.</p>
+            <p class="meta">60 min · desde 85 €</p>
+            <ul class="tags"><li>Cicatrices leves</li><li>Textura</li><li>Poros</li></ul>
+          </div>
+        </article>
+        <article class="card reveal" style="--i:2">
+          <div class="card__media"><img src="https://images.pexels.com/photos/32707142/pexels-photo-32707142.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Retrato de una mujer sonriente con la piel luminosa" width="900" height="675" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <h3 class="display">Tratamiento antimanchas</h3>
+            <p>Protocolo progresivo para unificar el tono, con pautas de protección solar para el día a día.</p>
+            <p class="meta">60 min · desde 75 €</p>
+            <ul class="tags"><li>Manchas</li><li>Tono uniforme</li><li>Luminosidad</li></ul>
+          </div>
+        </article>
+      </div>
+      <div class="cta-row reveal">
+        <p>¿No sabes cuál elegir? <em>Lo vemos juntas.</em></p>
+        <a class="btn btn--primary" href="#reserva">Reservar valoración gratuita</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="enfoque" aria-labelledby="e-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Nuestro enfoque</p>
+        <h2 class="display h2" id="e-title">Resultados naturales, <em>criterio profesional</em></h2>
+      </div>
+      <div class="principles">
+        <div class="principle reveal" style="--i:0">
+          <h3 class="display">Naturalidad</h3>
+          <p>Buscamos que te veas como tú, descansada y con buena piel. Nada de transformaciones que no reconozcas en el espejo.</p>
+        </div>
+        <div class="principle reveal" style="--i:1">
+          <h3 class="display">Valoración previa</h3>
+          <p>Ningún tratamiento empieza sin escuchar tu piel y explicarte qué haremos, por qué y cuánto costará.</p>
+        </div>
+        <div class="principle reveal" style="--i:2">
+          <h3 class="display">Acompañamiento</h3>
+          <p>Estamos a un mensaje de distancia antes, durante y después. Resolvemos tus dudas sin prisas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper" id="metodo" aria-labelledby="m-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Cómo funciona</p>
+        <h2 class="display h2" id="m-title">Tres pasos, <em>un plan tuyo</em></h2>
+      </div>
+      <ol class="steps">
+        <li class="step reveal" style="--i:0">
+          <span class="num">01</span>
+          <h3 class="display">Diagnóstico</h3>
+          <p>Veinte minutos para revisar tu piel, tus hábitos y lo que te gustaría mejorar. Sin compromiso y sin coste.</p>
+        </li>
+        <li class="step reveal" style="--i:1">
+          <span class="num">02</span>
+          <h3 class="display">Plan a medida</h3>
+          <p>Te proponemos un calendario realista de sesiones y rutina en casa, con precios claros antes de empezar.</p>
+        </li>
+        <li class="step reveal" style="--i:2">
+          <span class="num">03</span>
+          <h3 class="display">Tratamiento y seguimiento</h3>
+          <p>Cuidamos tu piel sesión a sesión y ajustamos el plan según cómo responda, sin prisas.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Nuestra filosofía">
+    <div class="wrap">
+      <figure class="band reveal">
+        <img src="https://images.pexels.com/photos/5042636/pexels-photo-5042636.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="Mujer relajada durante un tratamiento de belleza facial" width="1600" height="1067" loading="lazy" decoding="async">
+        <p class="display">La piel se cuida con <em>constancia</em>, no con prisas.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section--paper" id="opiniones" aria-labelledby="o-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Opiniones</p>
+        <h2 class="display h2" id="o-title">Lo que dicen <em>nuestras clientas</em></h2>
+      </div>
+      <div class="quotes">
+        <figure class="quote reveal" style="--i:0">
+          <blockquote>“Me explicaron cada paso y no me vendieron nada que no necesitara. Mi piel está mucho más tranquila.”</blockquote>
+          <figcaption><span class="avatar" aria-hidden="true">MR</span><span class="who"><strong>Marta R.</strong><span>Clienta desde 2022 · Almería</span></span></figcaption>
+        </figure>
+        <figure class="quote reveal" style="--i:1">
+          <blockquote>“La valoración gratuita me convenció. Un trato cercano y un plan claro desde el primer día.”</blockquote>
+          <figcaption><span class="avatar" aria-hidden="true">LG</span><span class="who"><strong>Lucía G.</strong><span>Clienta desde 2023 · Roquetas de Mar</span></span></figcaption>
+        </figure>
+        <figure class="quote reveal" style="--i:2">
+          <blockquote>“Entro con prisa y salgo en calma. El ambiente es tan agradable como el resultado.”</blockquote>
+          <figcaption><span class="avatar" aria-hidden="true">CP</span><span class="who"><strong>Carmen P.</strong><span>Clienta desde 2021 · Almería</span></span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="f-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2 class="display h2" id="f-title">Antes de <em>reservar</em></h2>
+      </div>
+      <div class="faq reveal">
+        <details>
+          <summary>¿La primera valoración tiene coste?</summary>
+          <p class="answer">No. Dedicamos unos veinte minutos a revisar tu piel y acordar un plan contigo, sin ningún compromiso.</p>
+        </details>
+        <details>
+          <summary>¿Cuántas sesiones necesitaré?</summary>
+          <p class="answer">Depende del tratamiento y de tu piel. En la valoración te damos un calendario realista; los resultados se consolidan con constancia, no con una única sesión.</p>
+        </details>
+        <details>
+          <summary>¿Hay situaciones en las que no se recomienda un tratamiento?</summary>
+          <p class="answer">Sí, por ejemplo durante el embarazo o con ciertas afecciones de la piel. Lo revisamos contigo antes de empezar y, si hace falta, te recomendamos consultar con tu médico.</p>
+        </details>
+        <details>
+          <summary>¿Cómo cambio o cancelo mi cita?</summary>
+          <p class="answer">Por WhatsApp o por teléfono, hasta 24 horas antes y sin coste alguno.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper" id="reserva" aria-labelledby="r-title">
+    <div class="wrap book">
+      <div class="book__intro reveal">
+        <p class="eyebrow">Reserva</p>
+        <h2 class="display h2" id="r-title">Reserva tu <em>valoración gratuita</em></h2>
+        <p class="lead">Cuéntanos qué te gustaría cuidar y cuándo te viene bien. Te confirmamos por WhatsApp.</p>
+        <ul>
+          <li>Sin compromiso</li>
+          <li>Plan y precios claros desde el primer día</li>
+          <li>Cambios de cita sin coste hasta 24 h antes</li>
+        </ul>
+      </div>
+      <form class="form reveal" id="reservaForm" novalidate style="--i:1">
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" autocomplete="given-name" placeholder="Tu nombre" aria-describedby="e-nombre">
+          <p class="err" id="e-nombre" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="telefono">Teléfono</label>
+          <input id="telefono" name="telefono" type="tel" inputmode="tel" autocomplete="tel" placeholder="600 000 000" aria-describedby="e-telefono">
+          <p class="err" id="e-telefono" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="tratamiento">Tratamiento</label>
+          <select id="tratamiento" name="tratamiento" aria-describedby="e-tratamiento">
+            <option value="">Elige un tratamiento</option>
+            <option>Limpieza profunda</option>
+            <option>Hidratación facial</option>
+            <option>Peeling suave</option>
+            <option>Radiofrecuencia facial</option>
+            <option>Microneedling y mesoterapia</option>
+            <option>Tratamiento antimanchas</option>
+            <option>Aún no lo sé, quiero la valoración</option>
+          </select>
+          <p class="err" id="e-tratamiento" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="fecha">Fecha orientativa</label>
+          <input id="fecha" name="fecha" type="date" aria-describedby="e-fecha">
+          <p class="err" id="e-fecha" role="alert"></p>
+        </div>
+        <button class="btn btn--primary" type="submit">Enviar por WhatsApp</button>
+        <small>Se abrirá WhatsApp con tu mensaje listo para enviar.</small>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot" id="contacto">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div>
+        <a class="logo" href="#top"><span class="logo__seal" aria-hidden="true"></span>Alba</a>
+        <p style="margin-top:16px;max-width:30ch">Estética facial personalizada en Almería. Tu piel, con calma.</p>
+      </div>
+      <div>
+        <h3>Horario</h3>
+        <ul><li>Lunes a viernes · 10:00–20:00</li><li>Sábados · 10:00–14:00</li><li>Domingos · cerrado</li></ul>
+      </div>
+      <div>
+        <h3>Dirección</h3>
+        <p>Calle Ejemplo, 12<br>04001 Almería<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Almer%C3%ADa" target="_blank" rel="noopener">Cómo llegar</a></p>
+      </div>
+      <div>
+        <h3>Contacto</h3>
+        <ul><li><a href="tel:+34600000000">+34 600 000 000</a></li><li><a href="https://wa.me/34600000000" target="_blank" rel="noopener">Escríbenos por WhatsApp</a></li><li><a href="mailto:hola@alba-estetica.es">hola@alba-estetica.es</a></li></ul>
+      </div>
+    </div>
+    <div class="foot__legal">
+      <span>Sitio de demostración · datos ficticios</span>
+      <span>Fotos y vídeos: <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- vídeo del hero: aparece al reproducirse; si falla, queda el póster ---- */
+  var video = document.getElementById('heroVideo');
+  if (video) {
+    if (reduce) {
+      video.removeAttribute('autoplay');
+      video.pause();
+      video.style.display = 'none';
+    } else {
+      video.addEventListener('playing', function () { video.classList.add('is-playing'); });
+      video.addEventListener('error', function () { video.style.display = 'none'; }, true);
+      var p = video.play();
+      if (p && p.catch) p.catch(function () { video.style.display = 'none'; });
+    }
+  }
+
+  /* ---- revelación al hacer scroll ---- */
+  function initReveal() {
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('is-in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+    items.forEach(function (el) { io.observe(el); });
+  }
+  initReveal();
+
+  /* ---- borde de la navegación al hacer scroll ---- */
+  var nav = document.getElementById('nav');
+  function onScroll() { nav.classList.toggle('is-scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---- menú móvil ---- */
+  var burger = document.getElementById('burger');
+  var menu = document.getElementById('menu');
+  function setMenu(open) {
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    menu.classList.toggle('is-open', open);
+  }
+  burger.addEventListener('click', function () { setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') { setMenu(false); burger.focus(); }
+  });
+
+  /* ---- formulario → WhatsApp ---- */
+  var WA_NUMBER = '34600000000'; // número ficticio de la demo
+
+  function buildWhatsAppUrl(data) {
+    var fecha = '';
+    if (data.fecha) {
+      var d = new Date(data.fecha + 'T12:00:00');
+      fecha = isNaN(d) ? data.fecha : d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+    }
+    var msg = 'Hola, soy ' + data.nombre + '. Me gustaría reservar ' +
+      (data.tratamiento ? 'una cita para "' + data.tratamiento + '"' : 'una valoración facial') +
+      (fecha ? ' hacia el ' + fecha : '') + '. Mi teléfono es ' + data.telefono + '. ¡Gracias!';
+    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+  }
+
+  var form = document.getElementById('reservaForm');
+  var fechaInput = document.getElementById('fecha');
+  var today = new Date();
+  fechaInput.min = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+
+  function setError(id, msg) {
+    var field = document.getElementById(id).closest('.field');
+    document.getElementById('e-' + id).textContent = msg || '';
+    if (msg) { field.setAttribute('data-invalid', ''); document.getElementById(id).setAttribute('aria-invalid', 'true'); }
+    else { field.removeAttribute('data-invalid'); document.getElementById(id).removeAttribute('aria-invalid'); }
+  }
+
+  function validate(data) {
+    var first = null;
+    function check(id, bad, msg) { setError(id, bad ? msg : ''); if (bad && !first) first = id; }
+    check('nombre', data.nombre.length < 2, 'Por favor, introduce tu nombre.');
+    check('telefono', data.telefono.replace(/\D/g, '').length < 9, 'Introduce un teléfono válido (9 dígitos).');
+    check('tratamiento', !data.tratamiento, 'Elige un tratamiento.');
+    check('fecha', !data.fecha || data.fecha < fechaInput.min, 'Elige una fecha orientativa a partir de hoy.');
+    return first;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = {
+      nombre: form.nombre.value.trim(),
+      telefono: form.telefono.value.trim(),
+      tratamiento: form.tratamiento.value,
+      fecha: form.fecha.value
+    };
+    var firstBad = validate(data);
+    if (firstBad) { document.getElementById(firstBad).focus(); return; }
+    window.open(buildWhatsAppUrl(data), '_blank', 'noopener');
+  });
+  form.addEventListener('input', function (e) { if (e.target.id) setError(e.target.id, ''); });
+})();
+</script>
+</body>
+</html>

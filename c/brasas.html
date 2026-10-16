@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Carta Las Brasas</title>
+<meta name="theme-color" content="#2a1713">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Concept: asador premium. Cabecera marrón carbón, cuerpo crema, filetes dorados, titulares Fraunces con cursiva, texto Karla. Una columna de 720px, barra inferior fija. */
+:root{
+  --brown:#2a1713; --brown-2:#35201a; --cream:#f3ede2; --cream-2:#ebe3d4; --ink:#2a1a14; --muted:#75655a;
+  --gold:#b58850; --gold-dark:#8f6a38; --line:#d9ccb8; --on-dark:#f4ece0; --on-dark-mute:#c9b9a6;
+  --serif:'Fraunces',Georgia,'Times New Roman',serif; --sans:'Karla',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --gutL:max(18px,env(safe-area-inset-left,0px)); --gutR:max(18px,env(safe-area-inset-right,0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;scroll-behavior:smooth;background:var(--cream)}
+body{font-family:var(--sans);font-size:17px;line-height:1.5;color:var(--ink);background:var(--cream);overflow-x:hidden;padding-bottom:92px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--brown)}
+a,button{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;color:inherit;text-decoration:none;font-family:inherit}
+button{background:none;border:0;cursor:pointer}
+input{font-size:16px;font-family:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.in{width:100%;max-width:720px;margin:0 auto;padding-left:var(--gutL);padding-right:var(--gutR)}
+.num{-webkit-user-select:text;user-select:text}
+
+/* TOPBAR + HERO */
+.dark{background:var(--brown);color:var(--on-dark)}
+.top{display:flex;align-items:center;justify-content:space-between;padding-block:22px 18px;border-bottom:1px solid var(--gold)}
+.brand small{display:block;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--on-dark-mute);font-weight:500;margin-bottom:2px}
+.brand b{display:block;font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 144;font-size:clamp(34px,10.5vw,46px);letter-spacing:.07em;line-height:1;text-transform:uppercase}
+.burger{width:52px;height:44px;display:grid;place-content:center;gap:9px}
+.burger i{display:block;width:36px;height:2px;background:var(--on-dark);transition:transform .3s var(--ease),opacity .2s}
+.hero{padding-block:34px 44px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-120px;bottom:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(closest-side,rgba(181,136,80,.22),transparent);pointer-events:none}
+.eyebrow{font-size:13px;letter-spacing:.34em;text-transform:uppercase;color:var(--on-dark);font-weight:500;animation:rise .8s var(--ease) both}
+h1{font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 144;font-size:clamp(60px,18.5vw,104px);line-height:.92;letter-spacing:-.025em;margin:14px 0 18px;color:var(--on-dark);position:relative;z-index:1}
+h1 span{display:block;animation:rise 1s .08s var(--ease) both}
+h1 span+span{font-style:italic;animation-delay:.18s}
+.since{font-size:12px;letter-spacing:.38em;text-transform:uppercase;color:var(--on-dark);font-weight:500;animation:rise .8s .3s var(--ease) both}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;position:relative;z-index:1;animation:rise .8s .38s var(--ease) both}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;padding:0 26px;border-radius:2px;font-weight:600;font-size:15px;letter-spacing:.04em;transition:transform .16s var(--ease),background .2s,color .2s}
+.btn:active{transform:scale(.97)}
+.btn.gold{background:var(--gold);color:var(--brown)}
+.btn.line{border:1px solid rgba(244,236,224,.4);color:var(--on-dark)}
+@media (hover:hover) and (pointer:fine){.btn.gold:hover{background:#c79a62}.btn.line:hover{background:rgba(244,236,224,.08)}}
+.closed{margin-top:16px;font-size:14px;color:var(--on-dark-mute);position:relative;z-index:1}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* WEEKEND MENU */
+.finde{border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);margin-top:30px}
+.finde-row{display:flex;align-items:stretch;justify-content:space-between;gap:18px;padding-block:20px}
+.finde-l{min-width:0}
+.finde-l small{display:block;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dark);font-weight:600;margin-bottom:6px}
+.finde-l h2{font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 144;font-size:clamp(28px,8.4vw,38px);line-height:1.02;letter-spacing:-.015em}
+.finde-l p{margin-top:6px;color:var(--ink)}
+.finde-r{flex:none;border-left:1px solid var(--gold);padding-left:18px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;min-width:120px}
+.finde-r .pr{font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 144;font-size:clamp(44px,13vw,60px);line-height:.95;letter-spacing:-.02em;white-space:nowrap}
+.finde-r button{font-weight:600;color:var(--gold-dark);font-size:16px;border-bottom:1px solid var(--gold);padding:2px 0;display:inline-flex;gap:6px;align-items:center}
+.finde-r button svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .3s var(--ease)}
+.finde-r button[aria-expanded=true] svg{transform:rotate(90deg)}
+.finde-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.finde-panel.open{grid-template-rows:1fr}
+.finde-panel>div{overflow:hidden;min-height:0}
+.finde-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:4px 0 24px}
+.finde-cols>div{min-width:0}
+.finde-cols h3{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-dark);font-weight:600;margin-bottom:8px}
+.finde-cols li{list-style:none;padding:7px 0;border-top:1px solid var(--line);font-size:16px}
+
+/* TABS */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--cream);border-bottom:1px solid var(--line);margin-top:6px}
+.tabs-in{position:relative}
+.tabs-sc{display:flex;gap:28px;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;padding-right:40px}
+.tabs-sc::-webkit-scrollbar{display:none}
+.tab{flex:none;padding:16px 2px 14px;font-size:18px;color:var(--ink);border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .25s var(--ease)}
+.tab.on{font-weight:600;border-bottom-color:var(--gold)}
+.tab:not(.on){color:#4a3a30}
+.more{position:absolute;right:0;top:0;bottom:0;width:48px;display:flex;align-items:center;justify-content:flex-end;background:linear-gradient(90deg,transparent,var(--cream) 55%);transition:opacity .2s}
+.more svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:1.6}
+.more.off{opacity:0;pointer-events:none}
+
+/* SEARCH */
+.search{position:relative;display:block;margin-top:22px}
+.search input{width:100%;height:54px;border:1px solid var(--ink);border-radius:3px;background:transparent;color:var(--ink);padding:0 16px 0 52px;outline:none;transition:border-color .2s,box-shadow .2s}
+.search input::placeholder{color:#8a7a6e}
+.search input:focus{border-color:var(--gold-dark);box-shadow:0 0 0 3px rgba(181,136,80,.25)}
+.search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:1.6;stroke-linecap:round}
+
+/* SECTIONS */
+section.cat{padding-top:50px;scroll-margin-top:74px}
+.cat-head{display:flex;align-items:center;gap:16px}
+.cat-head .n{font-family:var(--serif);font-size:22px;color:var(--gold-dark);font-weight:400}
+.cat-head h2{font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 144;font-size:clamp(34px,10vw,48px);line-height:1;letter-spacing:-.02em;text-wrap:balance}
+.cat-head i{flex:1;height:1px;background:var(--gold);min-width:20px;margin-top:6px}
+.cat .sub{margin-top:8px;font-size:14px;color:var(--muted)}
+.group-title{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dark);font-weight:600;margin:28px 0 0}
+.list{margin-top:14px;border-top:0}
+.item{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:15px 2px;border-bottom:1px solid var(--line)}
+.item .t{min-width:0}
+.item .name{font-size:19px;line-height:1.25}
+.item .desc{font-size:15px;color:var(--muted);margin-top:3px;line-height:1.4}
+.price{flex:none;font-size:19px;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:500}
+.extra{margin-top:0;padding:16px 4px 0;font-size:15px;color:var(--ink);border-top:1px solid var(--gold);display:flex;flex-wrap:wrap;gap:4px 14px}
+.extra span+span:before{content:"·";margin-right:14px;color:var(--gold-dark)}
+.empty{display:none;text-align:center;color:var(--muted);padding:56px 0}
+
+/* ABOUT */
+.about{margin-top:64px;padding-block:52px 56px}
+.about .eyebrow{color:var(--gold)}
+.about h2{font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 144;font-size:clamp(36px,10.5vw,54px);line-height:1;letter-spacing:-.02em;margin:14px 0 18px;text-wrap:balance}
+.about h2 em{font-style:italic}
+.about p{color:var(--on-dark-mute);max-width:46ch}
+.feats{margin-top:30px;display:grid;gap:0}
+.feat{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:18px 0;border-top:1px solid rgba(181,136,80,.5)}
+.feat .k{font-family:var(--serif);color:var(--gold);font-size:20px}
+.feat b{display:block;font-weight:600;font-size:18px;color:var(--on-dark)}
+.feat span{display:block;color:var(--on-dark-mute);font-size:15.5px;margin-top:2px}
+
+/* EVENTS */
+.events{padding-block:56px 8px}
+.events h2{font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 144;font-size:clamp(32px,9.5vw,46px);line-height:1.02;letter-spacing:-.02em;text-wrap:balance}
+.events h2 em{font-style:italic}
+.events p{margin:14px 0 22px;color:#4a3a30;max-width:44ch}
+
+/* LOCATION */
+.loc{padding-block:56px 20px;scroll-margin-top:20px}
+.loc h2{font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 144;font-size:clamp(32px,9.5vw,46px);line-height:1;letter-spacing:-.02em}
+.loc .addr{margin-top:14px;font-size:19px}
+.loc .tel{margin-top:6px;font-size:19px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.loc .tel b{font-weight:600;letter-spacing:.02em}
+.copy{height:34px;padding:0 14px;border:1px solid var(--ink);border-radius:2px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;transition:background .2s,color .2s}
+.copy:active{transform:scale(.96)}
+.hours{margin-top:26px;border-top:1px solid var(--gold)}
+.hours div{display:flex;justify-content:space-between;gap:16px;padding:13px 2px;border-bottom:1px solid var(--line);font-size:17px}
+.hours div span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.hours .season{border:0;font-size:13px;color:var(--muted);padding-top:10px}
+.mapbox{margin-top:26px;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--cream-2);position:relative;height:300px}
+.mapbox iframe{display:block;width:100%;height:100%;border:0;filter:sepia(.18) saturate(.9)}
+.mapfb{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px;
+  background:
+   linear-gradient(90deg,transparent 49.5%,rgba(181,136,80,.28) 49.5% 50.5%,transparent 50.5%) 0 0/84px 84px,
+   linear-gradient(0deg,transparent 49.5%,rgba(181,136,80,.28) 49.5% 50.5%,transparent 50.5%) 0 0/84px 84px,
+   var(--cream-2)}
+.mapfb svg{width:44px;height:44px;stroke:var(--gold-dark);fill:var(--cream);stroke-width:1.6}
+.mapfb b{font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:-.01em}
+.mapfb span{font-size:15px;color:var(--muted)}
+.mapbtn{margin-top:16px}
+.btn.ink{background:var(--ink);color:var(--cream)}
+@media (hover:hover) and (pointer:fine){.btn.ink:hover{background:#3a2a22}}
+footer{padding-block:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+footer b{display:block;font-family:var(--serif);font-weight:400;letter-spacing:.1em;text-transform:uppercase;font-size:18px;color:var(--ink);margin-bottom:6px}
+
+/* BOTTOM BAR */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--brown);border-top:1px solid rgba(181,136,80,.5);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:var(--gutL);padding-right:var(--gutR)}
+.bar-in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr)}
+.bar a,.bar button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px 12px;font-size:16px;color:var(--on-dark-mute);transition:color .2s,transform .14s var(--ease)}
+.bar a:active,.bar button:active{transform:scale(.96)}
+.bar svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.bar .on{color:var(--gold)}
+
+/* OVERLAYS */
+.menu-ov{position:fixed;inset:0;z-index:80;background:var(--brown);color:var(--on-dark);padding-top:env(safe-area-inset-top,0px);transform:translateY(-100%);visibility:hidden;transition:transform .5s var(--ease),visibility 0s .5s;overflow-y:auto}
+.menu-ov.open{transform:none;visibility:visible;transition:transform .5s var(--ease),visibility 0s}
+.menu-ov .top{border-bottom:1px solid var(--gold)}
+.menu-ov nav{padding-block:26px}
+.menu-ov nav a{display:block;font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 144;font-size:clamp(34px,10vw,48px);line-height:1.1;padding:12px 0;border-bottom:1px solid rgba(181,136,80,.35)}
+.menu-ov nav a em{font-style:italic}
+.sheet-bg{position:fixed;inset:0;z-index:90;background:rgba(20,10,8,.6);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+.sheet-bg.open{opacity:1;visibility:visible;transition:opacity .3s,visibility 0s}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:100;background:var(--cream);border-top:2px solid var(--gold);padding-bottom:env(safe-area-inset-bottom,0px);transform:translateY(105%);visibility:hidden;transition:transform .45s var(--ease),visibility 0s .45s}
+.sheet.open{transform:none;visibility:visible;transition:transform .45s var(--ease),visibility 0s}
+.sheet .in{padding-block:26px 26px}
+.sheet h3{font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 144;font-size:34px;line-height:1;letter-spacing:-.02em}
+.sheet p{color:#4a3a30;margin-top:8px}
+.sheet .big{font-family:var(--serif);font-size:38px;margin:16px 0 4px;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.sheet .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.sheet .x{position:absolute;right:max(14px,env(safe-area-inset-right,0px));top:12px;width:44px;height:44px;font-size:28px;line-height:1;color:var(--ink)}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+@media (max-width:380px){.finde-cols{grid-template-columns:1fr}.finde-r{min-width:104px}}
+</style>
+
+<header class="dark">
+  <div class="in top">
+    <div class="brand"><small>Restaurante</small><b>Las Brasas</b></div>
+    <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false"><i></i><i></i></button>
+  </div>
+  <div class="in hero">
+    <div class="eyebrow">Balanegra · Almería</div>
+    <h1><span>Tradición</span><span>al fuego.</span></h1>
+    <div class="since">Desde 1990</div>
+    <div class="cta">
+      <a class="btn gold" href="#tabs" data-go="tabs">Ver la carta</a>
+      <button class="btn line" type="button" data-sheet="open">Reservar</button>
+    </div>
+    <p class="closed">Cerrado los lunes.</p>
+  </div>
+</header>
+
+<div class="in">
+  <div class="finde" id="finde-card">
+    <div class="finde-row">
+      <div class="finde-l"><small>Sábados y domingos</small><h2>Menú fin de semana</h2><p>Un primero y un segundo.</p></div>
+      <div class="finde-r"><div class="pr">18 €</div>
+        <button type="button" id="fbtn" aria-expanded="false" aria-controls="fpanel">Ver menú <svg viewBox="0 0 16 16"><path d="M5 2l6 6-6 6"/></svg></button></div>
+    </div>
+    <div class="finde-panel" id="fpanel"><div>
+      <div class="finde-cols">
+        <div><h3>Primeros</h3><ul><li>Arroz</li><li>Migas</li><li>Huevos rotos</li><li>Salmorejo</li><li>Entremeses</li><li>Ensalada mixta</li><li>Ensalada César</li></ul></div>
+        <div><h3>Segundos</h3><ul><li>Costilla</li><li>Secreto</li><li>Churrasco</li><li>Lomo a la plancha</li><li>Aguja</li><li>Calamar frito</li><li>Calamar a la plancha</li></ul></div>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<nav class="tabs" id="tabs" aria-label="Categorías de la carta">
+  <div class="in tabs-in">
+    <div class="tabs-sc" id="tabsSc"></div>
+    <button class="more" id="more" type="button" aria-label="Ver más categorías"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</nav>
+
+<main class="in" id="carta">
+  <label class="search">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Buscar en la carta" autocomplete="off" autocapitalize="none" enterkeyhint="search" aria-label="Buscar en la carta">
+  </label>
+  <div id="menu"></div>
+  <div class="empty" id="empty">No encontramos ese plato.<br>Prueba con otra palabra.</div>
+</main>
+
+<section class="dark about" id="sobre">
+  <div class="in">
+    <div class="eyebrow">Sobre nosotros</div>
+    <h2>Brasas, carne y <em>corazón.</em></h2>
+    <p>En Las Brasas cocinamos al fuego desde 1990, en Balanegra. Carnes ibéricas, burgers de Angus, pescados y fritura, y cada fin de semana un menú completo por 18 €.</p>
+    <div class="feats">
+      <div class="feat"><span class="k">i</span><div><b>Carne a la brasa</b><span>Lagarto, presa, pluma, secreto, churrasco y parrilladas para compartir.</span></div></div>
+      <div class="feat"><span class="k">ii</span><div><b>Del mar</b><span>Fritura, jibia, rejos, atún, salmón y pata de pulpo a la brasa.</span></div></div>
+      <div class="feat"><span class="k">iii</span><div><b>Celebraciones</b><span>Bautizos, comuniones, cenas de empresa y música en directo.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="in events" id="eventos">
+  <h2>Celebra tus eventos <em>en Las Brasas.</em></h2>
+  <p>Nosotros ponemos las brasas y el corazón. Paellas por encargo.</p>
+  <a class="btn gold" href="https://wa.me/34659501244?text=Hola%2C%20quisiera%20informaci%C3%B3n%20para%20un%20evento%20en%20Las%20Brasas" target="_blank" rel="noopener" style="color:var(--brown)">Consultar por WhatsApp</a>
+</section>
+
+<section class="in loc" id="ubicacion">
+  <h2>Cómo llegar</h2>
+  <p class="addr">Avenida del Coral, 5<br>04713 Balanegra, Almería</p>
+  <div class="tel"><b class="num" id="num">659 50 12 44</b><button class="copy" id="copy" type="button">Copiar</button></div>
+  <div class="hours">
+    <div><span>Lunes</span><span>Cerrado</span></div>
+    <div><span>Martes a jueves</span><span>11:30 – 17:30</span></div>
+    <div><span>Viernes y sábado</span><span>11:30 – 17:30<br>19:30 – cierre</span></div>
+    <div><span>Domingo</span><span>11:30 – 18:00</span></div>
+    <div class="season"><span>Horario de invierno</span><span></span></div>
+  </div>
+  <div class="mapbox" id="mapbox">
+    <iframe title="Mapa: Restaurante Las Brasas, Balanegra" src="https://www.google.com/maps?q=Restaurante+Las+Brasas,+Avenida+del+Coral+5,+04713+Balanegra,+Almer%C3%ADa&hl=es&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+  </div>
+  <a class="btn ink mapbtn" href="https://www.google.com/maps/search/?api=1&query=Restaurante+Las+Brasas+Avenida+del+Coral+5+Balanegra" target="_blank" rel="noopener">Abrir en Google Maps</a>
+</section>
+
+<footer class="in">
+  <b>Las Brasas</b>
+  Restaurante · Balanegra<br>
+  <span style="opacity:.8">Carta digital por Ophiel</span>
+</footer>
+
+<div class="bar" role="navigation" aria-label="Accesos rápidos">
+  <div class="bar-in">
+    <a href="#tabs" id="bCarta" class="on">
+      <svg viewBox="0 0 28 28"><path d="M7 3h10l5 5v17H7z"/><path d="M17 3v5h5M11 13h7M11 17h7M11 21h5"/></svg>Carta</a>
+    <button type="button" data-sheet="open">
+      <svg viewBox="0 0 28 28"><rect x="4" y="6" width="20" height="18" rx="1.5"/><path d="M4 12h20M9 3v6M19 3v6"/></svg>Reservar</button>
+    <a href="https://www.google.com/maps/search/?api=1&query=Restaurante+Las+Brasas+Avenida+del+Coral+5+Balanegra" target="_blank" rel="noopener">
+      <svg viewBox="0 0 28 28"><path d="M14 25s8-7.500 8-13.500A8 8 0 0 0 6 11.500C6 17.500 14 25 14 25z"/><circle cx="14" cy="11.500" r="3"/></svg>Cómo llegar</a>
+  </div>
+</div>
+
+<div class="menu-ov" id="ov" aria-hidden="true">
+  <div class="in top">
+    <div class="brand"><small>Restaurante</small><b>Las Brasas</b></div>
+    <button class="burger" id="closeOv" type="button" aria-label="Cerrar menú"><i style="transform:translateY(5.500px) rotate(45deg)"></i><i style="transform:translateY(-5.500px) rotate(-45deg)"></i></button>
+  </div>
+  <nav class="in">
+    <a href="#tabs" data-go="tabs">La <em>carta</em></a>
+    <a href="#finde-card" data-go="finde-card">Menú fin de semana</a>
+    <a href="#sobre" data-go="sobre">Sobre <em>nosotros</em></a>
+    <a href="#eventos" data-go="eventos">Eventos</a>
+    <a href="#ubicacion" data-go="ubicacion">Horarios y <em>ubicación</em></a>
+  </nav>
+</div>
+
+<div class="sheet-bg" id="sbg"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-t" aria-hidden="true">
+  <button class="x" type="button" id="sx" aria-label="Cerrar">×</button>
+  <div class="in">
+    <h3 id="sh-t">Reserva tu mesa</h3>
+    <p>Reservamos por teléfono o WhatsApp.</p>
+    <div class="big num">659 50 12 44</div>
+    <div class="acts">
+      <a class="btn gold" href="https://wa.me/34659501244?text=Hola%2C%20quisiera%20reservar%20mesa%20en%20Las%20Brasas" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn line" href="tel:+34659501244" style="color:var(--ink);border-color:var(--ink)">Llamar</a>
+      <button class="copy" type="button" id="copy2" style="height:50px;padding:0 20px">Copiar número</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const MENU = [
+ { id:'brasa', tab:'Brasas', title:'Carne a la brasa', items:[
+   {n:'Lagarto ibérico',p:[16]},{n:'Presa Duroc',p:[16]},{n:'Pluma ibérica',p:[16]},
+   {n:'Solomillo de cerdo',p:[14]},{n:'Churrasco de ternera',p:[14]},{n:'Secreto de cerdo',p:[13]},
+   {n:'Costilla de cerdo',p:[12]},{n:'Pechuga de pollo',p:[10]},{n:'Chuleta de cerdo',p:[10]}],
+   extra:['Huevo extra +0,50 €','Salsa de pimienta o roquefort +1 €'] },
+ { id:'burgers', tab:'Burgers', title:'Burger a la brasa', sub:'Carne de Angus', items:[
+   {n:'Burger BBQ',d:'Carne Angus, pulled pork, salsa BBQ y cebolla crispy',p:[12]},
+   {n:'Caramel Angus',d:'Carne Angus, cebolla caramelizada, pepinillo, salsa burger, bacon y queso cheddar',p:[12]},
+   {n:'Maestra',d:'Carne de Angus, cebolla, lechuga, tomate, salsa burger, bacon y queso cheddar',p:[12]}] },
+ { id:'raciones', tab:'Raciones', title:'Raciones de carne', sub:'Precios por ración: media / entera', items:[
+   {n:'Lomo a la plancha',p:[10,17]},{n:'Costilla de cerdo a la brasa',p:[10,17]},
+   {n:'Secreto de cerdo a la brasa',p:[10,17]},{n:'Churrasco de ternera a la brasa',p:[10,17]},
+   {n:'Lagarto o presa ibérica',p:[12,20]},
+   {n:'Parrillada M',p:[20]},{n:'Parrillada L',p:[30]},{n:'Parrillada XL',p:[50]},
+   {n:'Parrillada Gourmet',d:'Carnes selectas',p:[35,50]}] },
+ { id:'pescados', tab:'Pescados', title:'Pescados', groups:[
+   {g:'Raciones', sub:'Precios por ración: media / entera', items:[
+     {n:'Rejos',p:[10,17]},{n:'Calamares fritos',p:[10,17]},{n:'Calamares a la plancha',p:[10,17]},
+     {n:'Jibia frita',p:[10,17]},{n:'Jibia a la plancha',p:[10,17]},{n:'Fritura o parrillada',p:[20,30]}]},
+   {g:'Platos', items:[
+     {n:'Atún rojo a la plancha',p:[16]},{n:'Salmón a la plancha',p:[16]},
+     {n:'Pata de pulpo a la brasa',p:[20]},{n:'Calamar nacional a la brasa',p:[20]}]}] },
+ { id:'entrantes', tab:'Entrantes', title:'Ensaladas y entrantes', sub:'Cuando hay dos precios: media / entera', items:[
+   {n:'Ensalada mixta',p:[7,12]},{n:'Ensalada con queso de cabra',p:[8,13]},{n:'Ensalada césar',p:[8,13]},
+   {n:'Tomate con ajos',p:[5]},{n:'Salmorejo',p:[5]},{n:'Huevos rotos',p:[6,10]},
+   {n:'Croquetas de jamón ibérico',p:[6,10]},{n:'Twister de langostinos',p:[10]},
+   {n:'Variado de saquitos con twister',p:[14]},{n:'Cartucho de pescado',p:[8.5]},
+   {n:'Alitas de pollo',p:[8,12]},{n:'Fingers de pollo',p:[8,12]},
+   {n:'Patatas fritas',p:[4,6]},{n:"Patatas Foster's",p:[6,12]}],
+   extra:['Panera extra 1 €'] },
+ { id:'bocadillos', tab:'Bocadillos', title:'Bocadillos', items:[
+   {n:'Lomo',d:'Lomo, huevo, lechuga, tomate y alioli',p:[7]},
+   {n:'Serranito',d:'Lomo, jamón, pimiento y alioli',p:[7]},
+   {n:'Hamburguesa',d:'Carne de hamburguesa, lechuga, tomate, huevo y alioli',p:[7]},
+   {n:'Calamares',d:'Calamares fritos y alioli',p:[7]}] },
+ { id:'postres', tab:'Postres', title:'Postres', items:[
+   {n:'Muerte por chocolate',p:[4.5]},{n:'Tarta de queso',p:[5]},{n:'Tarta tres chocolates',p:[5]},
+   {n:'Tarta de whisky',p:[4]},{n:'Contesa',p:[4]},{n:'Flan de queso con nata',p:[3.5]},
+   {n:'Flan de huevo con nata',p:[3]},{n:'Piña en su jugo',p:[3]},{n:'Melocotón en almíbar',p:[3]}] }
+];
+
+const f1 = n => Number.isInteger(n) ? String(n) : n.toFixed(2).replace('.',',');
+const price = p => p.length===1 ? f1(p[0])+' €' : p.map(f1).join(' / ')+' €';
+const esc = s => s.replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const itemHTML = it => `<div class="item" data-s="${esc(norm(it.n+' '+(it.d||'')))}"><div class="t"><div class="name">${esc(it.n)}</div>${it.d?`<div class="desc">${esc(it.d)}</div>`:''}</div><div class="price">${price(it.p)}</div></div>`;
+
+document.getElementById('menu').innerHTML = MENU.map((c,i)=>{
+  const body = c.groups
+    ? c.groups.map(g=>`<div class="grp"><div class="group-title">${g.g}</div>${g.sub?`<div class="sub">${g.sub}</div>`:''}<div class="list">${g.items.map(itemHTML).join('')}</div></div>`).join('')
+    : (c.sub?`<div class="sub">${c.sub}</div>`:'') + `<div class="list">${c.items.map(itemHTML).join('')}</div>`;
+  const ex = c.extra ? `<div class="extra">${c.extra.map(e=>`<span>${esc(e)}</span>`).join('')}</div>` : '';
+  return `<section class="cat" id="${c.id}"><div class="cat-head"><span class="n">${String(i+1).padStart(2,'0')}</span><h2>${c.title}</h2><i></i></div>${body}${ex}</section>`;
+}).join('');
+
+/* tabs */
+const sc = document.getElementById('tabsSc'), more = document.getElementById('more');
+sc.innerHTML = MENU.map(c=>`<a class="tab" href="#${c.id}" data-t="${c.id}">${c.tab}</a>`).join('');
+const tabs = [...sc.children];
+const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+const beh = reduce ? 'auto' : 'smooth';
+function goTo(id, extra){
+  const t = document.getElementById(id); if(!t) return;
+  const y = t.getBoundingClientRect().top + scrollY - (extra ?? 70);
+  scrollTo({top:y, behavior:beh});
+}
+function setOn(id){
+  tabs.forEach(t=>{ const on=t.dataset.t===id; t.classList.toggle('on',on);
+    if(on){ const r=t.getBoundingClientRect(), p=sc.getBoundingClientRect(); if(r.left<p.left+8||r.right>p.right-48) sc.scrollTo({left:t.offsetLeft-24,behavior:beh}); } });
+}
+tabs.forEach(t=>t.addEventListener('click',e=>{e.preventDefault();goTo(t.dataset.t,72);setOn(t.dataset.t);}));
+function moreState(){ more.classList.toggle('off', sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 6); }
+sc.addEventListener('scroll',moreState,{passive:true});
+more.addEventListener('click',()=>sc.scrollBy({left:sc.clientWidth*.6,behavior:beh}));
+addEventListener('resize',moreState);
+
+const secs = MENU.map(c=>document.getElementById(c.id));
+let tick=false;
+function spy(){
+  tick=false; let cur=null; const line=innerHeight*0.3;
+  secs.forEach(s=>{ if(s.offsetParent!==null && s.getBoundingClientRect().top<=line && s.getBoundingClientRect().bottom>line) cur=s.id; });
+  setOn(cur); moreState();
+}
+addEventListener('scroll',()=>{ if(!tick){tick=true;requestAnimationFrame(spy);} },{passive:true});
+
+/* go links */
+document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault(); const id=a.dataset.go; closeOv();
+  setTimeout(()=>{ if(id==='tabs') goTo('carta',70); else goTo(id,10); }, a.closest('.menu-ov')?260:0);
+}));
+document.getElementById('bCarta').addEventListener('click',e=>{e.preventDefault();goTo('carta',70);});
+
+/* finde */
+const fb=document.getElementById('fbtn'), fp=document.getElementById('fpanel');
+fb.addEventListener('click',()=>{ const o=fp.classList.toggle('open'); fb.setAttribute('aria-expanded',o); });
+
+/* menu overlay */
+const ov=document.getElementById('ov'), bg=document.getElementById('burger');
+function openOv(){ ov.classList.add('open'); ov.setAttribute('aria-hidden','false'); bg.setAttribute('aria-expanded','true'); }
+function closeOv(){ ov.classList.remove('open'); ov.setAttribute('aria-hidden','true'); bg.setAttribute('aria-expanded','false'); }
+bg.addEventListener('click',openOv);
+document.getElementById('closeOv').addEventListener('click',closeOv);
+
+/* sheet */
+const sh=document.getElementById('sheet'), sbg=document.getElementById('sbg');
+function openSheet(){ sh.classList.add('open'); sbg.classList.add('open'); sh.setAttribute('aria-hidden','false'); }
+function closeSheet(){ sh.classList.remove('open'); sbg.classList.remove('open'); sh.setAttribute('aria-hidden','true'); }
+document.querySelectorAll('[data-sheet=open]').forEach(b=>b.addEventListener('click',openSheet));
+document.getElementById('sx').addEventListener('click',closeSheet);
+sbg.addEventListener('click',closeSheet);
+addEventListener('keydown',e=>{ if(e.key==='Escape'){closeSheet();closeOv();} });
+
+/* copy */
+function wireCopy(btn, label){
+  btn.addEventListener('click',async()=>{
+    try{ await navigator.clipboard.writeText('659501244'); btn.textContent='Copiado'; }
+    catch(e){ const n=document.getElementById('num'); const r=document.createRange(); r.selectNodeContents(n); const s=getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent='Seleccionado'; }
+    setTimeout(()=>btn.textContent=label,1800);
+  });
+}
+wireCopy(document.getElementById('copy'),'Copiar');
+wireCopy(document.getElementById('copy2'),'Copiar número');
+
+/* search */
+const q=document.getElementById('q'), emptyEl=document.getElementById('empty'), fcard=document.getElementById('finde-card');
+q.addEventListener('input',()=>{
+  const v=norm(q.value.trim()); let any=false;
+  document.querySelectorAll('section.cat').forEach(sec=>{
+    let shown=0;
+    sec.querySelectorAll('.item').forEach(it=>{const m=!v||it.dataset.s.includes(v); it.style.display=m?'':'none'; if(m)shown++;});
+    sec.querySelectorAll('.grp').forEach(g=>{g.style.display=[...g.querySelectorAll('.item')].some(i=>i.style.display!=='none')?'':'none';});
+    sec.style.display = shown?'':'none'; if(shown)any=true;
+  });
+  emptyEl.style.display = any?'none':'block';
+  if(v){ const top=q.getBoundingClientRect().top+scrollY-90; if(Math.abs(scrollY-top)>8) scrollTo({top,behavior:'auto'}); }
+  spy();
+});
+spy();
+</script>
+
+</html>

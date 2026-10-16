@@ -1,7 +1,4 @@
-<!doctype html>
-<html lang="es">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
 <title>Carta Las Brasas</title>
 <meta name="theme-color" content="#2a1713">
@@ -36,6 +33,12 @@ input{font-size:16px;font-family:inherit}
 .brand b{display:block;font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 144;font-size:clamp(34px,10.5vw,46px);letter-spacing:.07em;line-height:1;text-transform:uppercase}
 .burger{width:52px;height:44px;display:grid;place-content:center;gap:9px}
 .burger i{display:block;width:36px;height:2px;background:var(--on-dark);transition:transform .3s var(--ease),opacity .2s}
+header.dark{position:relative;overflow:hidden}
+header.dark>.in{position:relative;z-index:1}
+.spark{position:absolute;bottom:-10px;width:4px;height:4px;border-radius:50%;background:#ffb45a;box-shadow:0 0 10px 2px rgba(255,150,60,.8);opacity:0;pointer-events:none;z-index:0;animation:float linear infinite}
+.spark.s2{width:3px;height:3px}
+.spark.s3{width:5px;height:5px;box-shadow:0 0 14px 3px rgba(255,130,40,.75)}
+@keyframes float{0%{transform:translate3d(0,0,0) scale(1);opacity:0}12%{opacity:.9}100%{transform:translate3d(var(--dx),-340px,0) scale(.2);opacity:0}}
 .hero{padding-block:34px 44px;position:relative;overflow:hidden}
 .hero:after{content:"";position:absolute;right:-120px;bottom:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(closest-side,rgba(181,136,80,.22),transparent);pointer-events:none}
 .eyebrow{font-size:13px;letter-spacing:.34em;text-transform:uppercase;color:var(--on-dark);font-weight:500;animation:rise .8s var(--ease) both}
@@ -186,6 +189,16 @@ footer b{display:block;font-family:var(--serif);font-weight:400;letter-spacing:.
 </style>
 
 <header class="dark">
+  <div class="spark" style="left:12%;--dx:-24px;animation-duration:5.5s;animation-delay:.2s"></div>
+  <div class="spark s2" style="left:24%;--dx:20px;animation-duration:6.8s;animation-delay:2s"></div>
+  <div class="spark" style="left:34%;--dx:18px;animation-duration:7s;animation-delay:1.6s"></div>
+  <div class="spark s3" style="left:44%;--dx:-16px;animation-duration:8.2s;animation-delay:.6s"></div>
+  <div class="spark" style="left:52%;--dx:-12px;animation-duration:6s;animation-delay:.9s"></div>
+  <div class="spark s2" style="left:60%;--dx:14px;animation-duration:7.4s;animation-delay:3.6s"></div>
+  <div class="spark" style="left:67%;--dx:26px;animation-duration:8s;animation-delay:2.4s"></div>
+  <div class="spark s3" style="left:76%;--dx:-22px;animation-duration:6.5s;animation-delay:1.2s"></div>
+  <div class="spark" style="left:80%;--dx:-20px;animation-duration:6.5s;animation-delay:3.2s"></div>
+  <div class="spark s2" style="left:90%;--dx:16px;animation-duration:7.6s;animation-delay:.4s"></div>
   <div class="in top">
     <div class="brand"><small>Restaurante</small><b>Las Brasas</b></div>
     <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false"><i></i><i></i></button>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d0c0b">
+<title id="pageTitle">Enlaces</title>
+
+<style>
+  :root{
+    --navy: #0d0c0b;
+    --navy-2: #171512;
+    --gold: #d9c6ab;      /* areia neutra, pra nao brigar com o traco fino da logo */
+    --gold-soft: #f2eade;
+    --ink: #f5f1eb;
+    --ink-dim: #a69c8f;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html{ touch-action:manipulation; }
+  /* Sem foto do interior da loja, o fundo e o proprio monograma da marca:
+     gigante, desfocado e quase apagado, por tras de um degrade quente. Da
+     profundidade sem roubar leitura dos botoes. Uso um ::before fixo em vez
+     de background-attachment:fixed porque no Safari do iPhone aquele modo
+     falha e a imagem fica saltando ao rolar. */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:-1;
+    background:
+      url("data:image/png;base64,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") center 42% / min(104%, 500px) no-repeat,
+      radial-gradient(125% 92% at 50% 4%, #241f19 0%, #16130f 44%, #0a0908 100%);
+  }
+  body{
+    margin:0; min-height:100vh; min-height:100svh;
+    background:var(--navy);
+    color:var(--ink);
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    display:flex; align-items:stretch; justify-content:center;
+  }
+  /* Mobile (padrão): o "cartão" VIRA a tela inteira — sem bordas, sem
+     cantos arredondados, sem sobra em volta. É a tela cheia mesmo. */
+  .card{
+    width:100%;
+    /* 100svh = "small viewport height": a altura da tela JÁ DESCONTANDO
+       as barras do Safari do iPhone. Com 100vh (ou 100dvh) o cartao era
+       montado com a altura da tela SEM as barras, ficava mais alto do que
+       o espaco realmente visivel, e por isso a pagina abria rolada — era
+       preciso arrastar pra ver o topo centralizado. */
+    min-height:100vh; min-height:100svh;
+    background:rgba(23,21,18,.48);
+    -webkit-backdrop-filter:blur(7px) saturate(1.12);
+    backdrop-filter:blur(7px) saturate(1.12);
+    display:flex; flex-direction:column;
+    padding:40px 28px calc(18px + env(safe-area-inset-bottom));
+  }
+  /* Miolo do cartão: avatar + nome + botões. "flex:1" faz ele ocupar
+     todo o espaço acima do rodapé, e centraliza tudo dentro desse
+     espaço — o rodapé (fora daqui) fica sempre de fora dessa
+     centralização, sempre colado embaixo. */
+  .card-main{
+    flex:1;
+    display:flex; flex-direction:column;
+    justify-content:center;
+    justify-content:safe center;
+  }
+  /* Telas grandes (tablet/desktop): volta a virar um cartão flutuante
+     centralizado, senão os botões ficariam esticados de ponta a ponta
+     numa tela de monitor. */
+  @media (min-width:560px){
+    body{ align-items:center; padding:32px 18px; }
+    .card{
+      width:100%; max-width:420px; min-height:auto;
+      border:1px solid rgba(217,198,171,.30);
+      border-radius:22px;
+      padding:38px 28px 26px;
+    }
+    .card-main{ flex:none; }
+  }
+  /* A logo substitui o avatar redondo E o nome escrito: ela já é as
+     duas coisas. Entra como SVG (vetor), então fica nítida em qualquer tela
+     e herda a cor do texto por currentColor. */
+  .firma{ color:var(--gold); margin:2px auto 20px; width:min(56%, 186px); }
+  .firma svg, .firma img{ width:100%; height:auto; display:block;
+    filter:drop-shadow(0 5px 14px rgba(0,0,0,.5)); }
+  .avatar{
+    width:112px; height:112px; border-radius:50%;
+    margin:0 auto 18px; overflow:hidden;
+    background:rgba(217,198,171,.08); border:1px solid var(--gold);
+    display:flex; align-items:center; justify-content:center; flex:none;
+  }
+  .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .avatar span{ font-family:Georgia, serif; font-size:42px; color:var(--gold); }
+  .avatar, .biz-name{ display:none; }
+  .biz-name{ text-align:center; font-size:1.3rem; font-weight:600; margin:0 0 4px; line-height:1.3; }
+  /* Cada \n do subtitle vira uma linha propria. Como cada linha e um bloco
+     independente, o text-align:center centraliza uma por uma — a primeira
+     nao fica presa ao fluxo da segunda quando o endereco quebra sozinho. */
+  .biz-sub{ text-align:center; font-size:.9rem; color:var(--ink-dim); margin:0 0 26px; }
+  .biz-sub span{ display:block; }
+  /* ---------- HORÁRIO ----------
+     A faixa mostra sozinha se está aberto, e ao tocar abre a semana toda.
+     O cálculo usa o relógio de Madrid, não o do celular do visitante: um
+     turista com o telefone em outro fuso veria "aberto" na hora errada. */
+  .horario{ margin:0 0 22px; }
+  .horario-btn{
+    display:flex; align-items:center; gap:9px; margin:0 auto;
+    appearance:none; font:inherit; cursor:pointer;
+    padding:8px 14px; border-radius:999px;
+    background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14);
+    color:var(--ink); font-size:.86rem; -webkit-tap-highlight-color:transparent;
+  }
+  .horario-ponto{ width:9px; height:9px; border-radius:50%; flex:none; background:#a69c8f; }
+  .horario-btn.aberto .horario-ponto{ background:#33d17a; box-shadow:0 0 0 4px rgba(51,209,122,.18); }
+  .horario-btn.fechado .horario-ponto{ background:#e0604d; box-shadow:0 0 0 4px rgba(224,96,77,.18); }
+  .horario-btn .seta{ transition:transform .2s ease; opacity:.6; }
+  .horario-btn.is-open .seta{ transform:rotate(180deg); }
+  .horario-lista{
+    list-style:none; margin:10px auto 0; padding:0 4px;
+    max-width:260px; font-size:.83rem; color:var(--ink-dim);
+    display:none;
+  }
+  .horario-lista.is-open{ display:block; }
+  .horario-lista li{ display:flex; justify-content:space-between; gap:12px; padding:3px 0; }
+  .horario-lista li.hoy{ color:var(--ink); font-weight:600; }
+  .links{ display:flex; flex-direction:column; gap:12px; }
+  .link-btn{
+    display:flex; align-items:center; gap:12px;
+    text-decoration:none; border-radius:16px;
+    padding:16px 20px; min-height:58px;
+    font-size:1.02rem; font-weight:600;
+    border:1px solid transparent;
+    position:relative; overflow:hidden;
+    /* O relevo de doce vem de quatro sombras somadas:
+       1) o halo colorido embaixo, na propria cor do botao (--brilho)
+       2) uma borda escura fininha, que da o "apoio" no chao
+       3) uma luz por dentro no topo, como o reflexo num caramelo
+       4) uma sombra por dentro embaixo, que arredonda o volume */
+    box-shadow:
+      0 12px 22px -10px var(--brilho, rgba(0,0,0,.6)),
+      0 2px 0 rgba(0,0,0,.28),
+      inset 0 1px 0 rgba(255,255,255,.40),
+      inset 0 -3px 10px rgba(0,0,0,.18);
+    transition:transform .16s cubic-bezier(.2,.8,.3,1), box-shadow .16s ease,
+               padding .2s ease, min-height .2s ease;
+  }
+  /* verniz: claro em cima, escuro embaixo, por cima de qualquer cor de fundo */
+  .link-btn::before{
+    content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+    background:linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.04) 46%,
+                                       rgba(0,0,0,.04) 54%, rgba(0,0,0,.16));
+  }
+  /* reflexo que atravessa o botao quando o dedo ou o mouse passa */
+  .link-btn::after{
+    content:""; position:absolute; top:0; bottom:0; left:-50%; width:40%;
+    border-radius:inherit; pointer-events:none;
+    background:linear-gradient(100deg, transparent, rgba(255,255,255,.32), transparent);
+    transition:left .55s ease;
+  }
+  .link-btn:hover::after, .link-btn:active::after{ left:120%; }
+  /* o conteudo precisa ficar acima do verniz e do reflexo */
+  .link-btn svg, .link-btn .link-label, .link-btn .link-count{ position:relative; z-index:1; }
+  @media (hover:hover){
+    .link-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:
+        0 18px 30px -10px var(--brilho, rgba(0,0,0,.6)),
+        0 2px 0 rgba(0,0,0,.28),
+        inset 0 1px 0 rgba(255,255,255,.50),
+        inset 0 -3px 10px rgba(0,0,0,.18);
+    }
+  }
+  .link-btn:active{
+    transform:translateY(2px) scale(.99);
+    box-shadow:
+      0 6px 12px -8px var(--brilho, rgba(0,0,0,.6)),
+      0 1px 0 rgba(0,0,0,.28),
+      inset 0 1px 0 rgba(255,255,255,.30),
+      inset 0 -2px 8px rgba(0,0,0,.22);
+  }
+  .link-btn svg{ width:21px; height:21px; flex:none; transition:opacity .15s ease; }
+  .link-btn.is-featured{ outline:2px solid var(--gold-soft); outline-offset:2px; }
+  .link-btn .link-label{ flex:1; }
+  .link-count{ display:none; }
+  /* ---------- MODO ESTATÍSTICA — o botão vira um "card" grande com o
+     número de cliques em destaque, igual o exemplo que o cliente mandou,
+     em vez de um numerozinho pequeno do lado. ---------- */
+  .links.stats-mode .link-btn{
+    flex-direction:column; justify-content:center; align-items:center;
+    gap:6px; text-align:center; padding:22px 16px; min-height:88px;
+  }
+  .links.stats-mode .link-btn svg{ display:none; }
+  .links.stats-mode .link-count{
+    display:block; font-size:1.7rem; font-weight:800; line-height:1;
+  }
+  /* ---------- ÍCONE DE ESTATÍSTICAS ---------- */
+  .card{ position:relative; }
+  .stats-toggle{
+    position:absolute; top:16px; right:16px;
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(217,198,171,.08); border:1px solid rgba(217,198,171,.3);
+    color:var(--gold-soft); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; -webkit-tap-highlight-color:transparent;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .stats-toggle:active{ transform:scale(.92); }
+  .stats-toggle.is-active{ background:var(--gold); color:var(--navy); border-color:var(--gold); }
+  .stats-toggle svg{ width:17px; height:17px; }
+  .vcard-hint{
+    margin:14px 2px 0; padding:10px 12px;
+    background:rgba(217,198,171,.06); border:1px solid rgba(217,198,171,.30);
+    border-radius:8px; font-size:.74rem; color:var(--ink-dim); line-height:1.5;
+  }
+  .vcard-hint strong{ color:var(--gold-soft); }
+  .footer-credit{
+    text-align:center; margin-top:20px; flex:none;
+    font-size:.72rem; color:rgba(166,156,143,.5);
+    text-decoration:none; display:block;
+    padding:8px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <button type="button" class="stats-toggle" id="statsToggle" title="Ver estadísticas de clics" aria-label="Ver estadísticas de clics">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    </button>
+    <div class="card-main">
+      <div class="firma"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="148.6 226.7 298.7 389.1">
+<path fill-rule="nonzero" fill="currentColor" fill-opacity="1" d="M 382.316406 443.375 L 373.992188 437.007812 C 387.09375 419.886719 394.425781 398.914062 394.425781 377.292969 C 394.425781 355.566406 387.433594 335.003906 374.210938 317.828125 L 382.515625 311.433594 C 397.164062 330.457031 404.90625 353.230469 404.90625 377.292969 C 404.90625 401.238281 396.828125 424.410156 382.316406 443.375 "/>
+<path fill-rule="nonzero" fill="currentColor" fill-opacity="1" d="M 392.023438 469.507812 L 352.851562 469.507812 C 359.851562 465.222656 366.414062 460.109375 372.40625 454.195312 L 365.046875 446.722656 C 356.105469 455.53125 345.757812 462.425781 334.53125 467.179688 L 334.53125 287.40625 C 345.769531 292.152344 356.117188 299.042969 365.046875 307.851562 L 372.40625 300.390625 C 361.441406 289.574219 348.554688 281.375 334.53125 276.121094 L 334.53125 248.59375 C 355.867188 254.71875 375.402344 266.171875 391.535156 282.304688 C 416.601562 307.375 430.40625 340.703125 430.40625 376.148438 C 430.40625 411.375 416.78125 444.496094 392.023438 469.507812 M 231.757812 304.445312 C 248.988281 289.085938 271.699219 279.746094 296.550781 279.746094 C 305.988281 279.746094 315.226562 281.085938 324.054688 283.671875 L 324.054688 456.050781 Z M 199.847656 390.074219 C 199.289062 385.886719 199.007812 381.621094 199.007812 377.289062 C 199.007812 352.21875 208.507812 329.335938 224.109375 312.046875 L 271.609375 390.074219 Z M 277.992188 400.558594 L 321.289062 471.671875 C 313.308594 473.761719 305.007812 474.828125 296.550781 474.828125 C 250.785156 474.828125 212.273438 443.148438 201.816406 400.558594 Z M 297.679688 508.878906 C 262.230469 508.878906 228.902344 495.074219 203.832031 470.003906 C 178.761719 444.9375 164.960938 411.605469 164.960938 376.148438 C 164.960938 340.703125 178.761719 307.375 203.832031 282.304688 C 228.902344 257.234375 262.230469 243.429688 297.679688 243.429688 C 306.636719 243.429688 315.464844 244.308594 324.054688 246.039062 L 324.054688 272.796875 C 315.1875 270.46875 305.957031 269.269531 296.550781 269.269531 C 236.980469 269.269531 188.519531 317.722656 188.519531 377.289062 C 188.519531 436.855469 236.980469 485.308594 296.550781 485.308594 C 308.144531 485.308594 319.472656 483.488281 330.199219 479.984375 L 380.367188 479.984375 C 356.957031 498.71875 328.101562 508.878906 297.679688 508.878906 M 398.945312 274.894531 C 371.898438 247.847656 335.929688 232.945312 297.679688 232.945312 C 259.433594 232.945312 223.46875 247.847656 196.421875 274.894531 C 169.375 301.941406 154.472656 337.894531 154.472656 376.148438 C 154.472656 414.402344 169.375 450.371094 196.421875 477.417969 C 223.46875 504.464844 259.433594 519.367188 297.679688 519.367188 C 335.929688 519.367188 371.898438 504.464844 398.945312 477.417969 C 425.992188 450.371094 440.894531 414.402344 440.894531 376.148438 C 440.894531 337.894531 425.992188 301.941406 398.945312 274.894531 "/>
+<path fill-rule="nonzero" fill="currentColor" fill-opacity="1" d="M 163.789062 600.148438 L 182.316406 600.148438 L 182.316406 607.835938 L 156.097656 607.835938 L 156.097656 551.058594 L 163.789062 551.058594 Z M 163.789062 600.148438 "/>
+<path fill-rule="nonzero" fill="currentColor" fill-opacity="1" d="M 206.542969 600.226562 C 209.515625 601.421875 212.621094 602.019531 215.863281 602.019531 C 219.105469 602.019531 222.207031 601.421875 225.167969 600.226562 C 228.128906 599.03125 230.6875 597.429688 232.835938 595.425781 C 234.988281 593.421875 236.695312 591.03125 237.957031 588.253906 C 239.21875 585.480469 239.851562 582.5625 239.851562 579.507812 C 239.851562 576.453125 239.21875 573.539062 237.957031 570.761719 C 236.695312 567.988281 234.988281 565.597656 232.835938 563.589844 C 230.6875 561.585938 228.128906 559.984375 225.167969 558.789062 C 222.207031 557.59375 219.105469 556.996094 215.863281 556.996094 C 212.621094 556.996094 209.523438 557.59375 206.5625 558.789062 C 203.597656 559.984375 201.042969 561.585938 198.890625 563.589844 C 196.738281 565.597656 195.03125 567.988281 193.773438 570.761719 C 192.507812 573.539062 191.878906 576.453125 191.878906 579.507812 C 191.878906 582.5625 192.507812 585.480469 193.773438 588.253906 C 195.03125 591.03125 196.738281 593.421875 198.890625 595.425781 C 201.042969 597.429688 203.59375 599.03125 206.542969 600.226562 M 203.3125 551.65625 C 207.296875 550.0625 211.480469 549.265625 215.863281 549.265625 C 220.246094 549.265625 224.425781 550.0625 228.394531 551.65625 C 232.367188 553.253906 235.792969 555.402344 238.675781 558.113281 C 241.558594 560.820312 243.847656 564.042969 245.546875 567.773438 C 247.246094 571.507812 248.097656 575.417969 248.097656 579.507812 C 248.097656 583.597656 247.246094 587.511719 245.546875 591.242188 C 243.847656 594.972656 241.558594 598.195312 238.675781 600.902344 C 235.792969 603.613281 232.367188 605.765625 228.394531 607.359375 C 224.425781 608.953125 220.246094 609.75 215.863281 609.75 C 211.480469 609.75 207.304688 608.953125 203.332031 607.359375 C 199.363281 605.765625 195.941406 603.613281 193.074219 600.902344 C 190.207031 598.195312 187.921875 594.972656 186.21875 591.242188 C 184.519531 587.511719 183.671875 583.597656 183.671875 579.507812 C 183.671875 575.417969 184.519531 571.507812 186.21875 567.773438 C 187.921875 564.042969 190.207031 560.820312 193.074219 558.113281 C 195.941406 555.402344 199.355469 553.253906 203.3125 551.65625 "/>
+<path fill-rule="nonzero" fill="currentColor" fill-opacity="1" d="M 263.675781 600.148438 L 282.203125 600.148438 L 282.203125 607.835938 L 255.988281 607.835938 L 255.988281 551.058594 L 263.675781 551.058594 Z M 263.675781 600.148438 "/>
+<path fill-rule="nonzero" fill="currentColor" fill-opacity="1" d="M 319.734375 551.058594 L 327.546875 551.058594 L 327.546875 589.308594 C 327.546875 592.074219 327.007812 594.714844 325.929688 597.238281 C 324.855469 599.761719 323.402344 601.941406 321.570312 603.773438 C 319.734375 605.605469 317.558594 607.058594 315.035156 608.136719 C 312.507812 609.210938 309.867188 609.75 307.105469 609.75 C 304.34375 609.75 301.699219 609.210938 299.175781 608.136719 C 296.652344 607.058594 294.476562 605.605469 292.644531 603.773438 C 290.808594 601.941406 289.355469 599.761719 288.277344 597.238281 C 287.203125 594.714844 286.667969 592.074219 286.667969 589.308594 L 286.667969 551.058594 L 294.476562 551.058594 L 294.476562 589.308594 C 294.476562 592.789062 295.710938 595.765625 298.179688 598.234375 C 300.652344 600.703125 303.625 601.941406 307.105469 601.941406 C 310.585938 601.941406 313.558594 600.703125 316.03125 598.234375 C 318.5 595.765625 319.734375 592.789062 319.734375 589.308594 Z M 319.734375 551.058594 "/>
+<path fill-rule="nonzero" fill="currentColor" fill-opacity="1" d="M 365.835938 557.234375 C 359.246094 557.234375 353.667969 559.375 349.101562 563.652344 C 344.613281 567.875 342.367188 573.09375 342.367188 579.308594 C 342.367188 585.632812 344.652344 590.929688 349.222656 595.207031 C 353.84375 599.429688 359.660156 601.542969 366.671875 601.542969 C 371.613281 601.542969 376.949219 599.933594 382.6875 596.722656 L 382.6875 605.644531 C 377.640625 608.382812 372.0625 609.75 365.953125 609.75 C 357.214844 609.75 349.722656 606.773438 343.484375 600.824219 C 337.265625 594.742188 334.160156 587.570312 334.160156 579.308594 C 334.160156 570.96875 337.214844 563.875 343.324219 558.03125 C 349.433594 552.1875 356.84375 549.269531 365.558594 549.269531 C 370.816406 549.160156 376.527344 550.394531 382.6875 552.972656 L 382.6875 561.738281 C 376.578125 558.738281 370.960938 557.234375 365.835938 557.234375 "/>
+<path fill-rule="nonzero" fill="currentColor" fill-opacity="1" d="M 412.371094 548.867188 L 439.265625 607.835938 L 431.179688 607.835938 L 412.371094 566.679688 L 403.207031 586.839844 L 400.300781 593.292969 L 398.109375 598.234375 L 393.726562 607.835938 L 385.757812 607.835938 Z M 412.371094 548.867188 "/>
+</svg></div>
+      <div class="avatar" id="avatar"></div>
+      <h1 class="biz-name" id="bizName"></h1>
+      <p class="biz-sub" id="bizSub"></p>
+      <div class="horario" id="horario" hidden>
+        <button type="button" class="horario-btn" id="horarioBtn" aria-expanded="false">
+          <span class="horario-ponto"></span>
+          <span id="horarioTexto"></span>
+          <svg class="seta" viewBox="0 0 24 24" width="13" height="13" fill="none"
+               stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <ul class="horario-lista" id="horarioLista"></ul>
+      </div>
+      <div class="links" id="linksList"></div>
+      <p class="vcard-hint" id="vcardHint" hidden>
+        📱 Después de tocar "Guardar contacto": abre la app <strong>Archivos</strong>,
+        toca el archivo descargado y elige <strong>"Añadir a contactos"</strong>.
+      </p>
+    </div>
+    <a href="https://ophiel.es" class="footer-credit">Creado con Ophiel</a>
+  </div>
+
+<script>
+  /* O Safari as vezes "lembra" a posicao de rolagem da ultima visita e
+     reabre a pagina no meio. Aqui desligamos essa restauracao e voltamos
+     ao topo no carregamento, pra pagina sempre abrir enquadrada. */
+  if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
+  window.addEventListener("load", () => window.scrollTo(0, 0));
+
+  /* ============================================================
+     DADOS DO CLIENTE — a ÚNICA parte que muda a cada cliente novo.
+     Pra criar um cliente: duplica este arquivo, renomeia pra
+     all2/NomeDaEmpresa.html, e edita só o bloco abaixo.
+
+     "type" precisa ser um dos nomes já cadastrados no LINK_TYPES
+     (veja a lista logo depois deste bloco). Se um tipo não estiver
+     na lista "links" do cliente, o botão dele simplesmente não
+     aparece — não precisa "desativar" nada. A cor do botão já vem
+     pronta (cor oficial de cada rede), não precisa escolher cor.
+
+     "primary" (true/false, opcional): só adiciona um contorno
+     dourado de destaque em volta do botão mais importante — a
+     cor de fundo continua sendo a da rede, não muda pra dourado.
+
+     type "phone" precisa da url no formato "tel:+34600000000".
+     Só dígitos e o "+", sem espaços nem parênteses.
+
+     type "vcard" (botão "Guardar contacto") tem dois modos:
+
+       RECOMENDADO — sobe um arquivo .vcf junto com este HTML e
+       aponta a "url" pra ele: { type: "vcard", url: "cliente.vcf" }.
+       Assim o servidor entrega o arquivo com o cabeçalho correto
+       (Content-Type: text/vcard) e o celular abre a tela nativa de
+       "Adicionar contato". É o único jeito confiável no iPhone.
+
+       ANTIGO — sem "url", usando "name" / "phone" / "email" /
+       "website", o arquivo é montado na hora pelo navegador. Ainda
+       funciona, mas de forma irregular: sem o cabeçalho do servidor
+       o celular às vezes só baixa um arquivo solto em vez de abrir
+       o contato. Só use se não puder hospedar o .vcf.
+
+     "photo" (foto ou logo do cliente): aceita duas coisas —
+       a) o nome de um arquivo de imagem que vá subir junto com este
+          HTML (ex: "logo.jpg"); ou
+       b) a imagem inteira embutida aqui dentro, em base64
+          ("data:image/jpeg;base64,....."). É o formato usado nos
+          clientes atuais: o HTML vira um arquivo único, que não
+          quebra se a imagem sumir do servidor.
+
+     COMO PREPARAR A IMAGEM (importante): o avatar é um CÍRCULO e a
+     imagem é recortada por "cover", ou seja, tudo que sobrar fora do
+     círculo é cortado. Então prepare sempre uma imagem QUADRADA
+     (340x340 já basta) com o assunto centralizado:
+       - Logo retangular: recorte as margens vazias que sobram em
+         volta e monte-a centralizada num quadrado preenchido com a
+         MESMA cor de fundo da logo. A emenda fica invisível e a logo
+         aproveita todo o círculo.
+       - Logo que já é redonda: recorte exatamente na borda do
+         círculo dela — aí o aro da logo casa com a borda do avatar.
+       - Foto de pessoa: recorte quadrado fechado no rosto.
+     Deixe uma folga nas pontas: os quatro cantos do quadrado sempre
+     somem no recorte redondo, então nada importante pode ficar lá.
+
+     Deixando "photo" vazio (""), o avatar mostra automaticamente a
+     primeira letra do nome do cliente em dourado.
+
+     "slug": identificador único e curto do cliente (sem espaço,
+     sem acento — ex: "bluemare", "sudokisushi"). É usado só pra dar
+     nome aos contadores de clique de cada botão, então dois clientes
+     diferentes nunca misturam estatística um do outro.
+     ============================================================ */
+  const CONFIG = {
+    slug: "loluca",
+    name: "Loluca",
+    subtitle: "📍Calle Lobero, 26\nEl Ejido, Almería, España",
+    photo: "",
+    // horario do perfil do Google: 10:00–13:30 e 17:00–20:00 de lunes a
+    // viernes, sábado só de manhã, domingo cerrado. Lista por dia, a
+    // partir do domingo; [] = fechado.
+    zonaHoraria: "Europe/Madrid",
+    horario: [
+      [],                                        // domingo — cerrado
+      [["10:00","13:30"],["17:00","20:00"]],     // lunes
+      [["10:00","13:30"],["17:00","20:00"]],     // martes
+      [["10:00","13:30"],["17:00","20:00"]],     // miércoles
+      [["10:00","13:30"],["17:00","20:00"]],     // jueves
+      [["10:00","13:30"],["17:00","20:00"]],     // viernes
+      [["10:00","13:30"]]                        // sábado
+    ],
+    links: [
+      // a resenha fica branca: e o botao que a loja mais quer que toquem,
+      // e o branco e o unico que nao briga com o traco fino da logo
+      { type: "google",   url: "https://search.google.com/local/writereview?placeid=ChIJy8pzRt9DcA0RQKqeh-ckXW4", primary: true,
+        bg: "#f5f2ec", color: "#14110b", glow: "rgba(245,242,236,.45)" },
+      { type: "instagram", url: "https://www.instagram.com/loluca._/" },
+      { type: "whatsapp",  url: "https://wa.me/34613740805" },
+      { type: "facebook",  url: "https://www.facebook.com/profile.php?id=100087179110974" },
+      { type: "tiktok",    url: "https://www.tiktok.com/@loluca._" },
+      { type: "website",   url: "https://loluca.es/" }
+    ]
+  };
+
+  /* ---------------------------------------------------------
+     CONTADOR DE CLIQUES — trocamos de serviço nesta correção.
+
+     Usávamos o CounterAPI (counterapi.dev v2), mas na prática ele
+     nunca funcionou aqui: a versão atual da API deles EXIGE um token
+     de autenticação em toda chamada, e o navegador bloqueia isso por
+     CORS quando a chamada vem direto do JavaScript do site (a própria
+     documentação deles recomenda usar um servidor por trás pra isso —
+     o que não faz sentido pra um site estático simples como este).
+     Ou seja: os cliques nunca estavam sendo contados de verdade.
+
+     Trocamos pelo CountAPI (countapi.mileshilliard.com) — mesmo
+     princípio, mas público, sem conta, sem chave e sem servidor
+     próprio: funciona direto do navegador. Não precisa configurar
+     nada aqui embaixo pra isso funcionar.
+
+     Importante: por ser público e sem login, é um contador "de
+     curiosidade" (tipo os contadores de visita antigos de site) —
+     qualquer pessoa que soubesse o nome exato do contador poderia,
+     em teoria, inflar o número. Não é à prova de fraude, então serve
+     como indicador aproximado de engajamento, não pra decisões
+     críticas de negócio.
+     --------------------------------------------------------- */
+  const COUNTER_BASE = "https://countapi.mileshilliard.com/api/v1";
+
+  function trackClick(counterName){
+    fetch(`${COUNTER_BASE}/hit/${counterName}`).catch(() => {}); // falha silenciosa — nunca deve travar o clique do visitante
+  }
+
+  /* ---------------------------------------------------------
+     CATÁLOGO DE REDES DISPONÍVEIS — não precisa mexer aqui pra
+     criar um cliente novo. Só edita se quiser ADICIONAR um tipo
+     de rede que ainda não existe na lista (ex: Spotify, LinkedIn),
+     ou trocar a cor oficial de alguma marca se ela mudar no futuro.
+     "bg" aceita cor sólida ou gradient CSS (ex: Instagram).
+     --------------------------------------------------------- */
+  const LINK_TYPES = {
+    google:    { label: "Reseña en Google", bg: "#4285F4", glow: "rgba(66,133,244,.75)", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg>' },
+    instagram: { label: "Instagram", bg: "linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)", glow: "rgba(214,41,118,.75)", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>' },
+    facebook:  { label: "Facebook", bg: "#1877F2", glow: "rgba(24,119,242,.75)", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v6h3v-6h3l1-3h-4v-2c0-.6.4-1 1-1z"/></svg>' },
+    tiktok:    { label: "TikTok", bg: "#010101", glow: "rgba(255,255,255,.30)", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 3v10.2a2.8 2.8 0 1 1-2-2.7V8.4a5 5 0 1 0 4 4.9V8a5.2 5.2 0 0 0 3 1V6.8A3.4 3.4 0 0 1 16.5 3H14z"/></svg>' },
+    whatsapp:  { label: "WhatsApp", bg: "#25D366", glow: "rgba(37,211,102,.70)", color: "#06301a",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>' },
+    phone:     { label: "Llamar", bg: "rgba(16,14,11,.62)", glow: "rgba(217,198,171,.35)", color: "#f2eade", border: "1px solid rgba(217,198,171,.3)",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.1-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2z"/></svg>' },
+    email:     { label: "Email", bg: "rgba(16,14,11,.62)", glow: "rgba(217,198,171,.35)", color: "#f2eade", border: "1px solid rgba(217,198,171,.3)",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>' },
+    website:   { label: "Tienda online", bg: "var(--gold)", glow: "rgba(217,198,171,.65)", color: "#0d0c0b",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>' },
+    maps:      { label: "Cómo llegar", bg: "#34A853", glow: "rgba(52,168,83,.70)", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>' },
+    booking:   { label: "Reservar", bg: "#1F3B57", glow: "rgba(31,59,87,.85)", color: "#ffffff",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>' },
+    custom:    { label: "Enlace", bg: "rgba(217,198,171,.08)", glow: "rgba(217,198,171,.35)", color: "#f2eade", border: "1px solid rgba(217,198,171,.3)",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.2M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.2-1.2"/></svg>' },
+    vcard:     { label: "Guardar contacto", bg: "rgba(217,198,171,.08)", glow: "rgba(217,198,171,.35)", color: "#f2eade", border: "1px solid rgba(217,198,171,.3)",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M6 16c.5-1.7 1.8-2.5 3-2.5s2.5.8 3 2.5M14 9h4M14 13h4"/></svg>' }
+  };
+
+  document.title = CONFIG.name;
+  document.getElementById("pageTitle").textContent = CONFIG.name;
+  document.getElementById("bizName").textContent = CONFIG.name;
+  // o subtitle pode ter varias linhas, separadas por \n no CONFIG
+  const subEl = document.getElementById("bizSub");
+  subEl.textContent = "";
+  (CONFIG.subtitle || "").split("\n").forEach((linha) => {
+    const s = document.createElement("span");
+    s.textContent = linha;
+    subEl.appendChild(s);
+  });
+
+  const avatarEl = document.getElementById("avatar");
+  if(CONFIG.photo){
+    avatarEl.innerHTML = `<img src="${CONFIG.photo}" alt="${CONFIG.name}">`;
+  } else {
+    avatarEl.innerHTML = `<span>${(CONFIG.name || "?").trim().charAt(0).toUpperCase()}</span>`;
+  }
+
+  /* Monta o arquivo de contato (vCard) na hora — o celular reconhece
+     esse formato e já abre a tela nativa de "Adicionar aos contatos",
+     sem precisar de nenhum app ou servidor por trás. */
+  // Detecta iPhone/iPad — o Safari deles se comporta diferente de tudo
+  // mais (Android, desktop) na hora de reconhecer um cartão de contato.
+  function isIOS(){
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  }
+
+  function buildVCardHref(link){
+    const name = link.name || CONFIG.name || "";
+    const org = link.org || CONFIG.name || "";
+    const lines = ["BEGIN:VCARD", "VERSION:3.0", `N:;${name};;;`, `FN:${name}`, `ORG:${org}`];
+    if(link.phone) lines.push(`TEL;TYPE=CELL:${link.phone}`);
+    if(link.email) lines.push(`EMAIL:${link.email}`);
+    if(link.website) lines.push(`URL:${link.website}`);
+    lines.push("END:VCARD");
+    const vcardText = lines.join("\r\n"); // vCard exige quebra de linha CRLF
+
+    if(isIOS()){
+      // No iPhone/iPad, um link "data:" SEM o atributo "download" é o que
+      // faz o Safari reconhecer o conteúdo como contato e abrir a tela
+      // nativa de "Adicionar Contato" direto. Com "download" forçado
+      // (que ajuda no Android), o Safari ignora esse reconhecimento e só
+      // baixa um arquivo cru — por isso os dois casos são tratados diferente.
+      return "data:text/vcard;charset=utf-8," + encodeURIComponent(vcardText);
+    }
+    // Fora do iOS (Android e a maioria dos outros), um arquivo de verdade
+    // (Blob) é mais confiável — o link "data:" às vezes é ignorado.
+    const blob = new Blob([vcardText], { type: "text/vcard;charset=utf-8" });
+    return URL.createObjectURL(blob);
+  }
+
+  /* ============================================================
+     HORÁRIO DE ATENDIMENTO
+     "horario" no CONFIG: uma lista por dia, começando no domingo.
+     Cada dia é uma lista de turnos ["abre","fecha"]; dia fechado = [].
+     Dois turnos no mesmo dia: [["09:00","14:00"],["17:00","20:30"]].
+     Turno que vira a noite (fecha depois da meia-noite) também funciona:
+     ["20:00","02:00"] é entendido como madrugada do dia seguinte.
+     ============================================================ */
+  const DIAS_NOME = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+
+  function emMinutos(hhmm){
+    const [h, m] = hhmm.split(":").map(Number);
+    return h * 60 + m;
+  }
+
+  // que horas são no fuso do estabelecimento (não no do celular de quem visita)
+  function agoraNoLocal(zona){
+    const p = new Intl.DateTimeFormat("en-GB", {
+      timeZone: zona, weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false
+    }).formatToParts(new Date());
+    const achar = (t) => p.find((x) => x.type === t).value;
+    const idx = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 }[achar("weekday")];
+    return { dia: idx, min: (Number(achar("hour")) % 24) * 60 + Number(achar("minute")) };
+  }
+
+  function estadoHorario(horario, zona){
+    const { dia, min } = agoraNoLocal(zona);
+    const ontem = (dia + 6) % 7;
+
+    // turno de ontem que atravessou a meia-noite e ainda está correndo
+    for(const [abre, fecha] of (horario[ontem] || [])){
+      const a = emMinutos(abre), f = emMinutos(fecha);
+      if(f <= a && min < f) return { aberto: true, fecha };
+    }
+    for(const [abre, fecha] of (horario[dia] || [])){
+      const a = emMinutos(abre), f = emMinutos(fecha);
+      if(min >= a && (f <= a || min < f)) return { aberto: true, fecha };
+      if(min < a) return { aberto: false, quando: "hoy", abre };
+    }
+    // fechado pelo resto do dia: procura o próximo dia com turno
+    for(let i = 1; i <= 7; i++){
+      const d = (dia + i) % 7;
+      const turnos = horario[d] || [];
+      if(turnos.length){
+        const quando = i === 1 ? "mañana" : `el ${DIAS_NOME[d]}`;
+        return { aberto: false, quando, abre: turnos[0][0] };
+      }
+    }
+    return null;
+  }
+
+  (function montarHorario(){
+    const caixa = document.getElementById("horario");
+    if(!caixa || !CONFIG.horario) return;
+    const zona = CONFIG.zonaHoraria || "Europe/Madrid";
+    const est = estadoHorario(CONFIG.horario, zona);
+    if(!est) return;
+
+    const btn = document.getElementById("horarioBtn");
+    const txt = document.getElementById("horarioTexto");
+    const lista = document.getElementById("horarioLista");
+
+    btn.classList.add(est.aberto ? "aberto" : "fechado");
+    txt.textContent = est.aberto
+      ? `Abierto ahora · cierra a las ${est.fecha}`
+      : `Cerrado · abre ${est.quando} a las ${est.abre}`;
+
+    const hoy = agoraNoLocal(zona).dia;
+    const ordem = [1, 2, 3, 4, 5, 6, 0];   // a semana começa na segunda
+    lista.innerHTML = ordem.map((d) => {
+      const turnos = (CONFIG.horario[d] || []);
+      const texto = turnos.length
+        ? turnos.map(([a, f]) => `${a}–${f}`).join(" · ")
+        : "Cerrado";
+      return `<li class="${d === hoy ? "hoy" : ""}"><span>${DIAS_NOME[d]}</span><span>${texto}</span></li>`;
+    }).join("");
+
+    btn.addEventListener("click", () => {
+      const abrir = !lista.classList.contains("is-open");
+      lista.classList.toggle("is-open", abrir);
+      btn.classList.toggle("is-open", abrir);
+      btn.setAttribute("aria-expanded", abrir ? "true" : "false");
+    });
+    caixa.hidden = false;
+  })();
+
+  const listEl = document.getElementById("linksList");
+  listEl.innerHTML = CONFIG.links.map((link) => {
+    const meta = LINK_TYPES[link.type] || LINK_TYPES.custom;
+    const label = link.label || meta.label;
+    const bg = link.bg || meta.bg;
+    const color = link.color || meta.color;
+    const border = meta.border ? `border:${meta.border};` : "";
+    // --brilho e a cor do halo colorido embaixo do botao. Se o tipo nao
+    // trouxer uma, usa a propria cor de fundo quando ela for solida.
+    const brilho = link.glow || meta.glow ||
+      (typeof bg === "string" && bg.trim().charAt(0) === "#" ? bg : "rgba(0,0,0,.55)");
+    const featuredCls = link.primary ? "is-featured" : "";
+    const isVCard = link.type === "vcard";
+    // vCard hospedado (link.url apontando pra um .vcf que está no servidor)
+    // é um link comum: quem diz ao celular que aquilo é um contato é o
+    // cabeçalho Content-Type que o servidor manda junto. Por isso ele não
+    // leva target, nem download, nem passa pelo buildVCardHref.
+    const isHostedVCard = isVCard && !!link.url;
+    const href = (isVCard && !isHostedVCard) ? buildVCardHref(link) : link.url;
+    // no iPhone, abrir o vCard MONTADO NA HORA numa aba nova costuma
+    // disparar a prévia nativa de contato com mais confiabilidade
+    // tel:, mailto: e sms: NÃO podem levar target="_blank" — o celular
+    // precisa "entregar" esses links pro app nativo (discador, email), e
+    // abrir numa aba nova atrapalha: no Chrome/Safari deixa uma aba em
+    // branco para trás, e nos navegadores internos do Instagram/Facebook
+    // simplesmente não acontece nada. Sites normais (http/https) continuam
+    // abrindo em aba nova pra não tirar o visitante da página de links.
+    const isAppLink = /^(tel:|mailto:|sms:)/i.test(link.url || "");
+    const targetAttrs = isHostedVCard ? ""
+      : isVCard ? (isIOS() ? 'target="_blank"' : "")
+      : (isAppLink ? "" : 'target="_blank" rel="noopener"');
+    const downloadAttr = (isVCard && !isHostedVCard && !isIOS()) ? `download="${(link.name || CONFIG.name || "contacto").replace(/[^a-z0-9]/gi, "-")}.vcf"` : ""; // no iPhone/iPad, NÃO força download — deixa o Safari reconhecer o contato sozinho
+    const counterName = (link.counterName || `ophiel-${CONFIG.slug}-${link.type}`).replace(/[^a-z0-9-]/gi, "-");
+    return `<a href="${href}" ${targetAttrs} ${downloadAttr} onclick="trackClick('${counterName}')" data-counter="${counterName}" class="link-btn ${featuredCls}" style="background:${bg}; color:${color}; --brilho:${brilho}; ${border}">${meta.icon}<span class="link-label">${label}</span><span class="link-count" hidden></span></a>`;
+  }).join("");
+
+  // A dica de "Archivos → Añadir a contactos" só faz sentido no modo
+  // ANTIGO (vCard montado na hora) e num iPhone/iPad. Com o .vcf
+  // hospedado o contato abre sozinho, e no Android e no computador o
+  // fluxo já funciona liso — nos dois casos a dica só confundiria.
+  const hasGeneratedVCard = CONFIG.links.some((l) => l.type === "vcard" && !l.url);
+  if(hasGeneratedVCard && isIOS()){
+    document.getElementById("vcardHint").hidden = false;
+  }
+
+  /* ---------- ÍCONE DE ESTATÍSTICAS ---------- */
+  // busca (sem somar!) o valor atual de cada contador e mostra um
+  // número ao lado de cada botão — alterna ligado/desligado no clique
+  const statsToggle = document.getElementById("statsToggle");
+  let statsOn = false;
+  let statsLoaded = false;
+
+  async function fetchCounterValue(counterName){
+    try{
+      const res = await fetch(`${COUNTER_BASE}/get/${counterName}`);
+      if(!res.ok){
+        console.warn(`[stats] "${counterName}" respondió ${res.status}.`);
+        return null;
+      }
+      const json = await res.json();
+      const value = json?.value;
+      if(value === undefined || value === null){
+        console.warn(`[stats] "${counterName}" respondió pero no encontramos el número de clics — formato inesperado:`, json);
+        return null;
+      }
+      return Number(value);
+    } catch(e) {
+      console.warn(`[stats] "${counterName}" falló al cargar:`, e);
+      return null;
+    }
+  }
+
+  async function loadStats(){
+    const badges = document.querySelectorAll(".link-count");
+    badges.forEach((b) => { b.textContent = "…"; });
+    await Promise.all(Array.from(badges).map(async (badge) => {
+      const btn = badge.closest("[data-counter]");
+      const counterName = btn?.dataset.counter;
+      if(!counterName) return;
+      const value = await fetchCounterValue(counterName);
+      badge.textContent = value === null ? "—" : `${value} ${value === 1 ? "clic" : "clics"}`;
+    }));
+    statsLoaded = true;
+  }
+
+  if(statsToggle){
+    statsToggle.addEventListener("click", async () => {
+      statsOn = !statsOn;
+      statsToggle.classList.toggle("is-active", statsOn);
+      listEl.classList.toggle("stats-mode", statsOn);
+      if(statsOn && !statsLoaded){
+        await loadStats();
+      }
+    });
+  }
+</script>
+</body>
+</html>

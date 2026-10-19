@@ -320,13 +320,13 @@
     // horário: uma lista por dia, começando no domingo; [] = fechado
     zonaHoraria: "Europe/Madrid",
     horario: [
-      [["17:00","22:00"]],   // domingo
-      [["17:00","22:00"]],   // lunes
-      [["17:00","22:00"]],   // martes
-      [["17:00","22:00"]],   // miércoles
-      [["17:00","22:00"]],   // jueves
-      [["17:00","22:00"]],   // viernes
-      []                     // sábado — cerrado
+      [["10:00","13:45"],["17:00","20:30"]], // domingo
+      [["10:00","13:45"],["17:00","20:30"]], // lunes
+      [["10:00","13:45"],["17:00","20:30"]], // martes
+      [],                                      // miércoles — cerrado
+      [["10:00","13:45"],["17:00","20:30"]], // jueves
+      [["10:00","13:45"],["17:00","22:00"]], // viernes
+      [["10:00","13:45"],["17:00","22:00"]]  // sábado
     ],
     links: [
       { type: "google",    url: "https://search.google.com/local/writereview?placeid=ChIJyXwtJ3FFcA0RF2nHIg_q1yI", primary: true },

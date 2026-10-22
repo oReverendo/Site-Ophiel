@@ -218,13 +218,14 @@
       from{ opacity:0; transform:translateY(14px); }
       to{ opacity:1; transform:none; }
     }
-    .firma, .biz-sub, .horario, .links .link-btn, .footer-credit{
+    .firma, .biz-sub, .horario, .links .link-btn, .mapa, .footer-credit{
       animation:sobe .62s cubic-bezier(.2,.75,.3,1) backwards;
     }
     .firma{ animation-duration:.85s; }
     .biz-sub{ animation-delay:.12s; }
     .horario{ animation-delay:.18s; }
     .links .link-btn{ animation-delay:calc(.24s + var(--i, 0) * 70ms); }
+    .mapa{ animation-delay:calc(.24s + var(--total, 6) * 70ms); }
     .footer-credit{ animation-delay:.8s; }
   }
 
@@ -271,6 +272,77 @@
   @media (prefers-reduced-motion: reduce){
     .anel{ animation:none; opacity:.4; }
   }
+  /* ---------- ABERTURA: O BALÃO POUSA ----------
+     O balão da logo desce de cima da tela e pousa exatamente em cima do
+     balão da logo — a imagem da abertura é a MESMA logo com as palavras
+     apagadas, então os dois ocupam o mesmo retângulo e um vira o outro
+     sem nenhum salto.
+     Só aparece na PRIMEIRA visita (fica guardado no navegador), nunca
+     passa de 1 segundo, pode ser pulada com um toque, e some inteira pra
+     quem pediu menos movimento no sistema. Tudo em transform e opacity,
+     que o navegador resolve na placa de vídeo sem recalcular o layout. */
+  .intro-tela{
+    position:fixed; inset:0; z-index:60;
+    background:var(--navy);
+    opacity:1; transition:opacity .2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .intro-tela.saindo{ opacity:0; }
+  .intro-balao{ position:absolute; animation:cai .86s cubic-bezier(0.61, 1, 0.88, 1) both; }
+  .intro-balao img{ width:100%; height:auto; display:block;
+    animation:balanca .86s cubic-bezier(0.77, 0, 0.175, 1) both; }
+  /* o balão entra por cima da tela; -62vh o tira de cena em qualquer altura */
+  @keyframes cai{ from{ transform:translateY(-62vh); } to{ transform:translateY(0); } }
+  /* a deriva lateral é o que faz parecer um balão e não uma pedra caindo */
+  @keyframes balanca{
+    0%{ transform:translateX(-13px) rotate(-3.5deg); }
+    55%{ transform:translateX(9px) rotate(2deg); }
+    100%{ transform:translateX(0) rotate(0); }
+  }
+  /* enquanto a abertura roda, a página espera: a logo fica escondida (o
+     balão da abertura está no lugar dela) e a cascata fica pausada no
+     primeiro quadro, pra tocar inteira na hora da troca. */
+  html.intro .firma{ animation:none !important; opacity:0; }
+  html.intro .biz-sub,
+  html.intro .horario,
+  html.intro .links .link-btn,
+  html.intro .mapa,
+  html.intro .footer-credit{ animation-play-state:paused; }
+  /* na troca, a logo aparece sem se mexer — ela já está no lugar onde o
+     balão pousou, então qualquer deslocamento aqui viraria um pulo */
+  .firma.entra{ animation:aparece .28s cubic-bezier(0.23, 1, 0.32, 1) both; }
+  @keyframes aparece{ from{ opacity:0; } to{ opacity:1; } }
+  /* ---------- MAPA ----------
+     O mapa do Google entra embaixo dos botões, no mesmo acabamento deles.
+     Três decisões que valem explicação:
+     1) ele é um LINK com o mapa dentro, e o mapa tem pointer-events:none.
+        Assim o dedo nunca fica "preso" arrastando o mapa no meio da página
+        — um toque abre o Google Maps do celular, que é o que a pessoa quer.
+     2) loading="lazy": o mapa só é buscado quando chega perto da tela, pra
+        não atrasar os botões, que são o que importa.
+     3) um filtro escurece e tira um pouco da cor: o mapa do Google é branco
+        e, sem isso, ele vira um retângulo aceso no meio do cartão escuro. */
+  .mapa{
+    display:block; position:relative; margin:12px 0 0;
+    border-radius:16px; overflow:hidden; height:190px;
+    border:1px solid rgba(203,183,154,.28);
+    box-shadow:0 12px 22px -14px rgba(0,0,0,.7);
+    text-decoration:none; -webkit-tap-highlight-color:transparent;
+  }
+  .mapa iframe{
+    width:100%; height:100%; border:0; display:block;
+    pointer-events:none;
+    filter:grayscale(.3) brightness(.78) contrast(1.06) saturate(.9);
+  }
+  .mapa .mapa-pe{
+    position:absolute; left:0; right:0; bottom:0;
+    display:flex; align-items:center; gap:7px;
+    padding:9px 13px; font-size:.82rem; font-weight:600; color:var(--ink);
+    background:linear-gradient(to top, rgba(12,10,8,.88), rgba(12,10,8,0));
+  }
+  .mapa .mapa-pe svg{ width:16px; height:16px; flex:none; }
+  @media (hover:hover){
+    .mapa:hover iframe{ filter:grayscale(.1) brightness(.92) contrast(1.06) saturate(1); }
+  }
   .footer-credit{
     text-align:center; margin-top:20px; flex:none;
     font-size:.72rem; color:rgba(166,155,140,.5);
@@ -303,6 +375,19 @@
         <ul class="horario-lista" id="horarioLista"></ul>
       </div>
       <div class="links" id="linksList"></div>
+      <a class="mapa" id="mapa"
+         href="https://www.google.com/maps/place/?q=place_id:ChIJn-wZfgBDcA0RHSJ-fNueZNo"
+         target="_blank" rel="noopener"
+         onclick="trackClick('ophiel-celopman-elejido-mapa')"
+         aria-label="Cómo llegar a Celopman El Ejido">
+        <iframe title="Mapa de Celopman El Ejido" loading="lazy" tabindex="-1"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://maps.google.com/maps?q=36.7734939,-2.8138973&amp;z=17&amp;output=embed"></iframe>
+        <span class="mapa-pe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          Cómo llegar
+        </span>
+      </a>
       <p class="vcard-hint" id="vcardHint" hidden>
         📱 Después de tocar "Guardar contacto": abre la app <strong>Archivos</strong>,
         toca el archivo descargado y elige <strong>"Añadir a contactos"</strong>.
@@ -648,6 +733,9 @@
     return `<a href="${href}" ${targetAttrs} ${downloadAttr} onclick="trackClick('${counterName}')" data-counter="${counterName}" class="link-btn ${featuredCls}" style="--i:${i}; background:${bg}; color:${color}; --brilho:${brilho}; ${border}">${meta.icon}<span class="link-label">${label}</span><span class="link-count" hidden></span></a>`;
   }).join("");
 
+  // o mapa entra na fila logo depois do ultimo botao
+  document.getElementById("mapa").style.setProperty("--total", CONFIG.links.length);
+
   // A dica de "Archivos → Añadir a contactos" só faz sentido no modo
   // ANTIGO (vCard montado na hora) e num iPhone/iPad. Com o .vcf
   // hospedado o contato abre sozinho, e no Android e no computador o
@@ -656,6 +744,60 @@
   if(hasGeneratedVCard && isIOS()){
     document.getElementById("vcardHint").hidden = false;
   }
+
+
+  /* ============================================================
+     ABERTURA DO BALÃO
+     Roda uma vez por visitante. O conteúdo da página é montado
+     normalmente por baixo — se este bloco falhar por qualquer motivo, a
+     página simplesmente aparece sem abertura, nunca fica presa.
+     ============================================================ */
+  (function abertura(){
+    const firma = document.querySelector(".firma");
+    if(!firma) return;
+
+    const menosMovimento = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let jaViu = false;
+    try{ jaViu = localStorage.getItem("ophiel-celopman-abertura") === "1"; }catch(e){}
+    if(menosMovimento || jaViu) return;          // quem já conhece a página entra direto
+    try{ localStorage.setItem("ophiel-celopman-abertura", "1"); }catch(e){}
+
+    const raiz = document.documentElement;
+    raiz.classList.add("intro");
+
+    // com a cascata parada, o retângulo da logo é o retângulo real dela
+    // (sem o deslocamento da animação), então o balão pousa no lugar certo
+    const r = firma.getBoundingClientRect();
+    const tela = document.createElement("div");
+    tela.className = "intro-tela";
+    const caixa = document.createElement("div");
+    caixa.className = "intro-balao";
+    caixa.style.left = r.left + "px";
+    caixa.style.top = r.top + "px";
+    caixa.style.width = r.width + "px";
+    const img = document.createElement("img");
+    img.alt = "";
+    img.src = "data:image/png;base64,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";
+    caixa.appendChild(img);
+    tela.appendChild(caixa);
+    document.body.appendChild(tela);
+
+    let trocou = false;
+    function trocar(){
+      if(trocou) return;
+      trocou = true;
+      tela.classList.add("saindo");
+      raiz.classList.remove("intro");        // solta a cascata
+      firma.classList.add("entra");          // e a logo aparece no lugar do balão
+      setTimeout(() => tela.remove(), 420);
+    }
+
+    // um toque pula a abertura — quem está no balcão com o celular na mão
+    // não deve esperar por enfeite nenhum
+    tela.addEventListener("pointerdown", trocar, { once: true });
+    addEventListener("keydown", trocar, { once: true });
+    setTimeout(trocar, 720);                 // a troca começa antes do pouso terminar
+  })();
 
   /* ---------- ÍCONE DE ESTATÍSTICAS ---------- */
   // busca (sem somar!) o valor atual de cada contador e mostra um

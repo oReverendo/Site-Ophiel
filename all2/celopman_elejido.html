@@ -356,7 +356,20 @@
      2) loading="lazy": o mapa só é buscado quando chega perto da tela, pra
         não atrasar os botões, que são o que importa.
      3) um filtro escurece e tira um pouco da cor: o mapa do Google é branco
-        e, sem isso, ele vira um retângulo aceso no meio do cartão escuro. */
+        e, sem isso, ele vira um retângulo aceso no meio do cartão escuro.
+     4) o link e o que o PROPRIO Google gera no botao de compartilhar da
+        ficha do cliente. Esse endereco carrega o identificador interno do
+        lugar (o "1s0x...:0x...") no formato que o app do Maps entende, e e
+        o unico que se mostrou confiavel no iPhone.
+        Tentamos antes dois caminhos que falham no celular: o atalho
+        "/maps/place/?q=place_id:XXX" — o app le aquilo como TEXTO de busca,
+        procura pela palavra "place_id:ChIJ..." e responde "nenhum resultado
+        encontrado" — e a busca por endereco escrito, que depende do Maps
+        acertar a geocodificacao.
+        Importante: ao copiar o link do Google, APAGUE o rabo de parametros
+        depois do "?" (entry, sa, ved, hl). Eles sao rastreamento da sessao
+        de quem copiou, nao fazem parte do endereco do lugar, e o "ved" e um
+        token que vence. Fica so ate o final do "...:0x...". */
   .mapa{
     display:block; position:relative; margin:12px 0 0;
     border-radius:16px; overflow:hidden; height:190px;
@@ -421,7 +434,7 @@
       </div>
       <div class="links" id="linksList"></div>
       <a class="mapa" id="mapa"
-         href="https://www.google.com/maps/place/?q=place_id:ChIJn-wZfgBDcA0RHSJ-fNueZNo"
+         href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0xd7043007e19ec9f:0xda649edb7c7e221d"
          target="_blank" rel="noopener"
          onclick="trackClick('ophiel-celopman-elejido-mapa')"
          aria-label="Cómo llegar a Celopman El Ejido">

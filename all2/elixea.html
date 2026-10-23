@@ -254,6 +254,50 @@
   .firma svg, .firma img{ filter:drop-shadow(0 4px 16px rgba(0,0,0,.8)); }
   .horario-btn{ background:rgba(12,10,8,.58); border-color:rgba(255,255,255,.2);
     text-shadow:0 1px 2px rgba(0,0,0,.7); }
+  /* ---------- MAPA ----------
+     O mapa do Google entra embaixo dos botoes, como ultima opcao da pagina.
+     Quatro decisoes que valem explicacao:
+     1) ele e um LINK com o mapa dentro, e o mapa tem pointer-events:none.
+        Assim o dedo nunca fica "preso" arrastando o mapa no meio da pagina
+        — um toque abre o Google Maps do celular, que e o que a pessoa quer.
+     2) loading="lazy": o mapa so e buscado quando chega perto da tela, pra
+        nao atrasar os botoes, que sao o que importa.
+     3) um filtro escurece e tira um pouco da cor: o mapa do Google e branco
+        e, sem isso, ele vira um retangulo aceso no meio do cartao escuro.
+     4) o link e o mesmo endereco que o botao de compartilhar do Google gera
+        na ficha do cliente: ele carrega o identificador interno do lugar (o
+        "1s0x...:0x...") no formato que o app do Maps entende, e e o unico
+        que se mostrou confiavel no iPhone. Esse identificador nao precisa
+        ser pedido ao Google: ele ja esta guardado dentro do link de resenha
+        deste mesmo arquivo.
+        Dois caminhos que falham no celular, pra nao tentar de novo: o
+        atalho "/maps/place/?q=place_id:XXX" (o app le aquilo como TEXTO de
+        busca e responde "nenhum resultado encontrado") e a busca por
+        endereco escrito, que depende de o Maps acertar a geocodificacao.
+        Ao copiar um link do Google, APAGUE tudo depois do "?" — e
+        rastreamento da sessao de quem copiou, e o "ved" vence com o tempo. */
+  .mapa{
+    display:block; position:relative; margin:12px 0 0;
+    border-radius:16px; overflow:hidden; height:190px;
+    border:1px solid rgba(217,189,138,.28);
+    box-shadow:0 12px 22px -14px rgba(0,0,0,.7);
+    text-decoration:none; -webkit-tap-highlight-color:transparent;
+  }
+  .mapa iframe{
+    width:100%; height:100%; border:0; display:block;
+    pointer-events:none;
+    filter:grayscale(.3) brightness(.78) contrast(1.06) saturate(.9);
+  }
+  .mapa .mapa-pe{
+    position:absolute; left:0; right:0; bottom:0;
+    display:flex; align-items:center; gap:7px;
+    padding:9px 13px; font-size:.82rem; font-weight:600; color:var(--ink);
+    background:linear-gradient(to top, rgba(12,9,16,.88), rgba(12,9,16,0));
+  }
+  .mapa .mapa-pe svg{ width:16px; height:16px; flex:none; }
+  @media (hover:hover){
+    .mapa:hover iframe{ filter:grayscale(.1) brightness(.92) contrast(1.06) saturate(1); }
+  }
   .footer-credit{
     text-align:center; margin-top:20px; flex:none;
     font-size:.72rem; color:rgba(167,158,146,.5);
@@ -283,6 +327,19 @@
         <ul class="horario-lista" id="horarioLista"></ul>
       </div>
       <div class="links" id="linksList"></div>
+      <a class="mapa" id="mapa"
+         href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0xd7042e12be137fb:0x830a9d881b10b4eb"
+         target="_blank" rel="noopener"
+         onclick="trackClick('ophiel-elixea-mapa')"
+         aria-label="Cómo llegar a Elixea Perfumes">
+        <iframe title="Mapa de Elixea Perfumes" loading="lazy" tabindex="-1"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://maps.google.com/maps?q=36.77333,-2.81313&amp;z=17&amp;output=embed"></iframe>
+        <span class="mapa-pe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          Cómo llegar
+        </span>
+      </a>
       <p class="vcard-hint" id="vcardHint" hidden>
         📱 Después de tocar "Guardar contacto": abre la app <strong>Archivos</strong>,
         toca el archivo descargado y elige <strong>"Añadir a contactos"</strong>.

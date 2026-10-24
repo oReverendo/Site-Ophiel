@@ -42,25 +42,26 @@ main,footer,.cats{position:relative;z-index:2}
 .top{position:fixed;top:0;left:0;right:0;z-index:50;height:var(--top);display:flex;align-items:center;justify-content:space-between;padding:var(--safe-top) max(var(--gutter),env(safe-area-inset-right,0px)) 0 max(var(--gutter),env(safe-area-inset-left,0px));transition:background-color 200ms ease,transform 260ms var(--ease-out)}
 .top.solid{background:var(--ground)}
 .top nav{display:flex;gap:20px}
-.top nav a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;font:500 15px var(--sans);color:var(--ink);transition:color 150ms ease}
+.top nav a{position:relative;display:inline-flex;align-items:center;min-height:44px;text-decoration:none;font:400 14px var(--caps);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);transition:color 150ms ease}
+.top nav a[aria-current]{color:var(--gold)}
+.top nav a[aria-current]::after{content:"";position:absolute;left:0;right:0;bottom:8px;height:2px;border-radius:2px;background:var(--gold)}
 .social{display:flex;gap:2px;margin-right:-8px}
 .social a{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;color:var(--ink);transition:color 150ms ease,transform var(--press) var(--ease-out)}
 .social a:active{transform:scale(.94)}
 .social svg{width:21px;height:21px}
 .chrome-up .top{transform:translate3d(0,-100%,0)}
 
-/* hero */
-.hero{position:relative;z-index:2;min-height:calc(100svh - var(--cats));display:flex;flex-direction:column;justify-content:flex-end;padding:calc(var(--top) + 8px) 0 40px;overflow:hidden;isolation:isolate}
-.hero-photo{position:absolute;inset:0;z-index:-1;overflow:hidden}
-.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:62% 60%;filter:brightness(.6) saturate(.95)}
-.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,25,20,.86) 0%,rgba(10,25,20,.25) 34%,rgba(10,25,20,.35) 55%,rgba(10,25,20,.97) 100%)}
-.logo-wrap{margin:0 auto auto;will-change:transform}
-.hero-logo{width:min(56vw,236px);margin:0 auto}
-.hero-copy{margin-top:36px}
-.hero h1{font:500 clamp(54px,15vw,104px)/.95 var(--serif);letter-spacing:-.02em;margin:0;text-wrap:balance}
-.hero h1 em{font-style:italic;color:var(--gold)}
-.hero .lead{font:500 clamp(27px,7.4vw,40px)/1.12 var(--serif);margin:6px 0 0;max-width:15ch}
-.hero .sub{color:var(--muted);margin:18px 0 26px;max-width:32ch}
+/* hero: la imagen compuesta de Bonsái (logo + "Lugar mágico") tal cual, a pantalla completa en el móvil */
+section.hero{position:relative;z-index:2;overflow:hidden;isolation:isolate;background:#070f0c;display:grid;place-items:center;padding:var(--top) 0 0;height:min(100svh,calc(var(--top) + 100vw * 1672 / 941))}
+.hero-fill{position:absolute;inset:-40px;z-index:-1;background:url(/c/bonsai_balerma/img/hero_bonsai_blur.jpg) center/cover;filter:blur(28px) brightness(.55) saturate(1.1)}
+.hero-art{position:relative;height:100%;width:auto;max-width:100%;aspect-ratio:941/1672;overflow:hidden}
+.hero-art img{width:100%;height:100%;object-fit:cover;object-position:50% 42%}
+.hero-down{position:absolute;right:max(10px,env(safe-area-inset-right,0px));bottom:10px;display:grid;place-items:center;width:44px;height:44px;color:var(--gold);text-decoration:none;z-index:2}
+.hero-down svg{width:22px;height:22px;animation:nudge 2.4s var(--ease-in-out) infinite}
+@keyframes nudge{0%,60%,100%{transform:none}30%{transform:translate3d(0,5px,0)}}
+.js .hero-art img{animation:settle 2400ms var(--ease-out) both}
+@keyframes settle{from{transform:scale(1.06)}to{transform:scale(1)}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .btn{display:inline-flex;align-items:center;gap:12px;min-height:50px;padding:0 26px;border-radius:999px;background:var(--gold);color:var(--gold-ink);font:600 16px/1 var(--sans);text-decoration:none;border:0;cursor:pointer;transition:transform var(--press) var(--ease-out),background-color 150ms ease}
 .btn:active{transform:scale(.97)}
 .btn svg{width:18px;height:18px;transition:transform 200ms var(--ease-out)}
@@ -202,7 +203,7 @@ section{padding:56px 0}
 .map-link span{color:var(--muted);font-size:15px}
 .map-link em{font-style:normal;color:var(--gold);font-weight:600;font-size:15px}
 footer{padding:48px 0 calc(40px + env(safe-area-inset-bottom,0px));text-align:center}
-footer .tree{width:120px;margin:0 auto 6px;opacity:.95}
+footer .foot-logo{width:min(70vw,300px);margin:0 auto 18px}
 footer .motto{font:italic 500 22px var(--serif);color:var(--gold);margin:0 0 18px}
 footer small{display:block;font-size:13px;color:var(--muted);line-height:1.7}
 footer small a{color:var(--muted)}
@@ -228,6 +229,7 @@ footer small a{color:var(--muted)}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .js .hero .ld{animation:none}
+  .js .hero-art img,.hero-down svg{animation:none}
   .js .rv.pre{transform:none;transition:opacity 200ms ease}
   .top,.cats{transition:background-color 200ms ease}
   .chrome-up .top,.chrome-up .cats{transform:none}
@@ -238,9 +240,11 @@ footer small a{color:var(--muted)}
 @media (min-width:760px){
   :root{--gutter:36px}
   section{padding:80px 0}
-  .hero{justify-content:center}
-  .hero-copy{max-width:640px}
-  .logo-wrap{margin-bottom:52px}
+  section.hero{height:100svh;padding:calc(var(--top) + 8px) 0 24px}
+  .hero-down{right:auto;left:50%;transform:translateX(-50%);bottom:4px}
+  .hero-art{box-shadow:0 0 80px rgba(0,0,0,.5)}
+  .hero h1{font-size:clamp(56px,6vw,92px)}
+  .hero .lead{font-size:clamp(26px,2.6vw,38px)}
   .dish{grid-template-columns:1fr 150px}
 }
 </style>
@@ -248,24 +252,18 @@ footer small a{color:var(--muted)}
 <body>
 <canvas id="bokeh" aria-hidden="true"></canvas>
 <header class="top" id="top">
-  <nav aria-label="Principal"><a href="#inicio">Inicio</a><a href="#carta">Carta</a><a href="#contacto">Contacto</a></nav>
+  <nav aria-label="Principal"><a href="#inicio" aria-current="page">Inicio</a><a href="#carta">Carta</a><a href="#contacto">Contacto</a></nav>
   <div class="social">
     <a href="https://www.instagram.com/_bonsaibalerma/" target="_blank" rel="noopener" aria-label="Instagram de Bonsái"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
     <a href="#" data-pendiente="facebook" target="_blank" rel="noopener" aria-label="Facebook de Bonsái"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg></a>
   </div>
 </header>
 <div class="hero-shell">
-  <section class="hero" id="inicio" aria-label="Bonsái coffee and drinks">
-    <div class="hero-photo"><img src="/c/bonsai_balerma/img/hero_cup.jpg" alt="Café en la taza negra de Bonsái" width="740" height="544" fetchpriority="high"></div>
-    <div class="wrap" style="display:flex;flex-direction:column;flex:1">
-      <div class="logo-wrap"><img class="hero-logo ld" style="--i:0" src="/c/bonsai_balerma/img/logo.svg" alt="Bonsái coffee and drinks" width="2056" height="1819"></div>
-      <div class="hero-copy">
-        <h1 class="ld" style="--i:1">Lugar <em>mágico</em></h1>
-        <p class="lead ld" style="--i:2">para disfrutar un ambiente diferente</p>
-        <p class="sub ld" style="--i:3">Café, buena compañía y momentos que saben mejor, en la Plaza Iglesia de Balerma.</p>
-        <a class="btn ld" style="--i:4" href="#carta">Ver carta <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
-    </div>
+  <section class="hero" id="inicio" aria-labelledby="hero-t">
+    <div class="hero-fill" aria-hidden="true"></div>
+    <div class="hero-art"><img src="/c/bonsai_balerma/img/hero_bonsai.jpg" alt="Bonsái coffee and drinks: batido de pistacho con nata. Lugar mágico para disfrutar un ambiente diferente" width="941" height="1672" fetchpriority="high"></div>
+    <h1 id="hero-t" class="sr-only">Bonsái, lugar mágico para disfrutar un ambiente diferente</h1>
+    <a class="hero-down" href="#carta" aria-label="Ver la carta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
   </section>
 </div>
 
@@ -315,8 +313,7 @@ footer small a{color:var(--muted)}
 </div></section>
 </main>
 <footer><div class="wrap">
-  <img class="tree" src="/c/bonsai_balerma/img/p/bonsai_arvore_ilustracao.webp" alt="" width="408" height="440" loading="lazy">
-  <img src="/c/bonsai_balerma/img/logo.svg" alt="Bonsái coffee and drinks" width="2056" height="1819" loading="lazy" style="width:150px;margin:0 auto 14px">
+  <img class="foot-logo" src="/c/bonsai_balerma/img/logo.svg" alt="Bonsái coffee and drinks" width="525" height="470" loading="lazy">
   <p class="motto">Café · Amigos · Buenos momentos</p>
   <small>Plaza Iglesia, 8 · Balerma (Almería)<br>Precios con IVA incluido.<br>Carta digital por <a href="https://ophiel.es" target="_blank" rel="noopener">Ophiel</a></small>
 </div></footer>
@@ -337,27 +334,28 @@ document.documentElement.classList.add('js');
   function size(){ var dpr=Math.min(window.devicePixelRatio||1,1.5);W=window.innerWidth;H=window.innerHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
     var count=Math.round(Math.min(24,Math.max(12,W*H/40000)));dots=[];
     for(var i=0;i<count;i++){var r=(Math.random()*.9+.35)*Math.min(W,H)*.09+14;
-      dots.push({x:Math.random()*W,y:Math.random()*H,r:r,vx:(Math.random()-.5)*.12,vy:-(Math.random()*.14+.03),a:Math.random()*.15+.06,ph:Math.random()*6.28,sp:Math.random()*.0006+.00025,tone:tones[i%tones.length]});} }
+      dots.push({x:Math.random()*W,y:Math.random()*H,r:r,vx:(Math.random()-.5)*.9,vy:-(Math.random()*.55+.18),a:Math.random()*.17+.07,ph:Math.random()*6.28,sp:Math.random()*.0012+.0005,sw:Math.random()*.9+.4,pr:.85+Math.random()*.3,tone:tones[i%tones.length]});} }
   function draw(t){ if(!running)return; if(t-last<33){requestAnimationFrame(draw);return;}
     var dt=Math.min(t-last,80)/16;last=t;ctx.clearRect(0,0,W,H);
     for(var i=0;i<dots.length;i++){var d=dots[i];
-      if(!reduce){d.x+=d.vx*dt+Math.sin(t*d.sp+d.ph)*.15*dt;d.y+=d.vy*dt;if(d.y<-d.r*2){d.y=H+d.r*2;d.x=Math.random()*W}if(d.x<-d.r*2)d.x=W+d.r*2;if(d.x>W+d.r*2)d.x=-d.r*2;}
-      ctx.globalAlpha=d.a*(reduce?1:(.7+.3*Math.sin(t*d.sp*2.2+d.ph)));ctx.drawImage(sprite(d.tone),d.x-d.r,d.y-d.r,d.r*2,d.r*2);}
+      if(!reduce){d.x+=d.vx*dt+Math.sin(t*d.sp+d.ph)*d.sw*dt;d.y+=d.vy*dt+Math.cos(t*d.sp*.8+d.ph)*.25*dt;if(d.y<-d.r*2){d.y=H+d.r*2;d.x=Math.random()*W}if(d.x<-d.r*2)d.x=W+d.r*2;if(d.x>W+d.r*2)d.x=-d.r*2;}
+      var k=reduce?1:(1+.12*Math.sin(t*d.sp*1.7+d.ph)),rr=d.r*k;ctx.globalAlpha=d.a*(reduce?1:(.55+.45*Math.sin(t*d.sp*2.4+d.ph)));ctx.drawImage(sprite(d.tone),d.x-rr,d.y-rr,rr*2,rr*2);}
     ctx.globalAlpha=1; if(!reduce)requestAnimationFrame(draw); }
   size();requestAnimationFrame(function(t){last=t-40;draw(t)});
   var rz;window.addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(function(){size();if(reduce)draw(performance.now()+99)},180)});
   document.addEventListener('visibilitychange',function(){running=!document.hidden;if(running&&!reduce)requestAnimationFrame(function(t){last=t-40;draw(t)})});
 
   /* header: solid after hero, hides going down, returns going up */
-  var top=document.getElementById('top'),logoWrap=document.querySelector('.logo-wrap'),hero=document.getElementById('inicio'),cats=document.querySelector('.cats'),root=document.documentElement,toTop=document.getElementById('toTop');
+  var top=document.getElementById('top'),hero=document.getElementById('inicio'),cats=document.querySelector('.cats'),root=document.documentElement,toTop=document.getElementById('toTop');
   var lastY=window.scrollY,ticking=false;
   function onScroll(){ var y=window.scrollY,heroH=hero.offsetHeight,dy=y-lastY;
     top.classList.toggle('solid',y>heroH-140);
+    var ct=document.getElementById('contacto').getBoundingClientRect().top<H*.5?'#contacto':(y>heroH-140?'#carta':'#inicio');
+    [].forEach.call(top.querySelectorAll('nav a'),function(a){if(a.getAttribute('href')===ct)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
     toTop.classList.toggle('on',y>heroH*1.5);
     if(y<heroH){root.classList.remove('chrome-up');lastY=y;}
     else if(dy>8){root.classList.add('chrome-up');lastY=y;}
     else if(dy<-8){root.classList.remove('chrome-up');lastY=y;}
-    if(!reduce&&y<heroH){var p=y/heroH;logoWrap.style.transform='translate3d(0,'+(p*40).toFixed(1)+'px,0) scale('+(1-p*.08).toFixed(4)+')';}
     ticking=false; }
   window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
   onScroll();

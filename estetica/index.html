@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amarte Estética Avanzada</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Amarte, centro de estética avanzada en Balanegra (Almería). FHOS bioluminiscente, láser SHR indoloro, LED System, Dermapen y tratamientos faciales y corporales. Pide cita.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: clinic page in the manner of the reference — sage top bar, white header with "+" menu,
+   full-bleed hero, bone stat band, green-footed cards, mint form band, deep green footer. */
+:root {
+  --sage: #80928b;
+  --bone: #f4f1e8;
+  --green: #002c23;
+  --mint: #92c5b4;
+  --orange: #f59e50;
+  --text: #333333;
+  --white: #ffffff;
+  --ph: #e6e1d4;
+  --ph-ink: #8a8578;
+  --sans: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --mono: "DM Mono", "Courier New", monospace;
+  --max: 980px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: light; }
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--white); color: var(--text); font: 300 15px/1.55 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+p { margin: 0; }
+h1, h2, h3 { font-weight: 300; margin: 0; color: var(--green); letter-spacing: -0.01em; }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.wrap { width: 100%; max-width: calc(var(--max) + 32px); margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.h2 { font-size: clamp(2rem, 1.4rem + 1.8vw, 2.5rem); line-height: 1.15; }
+.center { text-align: center; }
+
+/* image slots: a label shows until the real file exists */
+.ph { position: relative; background: var(--ph); overflow: hidden; }
+.ph::before { content: attr(data-label); position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 16px; font: 500 12px/1.4 var(--mono); letter-spacing: .06em; color: var(--ph-ink); text-transform: uppercase; }
+.ph::after { content: ""; position: absolute; left: 50%; top: calc(50% - 44px); width: 34px; height: 26px; transform: translateX(-50%); border: 2px solid var(--ph-ink); border-radius: 4px; opacity: .5; background: radial-gradient(circle at 70% 35%, var(--ph-ink) 3px, transparent 4px); }
+.ph img, .ph video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: 0 26px; border-radius: 999px; border: 1px solid var(--green); color: var(--green); background: transparent; font: 500 14px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: background-color .25s, color .25s; }
+.btn:hover { background: var(--green); color: var(--white); }
+.btn.light { border-color: var(--white); color: var(--white); }
+.btn.light:hover { background: var(--white); color: var(--green); }
+
+/* ---------- top bar + header ---------- */
+.topbar { background: var(--sage); color: var(--white); font: 500 14px/1 var(--mono); }
+.topbar .wrap { display: flex; justify-content: flex-end; align-items: center; gap: 12px; height: 23px; max-width: 1080px; }
+.topbar a { text-decoration: none; display: inline-flex; gap: 6px; align-items: center; }
+.topbar svg { width: 13px; height: 13px; }
+.topbar .sep { width: 1px; height: 14px; background: rgba(255,255,255,.7); }
+header.site { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: var(--white); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 41; background: var(--white); }
+header.site .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; max-width: 1080px; }
+.logo { color: var(--green); display: block; width: 132px; }
+.logo svg { width: 100%; height: auto; display: block; }
+.menu { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; }
+.menu > li { position: relative; }
+.menu > li > a { font: 500 13.5px/66px var(--mono); letter-spacing: .03em; text-transform: uppercase; text-decoration: none; color: var(--green); display: block; }
+.menu > li > a:hover { color: var(--sage); }
+.sub { position: absolute; top: 100%; left: -18px; min-width: 250px; list-style: none; margin: 0; padding: 14px 0; background: var(--white); box-shadow: 0 12px 30px rgba(0,44,35,.12); opacity: 0; visibility: hidden; transform: translateY(6px); transition: all .2s; }
+.menu > li:hover .sub, .menu > li:focus-within .sub { opacity: 1; visibility: visible; transform: none; }
+.sub a { display: block; padding: 7px 20px; font-size: 14px; text-decoration: none; color: var(--text); }
+.sub a:hover { color: var(--green); background: var(--bone); }
+.burger { display: none; background: none; border: 0; width: 44px; height: 44px; cursor: pointer; color: var(--green); }
+.burger svg { width: 28px; height: 28px; }
+
+/* off-canvas */
+.drawer { position: fixed; inset: 0; z-index: 70; pointer-events: none; }
+.drawer .shade { position: absolute; inset: 0; background: rgba(0,44,35,.4); opacity: 0; transition: opacity .3s; }
+.drawer nav { position: absolute; right: 0; top: 0; bottom: 0; width: min(86vw, 360px); background: var(--white); transform: translateX(100%); transition: transform .35s ease; padding: calc(20px + env(safe-area-inset-top, 0px)) 24px 24px; overflow-y: auto; }
+.drawer.open { pointer-events: auto; }
+.drawer.open .shade { opacity: 1; }
+.drawer.open nav { transform: none; }
+.drawer .close { background: none; border: 0; float: right; font: 400 28px/1 var(--sans); color: var(--green); cursor: pointer; }
+.drawer .logo { margin-bottom: 26px; }
+.drawer details { border-bottom: 1px solid var(--bone); }
+.drawer summary { list-style: none; cursor: pointer; padding: 14px 0; font: 500 14px var(--mono); text-transform: uppercase; color: var(--green); }
+.drawer summary::-webkit-details-marker { display: none; }
+.drawer details a { display: block; padding: 6px 0 6px 14px; text-decoration: none; font-size: 15px; }
+.drawer details[open] { padding-bottom: 10px; }
+.drawer .btn { margin-top: 24px; width: 100%; }
+
+/* floating actions */
+.cita-tab { position: fixed; z-index: 45; right: 0; top: 130px; background: var(--orange); color: var(--white); text-decoration: none; font: 500 14px/1 var(--mono); letter-spacing: .06em; padding: 11px 14px 11px 12px; border-radius: 999px 0 0 999px; transition: padding .2s; }
+.cita-tab:hover { padding-right: 22px; }
+.wa { position: fixed; z-index: 45; right: max(40px, env(safe-area-inset-right, 0px)); bottom: calc(56px + env(safe-area-inset-bottom, 0px)); width: 50px; height: 50px; border-radius: 50%; background: #25d366; color: #fff; display: grid; place-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.18); transition: transform .2s; }
+.wa:hover { transform: scale(1.08); }
+.wa svg { width: 26px; height: 26px; }
+
+/* ---------- hero ---------- */
+.hero { position: relative; height: clamp(520px, 86vh, 760px); }
+.hero .ph { position: absolute; inset: 0; }
+.hero .ph::before { align-items: start; padding-top: 70px; }
+.hero::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.18); z-index: 2; pointer-events: none; }
+.hero .txt { position: absolute; z-index: 3; left: 0; right: 0; bottom: 64px; text-align: center; color: var(--white); padding-inline: 16px; }
+.hero h1 { color: var(--white); font-size: clamp(2.6rem, 1.6rem + 3.4vw, 3.6rem); line-height: 1; text-transform: uppercase; font-weight: 300; }
+.hero .h1b { display: block; font: 300 clamp(1.4rem, 1.1rem + 1vw, 2rem)/1.2 var(--sans); margin-top: 14px; }
+.hero .tag { font: 400 clamp(1.05rem, .9rem + .6vw, 1.45rem)/1.3 var(--mono); margin-top: 8px; }
+.hero .btn { margin-top: 30px; }
+
+/* ---------- stats ---------- */
+.stats { background: var(--bone); }
+.stats .wrap { display: flex; justify-content: space-between; gap: 24px; padding-block: 24px; flex-wrap: wrap; }
+.stat { display: flex; align-items: center; gap: 16px; }
+.stat .ic { width: 57px; height: 57px; border-radius: 50%; background: var(--sage); color: var(--white); display: grid; place-items: center; flex: none; }
+.stat .ic svg { width: 28px; height: 28px; }
+.stat b { display: block; font: 300 30px/1 var(--sans); color: var(--sage); }
+.stat span { display: block; font: 500 19px/1.2 var(--mono); color: var(--sage); text-transform: uppercase; margin-top: 4px; }
+
+/* ---------- treatments ---------- */
+.trat { padding-block: 54px 50px; }
+.trat .intro { max-width: 980px; margin: 14px auto 0; font-size: 14.5px; }
+.tcards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 46px; }
+.tcard { display: block; text-decoration: none; border-radius: 14px; overflow: hidden; }
+.tcard .ph { aspect-ratio: 233 / 310; margin-bottom: -18px; }
+.tcard .bar { position: relative; z-index: 2; background: var(--green); color: var(--white); border-radius: 14px 14px 0 0; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 18px 16px 26px; font: 400 16px/1.2 var(--sans); text-transform: uppercase; transition: background-color .25s; }
+.tcard .bar svg { width: 18px; height: 18px; flex: none; transition: transform .25s; }
+.tcard:hover .bar { background: #0b4033; }
+.tcard:hover .bar svg { transform: translate(2px,-2px); }
+.trat .btnrow { text-align: center; margin-top: 16px; }
+
+/* ---------- brands strip ---------- */
+.brands { background: var(--bone); }
+.brands .wrap { display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; gap: 24px; padding-block: 26px; min-height: 118px; }
+.brand { text-align: center; color: #1d1d1b; line-height: 1; }
+.brand.fhos { font: 300 36px/1 var(--sans); letter-spacing: .32em; }
+.brand.fhos small { display: block; font: 500 9px/1 var(--sans); letter-spacing: .38em; margin-top: 6px; }
+.brand.led { font: 500 22px/1 var(--sans); letter-spacing: .3em; }
+.brand.led small { display: block; font: 400 10px/1 var(--sans); letter-spacing: .4em; margin-top: 6px; }
+.brand.innova { font: 700 30px/1 var(--sans); font-style: italic; letter-spacing: -.02em; }
+.brand.innova small { display: block; font: 400 10px/1 var(--sans); font-style: normal; letter-spacing: .14em; margin-top: 6px; }
+.brand.massada { font: 500 26px/1 var(--sans); letter-spacing: .26em; }
+.brand.massada small { display: block; font: 400 10px/1 var(--sans); letter-spacing: .3em; margin-top: 6px; }
+
+/* ---------- excellence rows ---------- */
+.excel { padding-block: 64px 70px; }
+.excel .intro { max-width: 980px; margin: 14px auto 0; font-size: 14.5px; }
+.row2 { display: grid; grid-template-columns: 384px 1fr; gap: 18px; margin-top: 18px; align-items: start; }
+.row2.rev { grid-template-columns: 1fr 386px; margin-top: 16px; }
+.row2 .ph { aspect-ratio: 384 / 376; border-radius: 16px 16px 0 0; }
+.row2 .copy { border-left: 2px solid var(--green); padding: 14px 0 16px 17px; margin-top: 24px; }
+.row2.rev .copy { margin-top: 24px; }
+.row2 .kicker { font: 700 30px/1 Georgia, "Times New Roman", serif; color: #111; letter-spacing: -.02em; }
+.row2 .kicker.small { font-size: 21px; }
+.row2 h3 { font-size: 34px; line-height: 1.1; margin-top: 18px; }
+.row2 p { font-size: 14.5px; margin-top: 18px; }
+.row2 p + p { margin-top: 10px; }
+.row2 .btn { margin-top: 30px; }
+
+/* ---------- carousel (tecnologías / novedades) ---------- */
+.team { padding-block: 40px 70px; }
+.team-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; }
+.team-head p { max-width: 590px; margin-top: 18px; font-size: 14.5px; }
+.team-head .btn { margin-top: 16px; }
+.arrows { display: flex; gap: 12px; }
+.arrows button { width: 33px; height: 33px; border-radius: 50%; border: 1px solid var(--green); background: transparent; color: var(--green); cursor: pointer; display: grid; place-items: center; transition: background-color .2s, color .2s; }
+.arrows button:hover { background: var(--green); color: var(--white); }
+.arrows svg { width: 18px; height: 18px; }
+.track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 48px) / 4); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; margin-top: 24px; scrollbar-width: none; }
+.track::-webkit-scrollbar { display: none; }
+.member { scroll-snap-align: start; }
+.member .ph { aspect-ratio: 233 / 286; border-radius: 16px 16px 0 0; }
+.member h3 { font-size: 16px; text-transform: uppercase; color: #333; margin: 18px 16px 0; font-weight: 400; }
+.member p { font-size: 14.5px; margin: 10px 16px 0; }
+
+/* ---------- clinic split ---------- */
+.clinic { background: var(--bone); padding-block: 48px; }
+.clinic .wrap { display: grid; grid-template-columns: 1fr 432px; gap: 50px; align-items: center; }
+.clinic p { margin-top: 18px; font-size: 14.5px; }
+.clinic ul { list-style: none; padding: 0; margin: 20px 0 22px; display: grid; gap: 12px; }
+.clinic li { display: flex; gap: 16px; align-items: center; font: 400 17px/1.2 var(--mono); color: var(--green); text-transform: uppercase; }
+.clinic li svg { width: 17px; height: 17px; color: var(--mint); flex: none; }
+.slider { position: relative; aspect-ratio: 432 / 400; }
+.slider .ph { position: absolute; inset: 0; opacity: 0; transition: opacity .6s; }
+.slider .ph.on { opacity: 1; }
+.dots { position: absolute; z-index: 3; left: 0; right: 0; bottom: 14px; display: flex; justify-content: center; gap: 4px; }
+.dots button { width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--white); background: transparent; padding: 0; cursor: pointer; }
+.dots button[aria-pressed="true"] { background: var(--mint); border-color: var(--mint); }
+
+/* ---------- why ---------- */
+.why { padding-block: 50px; }
+.why .wrap { display: grid; grid-template-columns: 432px 1fr; gap: 48px; align-items: start; }
+.why .ph { aspect-ratio: 432 / 492; border-radius: 16px 16px 0 0; }
+.why p { margin-top: 18px; font-size: 14.5px; }
+.why ul { list-style: none; padding: 0; margin: 18px 0 30px; display: grid; gap: 9px; }
+.why li { display: flex; gap: 12px; align-items: center; font-size: 14.5px; }
+.why li svg { width: 20px; height: 20px; color: var(--green); flex: none; }
+
+/* ---------- testimonials ---------- */
+.testi { background: var(--bone); padding-block: 56px 64px; }
+.testi .intro { max-width: 470px; margin-top: 18px; font-size: 14.5px; }
+.reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 30px; }
+.review { background: var(--white); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+.review .top { display: flex; justify-content: space-between; align-items: center; }
+.review .who { display: flex; gap: 10px; align-items: center; }
+.review .av { width: 38px; height: 38px; border-radius: 50%; background: var(--sage); color: var(--white); display: grid; place-items: center; font-weight: 500; }
+.review b { display: block; font-weight: 500; font-size: 14px; color: var(--green); }
+.review small { font-size: 12px; color: #777; }
+.review .g { font: 700 16px/1 var(--sans); color: #4285f4; }
+.stars { color: #fbbc04; letter-spacing: 2px; font-size: 15px; }
+.review p { font-size: 14.5px; }
+.testi .more { margin-top: 26px; }
+
+/* ---------- online / home ---------- */
+.online { padding-block: 48px; }
+.online .wrap { display: grid; grid-template-columns: 432px 1fr; gap: 48px; align-items: start; }
+.online .ph { aspect-ratio: 432 / 368; border-radius: 16px 16px 0 0; }
+.online p { margin-top: 18px; font-size: 14.5px; }
+.online p + p { margin-top: 10px; }
+.online .btn { margin-top: 24px; }
+
+/* ---------- mint form ---------- */
+.contact { background: var(--mint); padding-block: 72px 100px; }
+.contact .wrap { display: grid; grid-template-columns: 1fr 402px; gap: 72px; align-items: start; }
+.contact h2 { font-size: clamp(2rem, 1.5rem + 1.6vw, 2.25rem); line-height: 1.2; }
+.contact .side p { margin-top: 26px; font-size: 14.5px; color: #1a1a1a; }
+.contact .info { margin-top: 30px; display: grid; gap: 10px; font: 400 15px/1.3 var(--mono); color: var(--green); }
+.form h3 { text-align: center; font-size: 21px; color: #333; font-weight: 400; padding-bottom: 12px; border-bottom: 1px solid rgba(0,44,35,.25); }
+.form .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 8px; margin-top: 14px; }
+.form .full { grid-column: 1 / -1; }
+.form label.lbl { display: block; font: 400 12.5px var(--sans); color: #1a1a1a; margin-top: 8px; }
+.form input, .form select, .form textarea { width: 100%; border: 0; border-bottom: 1px solid rgba(0,44,35,.45); background: transparent; padding: 10px 6px; font: 400 13px var(--sans); color: #1a1a1a; border-radius: 0; appearance: none; -webkit-appearance: none; }
+.form input::placeholder, .form textarea::placeholder { color: #50665e; }
+.form select { background-image: linear-gradient(45deg, transparent 50%, #002c23 50%), linear-gradient(135deg, #002c23 50%, transparent 50%); background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 22px; cursor: pointer; color: #50665e; }
+.form textarea { min-height: 96px; resize: vertical; }
+.form input:focus, .form select:focus, .form textarea:focus { outline: none; border-bottom-color: var(--green); }
+.check { display: flex; gap: 10px; align-items: center; font-size: 12.5px; color: #1a1a1a; margin-top: 10px; }
+.check input { width: 15px; height: 15px; padding: 0; border: 1px solid #333; appearance: auto; -webkit-appearance: auto; flex: none; }
+.form .send { display: block; margin: 18px auto 0; border: 1px solid var(--green); background: transparent; color: var(--green); padding: 7px 18px; font: 400 13px var(--sans); cursor: pointer; transition: background-color .2s, color .2s; }
+.form .send:hover { background: var(--green); color: var(--white); }
+.form .msg { text-align: center; font-size: 13px; margin-top: 12px; min-height: 1.3em; color: var(--green); }
+.form .msg a { font-weight: 500; }
+
+/* ---------- news ---------- */
+.news { background: var(--bone); padding-block: 54px 66px; }
+.news .team-head p { max-width: 350px; }
+.post { scroll-snap-align: start; border: 1px solid var(--green); border-radius: 14px 14px 0 0; padding: 8px 8px 24px; display: flex; flex-direction: column; }
+.news .track { grid-auto-columns: calc((100% - 32px) / 3); }
+.post .ph { aspect-ratio: 297 / 245; border-radius: 10px 10px 0 0; }
+.post h3 { font-size: 18px; line-height: 1.2; color: var(--green); font-weight: 400; margin: 18px 8px 0; min-height: 4.8em; }
+.post .btn { margin: 14px 8px 0; align-self: flex-start; }
+
+/* ---------- footer ---------- */
+footer { background: var(--green); color: var(--white); padding-top: 42px; }
+footer .wrap { max-width: 1094px; }
+.fgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+footer .logo { color: var(--white); width: 150px; }
+.insta { display: grid; place-items: center; width: 33px; height: 33px; border-radius: 50%; border: 1px solid rgba(255,255,255,.35); margin-top: 22px; }
+.insta svg { width: 17px; height: 17px; }
+footer h4 { margin: 0 0 18px; font: 400 21px/1 var(--mono); }
+footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+footer li a { text-decoration: none; font-size: 14px; }
+footer li a:hover { text-decoration: underline; }
+footer .ct li { display: flex; gap: 10px; font-size: 14px; }
+footer .ct svg { width: 16px; height: 16px; flex: none; margin-top: 2px; }
+.fbottom { margin-top: 34px; padding-block: 14px 18px; border-top: 1px solid rgba(255,255,255,.25); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; color: rgba(255,255,255,.65); }
+.fbottom nav { display: flex; flex-wrap: wrap; }
+.fbottom nav a { text-decoration: none; padding: 0 10px; border-left: 1px solid rgba(255,255,255,.4); }
+.fbottom nav a:first-child { border-left: 0; }
+.fbottom nav a:hover { color: var(--white); }
+
+/* ---------- scroll animations ---------- */
+:root { --ease-out: cubic-bezier(.16,1,.3,1); }
+.anim [data-a] { transition-duration: 1s; transition-timing-function: var(--ease-out); transition-delay: calc(var(--i, 0) * 110ms); will-change: transform, opacity; }
+.anim [data-a="up"] { opacity: 0; transform: translateY(42px); transition-property: opacity, transform; }
+.anim [data-a="left"] { opacity: 0; transform: translateX(-60px); transition-property: opacity, transform; }
+.anim [data-a="right"] { opacity: 0; transform: translateX(60px); transition-property: opacity, transform; }
+.anim [data-a="fade"] { opacity: 0; transition-property: opacity; }
+.anim [data-a="zoom"] { opacity: 0; transform: scale(.88); transition-property: opacity, transform; }
+.anim [data-a="img"] { clip-path: inset(100% 0 0 0); transition-property: clip-path; transition-duration: 1.3s; }
+.anim [data-a="img"] > img, .anim [data-a="img"]::before, .anim [data-a="img"]::after { transition: transform 1.8s var(--ease-out); transition-delay: inherit; }
+.anim [data-a="img"]:not(.in) > img, .anim [data-a="img"]:not(.in)::before { transform: scale(1.25); }
+.anim [data-a].in { opacity: 1; transform: none; clip-path: inset(0 0 0 0); }
+.anim [data-a="line"] { transform: scaleY(0); transform-origin: top; transition-property: transform; transition-duration: 1.2s; }
+.anim [data-a="line"].in { transform: scaleY(1); }
+.row2 .copy { position: relative; border-left: 0; }
+.row2 .copy::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--green); transform-origin: top; transition: transform 1.2s var(--ease-out) .2s; }
+.anim .row2 .copy:not(.in)::before { transform: scaleY(0); }
+/* hero intro on load */
+.hero .ph video { transform: scale(1.12); transition: transform 2.6s var(--ease-out); }
+.loaded .hero .ph video { transform: scale(1); }
+.anim .hero .txt > * { opacity: 0; transform: translateY(30px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
+.anim .hero .txt > :nth-child(2) { transition-delay: .2s; }
+.anim .hero .txt > :nth-child(3) { transition-delay: .4s; }
+.loaded .hero .txt > * { opacity: 1; transform: none; }
+.anim header.site { transform: translateY(-100%); transition: transform .9s var(--ease-out); }
+.loaded header.site { transform: none; }
+.tcard .ph img, .member .ph img, .post .ph img { transition: transform .8s var(--ease-out); }
+.tcard:hover .ph img, .member:hover .ph img, .post:hover .ph img { transform: scale(1.06); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .anim [data-a], .anim .hero .txt > *, .anim header.site { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
+  .hero .ph video { transform: none; transition: none; }
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 1060px) {
+  .menu { display: none; }
+  .burger { display: grid; place-items: center; }
+}
+@media (max-width: 900px) {
+  .tcards { grid-template-columns: repeat(2, 1fr); }
+  .brands .wrap { grid-template-columns: repeat(2, 1fr); }
+  .row2, .row2.rev { grid-template-columns: 1fr; }
+  .row2.rev .ph { order: -1; }
+  .row2 .ph { max-width: 460px; }
+  .track { grid-auto-columns: calc((100% - 16px) / 2); }
+  .news .track { grid-auto-columns: calc((100% - 16px) / 2); }
+  .clinic .wrap, .why .wrap, .online .wrap, .contact .wrap { grid-template-columns: 1fr; gap: 34px; }
+  .clinic .slider { max-width: 520px; }
+  .reviews { grid-template-columns: 1fr; }
+  .fgrid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .topbar .wrap { justify-content: center; font-size: 12.5px; }
+  .stats .wrap { flex-direction: column; align-items: flex-start; }
+  .stat span { font-size: 16px; }
+  .tcard .bar { font-size: 13.5px; padding: 14px 12px 22px; }
+  .track, .news .track { grid-auto-columns: 84%; }
+  .row2 h3 { font-size: 28px; }
+  .form .grid { grid-template-columns: 1fr; }
+  .fgrid { grid-template-columns: 1fr; }
+  .cita-tab { display: none; }
+  .wa { right: max(18px, env(safe-area-inset-right, 0px)); bottom: calc(40px + env(safe-area-inset-bottom, 0px)); }
+  .brand.fhos { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo" viewBox="0 0 1833 934"><path fill="currentColor" fill-rule="evenodd" d="M 933 20 C 927 22, 926 24, 925 34 C 925 39, 925 48, 925 54 C 924 73, 924 73, 942 74 C 956 75, 961 74, 961 70 C 961 66, 957 64, 948 64 C 939 63, 936 61, 936 57 C 936 53, 938 52, 947 51 C 953 51, 955 50, 956 49 C 959 45, 954 42, 945 41 C 939 40, 936 39, 937 36 C 937 33, 941 32, 949 32 C 958 31, 961 30, 960 27 C 960 23, 960 22, 956 21 C 953 19, 939 19, 933 20 M 1007 30 C 999 33, 997 37, 997 44 C 997 50, 1000 53, 1008 59 C 1018 64, 1019 67, 1017 69 C 1014 72, 1009 72, 1004 69 C 999 66, 995 66, 993 69 C 989 74, 999 81, 1013 81 L 1021 82 1025 77 C 1035 68, 1032 61, 1016 50 C 1012 48, 1009 45, 1009 44 C 1008 40, 1015 38, 1021 41 C 1028 45, 1033 41, 1031 35 C 1029 31, 1013 27, 1007 30 M 812 36 C 790 44, 787 70, 806 83 C 819 92, 837 87, 845 71 C 849 63, 849 58, 845 50 C 839 36, 825 30, 812 36 M 1069 45 C 1066 46, 1067 50, 1072 54 C 1074 56, 1077 58, 1077 60 C 1077 61, 1074 68, 1071 76 C 1065 92, 1065 95, 1069 96 C 1073 97, 1075 96, 1076 93 C 1079 88, 1083 77, 1084 73 C 1086 65, 1088 63, 1095 63 C 1102 63, 1104 62, 1103 58 C 1103 56, 1092 49, 1087 48 C 1085 48, 1082 46, 1080 45 C 1076 43, 1072 43, 1069 45 M 816 45 C 810 47, 805 54, 805 59 C 805 73, 819 81, 829 73 C 834 70, 836 66, 836 59 C 836 54, 835 53, 832 49 C 828 46, 827 45, 823 45 C 820 45, 817 45, 816 45 M 735 63 C 733 64, 729 66, 727 66 C 722 68, 718 74, 719 78 C 720 81, 730 103, 735 113 C 736 114, 737 115, 739 115 C 744 116, 746 114, 745 108 C 744 103, 745 102, 746 100 C 749 98, 755 98, 760 101 C 766 105, 772 104, 772 100 C 773 98, 772 97, 768 93 L 763 89 764 83 C 766 76, 764 70, 757 65 C 752 61, 751 61, 746 61 C 741 61, 739 61, 735 63 M 737 74 C 732 76, 731 79, 734 84 C 738 93, 741 93, 748 86 C 753 81, 754 78, 750 74 C 747 71, 742 71, 737 74 M 1156 75 C 1151 77, 1150 77, 1145 75 C 1139 72, 1136 75, 1125 94 C 1123 98, 1120 103, 1119 104 C 1118 106, 1117 109, 1116 111 C 1115 118, 1116 119, 1133 129 C 1142 134, 1147 134, 1147 129 C 1148 127, 1141 121, 1139 121 C 1138 121, 1136 119, 1134 117 C 1129 114, 1128 110, 1132 107 C 1135 105, 1137 105, 1141 108 C 1146 111, 1152 112, 1154 109 C 1155 107, 1154 105, 1147 100 C 1140 96, 1139 93, 1141 90 C 1143 87, 1147 87, 1152 90 C 1157 93, 1162 95, 1164 94 C 1167 92, 1167 88, 1164 85 C 1162 83, 1162 82, 1164 81 C 1169 75, 1163 71, 1156 75 M 674 97 C 670 99, 665 103, 663 105 C 661 107, 659 109, 657 110 C 654 112, 654 115, 657 117 C 659 118, 660 118, 662 117 C 669 114, 670 114, 682 131 C 689 142, 694 145, 697 143 C 701 140, 700 137, 685 116 C 680 108, 680 108, 684 103 C 687 99, 688 95, 685 93 C 682 91, 683 91, 674 97 M 1197 111 C 1196 113, 1197 118, 1199 121 C 1203 126, 1202 129, 1198 134 C 1188 145, 1182 153, 1182 156 C 1182 158, 1185 162, 1187 162 C 1189 162, 1197 153, 1202 146 C 1207 139, 1212 135, 1213 135 C 1214 135, 1217 135, 1219 137 C 1224 139, 1228 139, 1228 134 C 1228 131, 1227 130, 1222 126 C 1207 113, 1200 109, 1197 111 M 621 140 C 621 141, 621 142, 621 144 C 621 147, 622 149, 627 154 C 635 163, 635 165, 629 164 C 615 162, 601 162, 599 162 C 595 164, 594 167, 596 171 C 597 173, 603 180, 611 187 C 622 198, 625 201, 627 201 C 631 201, 633 198, 632 195 C 632 194, 628 190, 624 186 C 621 182, 618 178, 618 177 C 618 176, 623 176, 638 177 C 651 179, 655 178, 656 175 C 658 171, 657 170, 642 154 C 630 142, 627 140, 625 140 C 623 140, 622 140, 621 140 M 1236 177 C 1224 189, 1222 191, 1222 194 C 1222 203, 1229 200, 1246 183 C 1255 173, 1259 169, 1259 167 C 1259 164, 1257 163, 1253 163 C 1251 163, 1248 165, 1236 177 M 565 202 C 562 203, 551 217, 548 222 C 545 228, 547 231, 561 240 C 566 244, 573 249, 576 251 C 583 257, 587 257, 592 251 C 604 236, 607 230, 604 227 C 601 223, 597 226, 591 236 C 587 242, 583 243, 580 240 C 577 237, 577 236, 581 230 C 585 223, 586 219, 584 217 C 583 216, 582 216, 582 216 C 580 216, 574 221, 572 225 C 569 229, 565 230, 562 226 C 560 223, 560 222, 563 218 C 566 215, 570 207, 570 205 C 571 203, 567 202, 565 202 M 1272 206 C 1257 213, 1251 228, 1257 241 C 1260 248, 1268 256, 1273 256 C 1280 256, 1280 251, 1274 245 C 1269 241, 1266 235, 1266 230 C 1266 227, 1271 219, 1275 217 C 1283 213, 1293 217, 1297 226 C 1299 232, 1301 235, 1304 235 C 1312 235, 1308 218, 1298 211 C 1291 205, 1290 205, 1282 204 C 1277 203, 1275 204, 1272 206 M 523 268 C 518 272, 512 282, 512 287 C 511 295, 513 300, 520 307 C 529 316, 535 318, 546 315 C 559 311, 571 292, 565 284 C 562 279, 556 282, 556 288 C 556 296, 548 305, 539 305 C 525 305, 519 288, 530 276 C 536 268, 530 262, 523 268 M 1290 279 C 1285 282, 1287 289, 1295 290 C 1301 291, 1302 292, 1306 299 C 1309 307, 1309 309, 1306 315 C 1304 319, 1303 320, 1304 322 C 1307 328, 1314 323, 1323 311 C 1325 309, 1329 304, 1332 300 C 1343 288, 1344 285, 1339 280 L 1337 277 1315 278 C 1298 278, 1292 278, 1290 279 M 1314 291 C 1312 293, 1312 294, 1315 296 C 1319 299, 1319 299, 1323 295 C 1325 293, 1325 292, 1324 291 C 1323 289, 1316 289, 1314 291 M 796 311 C 789 315, 787 319, 786 326 C 785 335, 787 338, 802 353 C 815 366, 815 367, 819 367 C 824 367, 824 366, 837 354 C 851 339, 853 336, 852 326 C 852 319, 850 316, 844 311 C 838 307, 831 307, 826 309 C 821 312, 818 312, 814 310 C 808 306, 802 307, 796 311 M 863 373 C 858 374, 851 381, 850 386 C 847 396, 849 401, 866 418 C 884 435, 883 435, 902 416 C 915 403, 917 400, 917 391 C 917 384, 914 379, 910 376 C 902 371, 898 370, 888 374 C 882 376, 882 376, 879 374 C 875 372, 867 371, 863 373 M 775 409 C 774 409, 772 410, 771 411 C 769 412, 767 414, 765 414 C 757 418, 746 429, 736 442 C 731 450, 728 451, 728 446 C 727 443, 726 442, 725 442 C 722 441, 716 447, 715 452 C 713 457, 710 468, 707 475 C 706 478, 704 484, 704 488 C 703 491, 702 496, 701 499 C 701 502, 699 506, 698 508 C 695 513, 695 515, 699 519 C 705 525, 709 522, 712 512 C 713 508, 715 501, 717 496 C 719 490, 721 484, 722 482 C 722 480, 724 477, 725 475 C 726 473, 728 470, 729 468 C 743 444, 769 417, 780 417 C 786 417, 789 425, 785 434 C 784 436, 782 441, 781 444 C 780 447, 779 450, 779 451 C 778 452, 775 457, 772 464 C 769 471, 765 481, 762 486 C 753 506, 749 519, 750 524 C 753 530, 758 528, 765 521 C 775 511, 779 509, 782 515 C 786 522, 793 525, 797 522 C 799 521, 799 521, 797 519 C 796 518, 795 514, 794 511 C 790 501, 784 498, 775 503 C 771 505, 769 506, 768 505 C 767 504, 767 503, 769 499 C 778 482, 788 460, 790 456 C 790 453, 792 449, 793 448 C 796 442, 799 427, 798 423 C 797 417, 794 412, 791 411 C 788 409, 778 408, 775 409 M 1196 424 C 1195 424, 1195 426, 1195 427 C 1195 432, 1193 434, 1189 440 L 1184 444 1186 450 C 1187 459, 1187 459, 1179 460 C 1166 461, 1162 463, 1154 470 C 1147 478, 1144 485, 1144 496 C 1144 503, 1148 516, 1151 519 C 1155 523, 1157 528, 1157 531 C 1158 534, 1155 536, 1150 536 C 1148 536, 1145 537, 1143 538 C 1140 539, 1136 541, 1134 542 C 1131 543, 1130 544, 1132 545 C 1134 548, 1142 547, 1154 542 C 1167 537, 1177 536, 1184 540 C 1190 543, 1210 543, 1214 540 C 1216 539, 1219 537, 1221 536 C 1225 534, 1228 530, 1228 525 C 1228 520, 1225 518, 1218 516 C 1211 514, 1196 516, 1189 520 C 1184 522, 1176 524, 1171 524 C 1166 525, 1163 522, 1159 514 C 1156 508, 1156 507, 1156 498 C 1156 486, 1157 483, 1164 476 C 1172 468, 1183 466, 1188 471 C 1198 483, 1201 486, 1204 481 C 1205 479, 1204 474, 1201 466 C 1198 458, 1198 455, 1201 451 C 1202 449, 1203 447, 1203 445 C 1202 442, 1205 436, 1209 434 C 1213 431, 1217 436, 1217 444 C 1217 447, 1217 448, 1221 452 C 1229 459, 1232 459, 1233 452 C 1233 450, 1235 446, 1236 443 C 1239 438, 1239 436, 1236 432 C 1235 430, 1234 430, 1229 430 C 1226 430, 1222 429, 1217 426 C 1208 422, 1200 421, 1196 424 M 703 427 C 702 427, 700 430, 698 433 C 695 436, 693 440, 692 441 C 687 445, 675 465, 677 467 C 677 468, 688 456, 691 451 C 692 449, 694 448, 695 448 C 698 448, 696 454, 692 464 C 690 468, 687 475, 686 479 C 685 483, 683 487, 682 488 C 681 489, 680 493, 679 496 C 678 500, 676 503, 672 508 C 668 513, 667 514, 668 517 C 669 519, 669 521, 668 524 C 666 531, 668 539, 672 539 C 674 539, 677 534, 680 527 C 682 523, 685 518, 686 516 C 688 513, 689 512, 688 508 C 688 504, 688 502, 690 499 C 692 492, 698 477, 699 473 C 699 471, 701 468, 703 465 C 704 462, 706 458, 706 456 C 706 454, 707 450, 708 448 C 711 440, 712 430, 710 427 C 708 425, 706 425, 703 427 M 928 427 C 927 428, 925 432, 923 435 C 922 438, 920 441, 919 441 C 917 442, 909 452, 905 458 C 903 462, 900 467, 899 468 C 898 470, 896 473, 896 475 C 895 476, 894 479, 893 480 C 892 481, 892 483, 892 483 C 892 485, 899 477, 901 473 C 902 471, 905 468, 907 465 C 910 462, 913 457, 914 455 C 916 452, 918 450, 919 450 C 922 449, 920 460, 916 470 C 909 485, 908 487, 908 488 C 908 492, 901 504, 897 508 L 892 512 894 516 C 896 520, 896 521, 895 525 C 893 531, 893 536, 895 538 C 899 541, 902 539, 904 532 C 905 528, 910 518, 913 514 C 915 512, 916 511, 915 508 C 914 503, 920 481, 925 473 C 927 469, 931 458, 934 449 C 935 445, 936 441, 937 439 C 939 435, 939 429, 937 427 C 934 425, 930 425, 928 427 M 1179 427 C 1166 431, 1162 432, 1154 436 L 1144 440 1142 445 C 1138 456, 1142 460, 1149 453 C 1152 450, 1155 448, 1161 446 C 1167 443, 1168 443, 1170 439 C 1172 434, 1175 433, 1179 433 C 1181 433, 1184 431, 1185 430 C 1188 428, 1188 428, 1186 427 C 1185 426, 1183 426, 1179 427 M 982 432 C 974 437, 964 453, 958 472 C 951 496, 949 500, 948 508 C 947 512, 946 519, 945 523 C 943 530, 943 532, 945 537 C 947 545, 952 541, 956 530 C 959 519, 960 517, 963 517 C 968 517, 972 520, 975 524 C 977 529, 983 534, 987 534 C 991 534, 992 532, 990 530 C 986 527, 983 521, 983 517 C 983 512, 984 511, 988 510 C 992 509, 1006 501, 1012 496 C 1025 487, 1040 469, 1042 461 C 1043 457, 1049 445, 1051 445 C 1051 445, 1053 444, 1055 444 C 1056 444, 1058 443, 1058 442 C 1058 441, 1053 441, 1050 443 C 1048 444, 1043 442, 1041 439 C 1038 434, 1025 429, 1020 432 C 1018 432, 1014 433, 1011 434 C 1004 436, 995 440, 993 442 C 991 446, 981 452, 981 449 C 981 447, 984 439, 987 435 C 991 428, 990 427, 982 432 M 1118 431 C 1106 436, 1106 436, 1107 439 C 1108 443, 1108 442, 1099 457 C 1096 461, 1092 469, 1089 474 C 1087 479, 1084 484, 1083 486 C 1080 492, 1076 502, 1075 506 C 1075 507, 1073 511, 1072 514 C 1069 519, 1066 538, 1067 542 C 1069 545, 1072 548, 1074 547 C 1076 546, 1077 544, 1078 536 C 1078 527, 1082 516, 1091 498 C 1102 475, 1120 445, 1126 440 L 1130 437 1128 434 C 1125 431, 1120 430, 1118 431 M 1078 436 C 1077 439, 1082 440, 1087 437 C 1088 436, 1089 436, 1087 435 C 1085 434, 1079 434, 1078 436 M 1782 436 C 1778 438, 1778 440, 1777 449 C 1775 461, 1772 467, 1763 476 C 1753 485, 1747 489, 1730 493 C 1712 497, 1700 498, 1664 498 C 1632 498, 1601 496, 1581 494 C 1575 493, 1563 492, 1554 491 C 1546 491, 1535 490, 1530 489 C 1524 488, 1514 487, 1507 487 C 1499 486, 1483 485, 1471 483 C 1424 479, 1386 479, 1358 481 C 1318 484, 1298 489, 1274 501 C 1264 505, 1261 507, 1261 509 C 1259 516, 1264 517, 1278 512 C 1291 507, 1307 502, 1315 501 C 1318 501, 1325 499, 1330 498 C 1340 496, 1343 496, 1394 496 C 1442 496, 1449 496, 1466 498 C 1476 499, 1492 501, 1500 502 C 1507 502, 1518 503, 1524 504 C 1529 505, 1540 506, 1548 507 C 1556 507, 1571 508, 1582 510 C 1610 513, 1631 513, 1671 513 C 1720 513, 1737 512, 1755 504 C 1769 498, 1784 484, 1791 470 C 1795 462, 1796 462, 1795 468 C 1794 477, 1789 485, 1778 495 C 1767 505, 1766 508, 1773 508 C 1788 507, 1811 482, 1812 465 C 1813 455, 1807 451, 1800 456 L 1797 459 1797 451 C 1797 443, 1796 442, 1793 439 C 1789 434, 1786 433, 1782 436 M 1016 438 C 1014 439, 1011 439, 1010 439 C 1006 440, 993 451, 985 461 C 978 471, 970 485, 966 496 C 963 503, 964 505, 972 506 C 980 507, 981 507, 985 504 C 987 503, 991 501, 993 500 C 994 500, 999 497, 1002 494 C 1005 491, 1009 488, 1011 487 C 1012 486, 1014 484, 1015 482 C 1016 480, 1019 477, 1021 474 C 1024 470, 1024 468, 1024 463 C 1024 459, 1025 457, 1027 455 C 1033 449, 1034 444, 1027 439 C 1023 436, 1021 436, 1016 438 M 1334 467 C 1326 468, 1317 470, 1315 471 C 1312 472, 1307 473, 1304 475 C 1296 477, 1285 483, 1286 485 C 1288 486, 1294 486, 1328 480 C 1340 478, 1354 477, 1366 477 C 1378 476, 1383 474, 1382 470 C 1380 464, 1358 463, 1334 467 M 559 477 C 557 478, 554 479, 554 479 C 553 479, 549 481, 545 482 C 541 484, 536 486, 533 486 C 530 486, 525 487, 522 489 C 514 491, 482 494, 459 495 C 434 496, 365 492, 330 488 C 324 487, 312 486, 305 485 C 297 485, 285 484, 279 483 C 273 482, 262 481, 254 481 C 246 480, 231 479, 221 478 C 193 476, 144 475, 128 476 C 99 479, 78 484, 67 492 C 56 500, 41 517, 39 526 C 37 532, 37 543, 38 547 C 39 555, 47 558, 53 553 C 56 550, 56 549, 57 541 C 59 525, 65 516, 79 507 C 93 497, 106 495, 154 492 C 164 491, 212 493, 232 494 C 238 495, 250 496, 258 496 C 266 497, 277 498, 282 499 C 288 500, 297 501, 304 501 C 311 501, 320 502, 325 503 C 358 508, 439 511, 474 509 C 501 507, 503 507, 520 503 C 543 497, 560 491, 569 484 C 578 477, 569 471, 559 477 M 53 485 C 41 490, 31 500, 25 512 C 24 514, 23 518, 22 520 C 19 524, 20 530, 22 533 C 24 536, 29 537, 32 535 C 34 534, 40 521, 40 518 C 40 512, 48 501, 60 490 C 69 481, 66 479, 53 485 M 662 485 C 661 488, 659 490, 659 490 C 658 490, 657 492, 656 494 C 655 496, 653 498, 649 500 C 642 504, 642 505, 642 511 C 642 514, 640 516, 634 522 C 628 528, 627 528, 623 528 C 618 528, 617 528, 615 523 C 614 519, 614 518, 611 518 C 609 517, 609 518, 608 519 C 607 523, 608 525, 614 530 C 621 536, 625 536, 629 532 C 631 531, 633 529, 635 528 C 636 528, 639 524, 641 521 C 644 517, 646 515, 651 513 L 658 510 658 504 C 658 500, 658 498, 659 497 C 661 496, 662 494, 662 492 C 662 491, 664 488, 665 487 C 666 485, 668 484, 668 483 C 668 480, 664 482, 662 485 M 883 494 C 880 496, 876 500, 874 501 C 870 503, 869 505, 868 511 C 868 514, 866 516, 860 522 C 850 531, 844 532, 843 524 C 843 520, 840 517, 838 517 C 836 517, 834 520, 834 522 C 834 527, 842 535, 849 535 C 853 535, 863 528, 866 522 C 869 517, 872 515, 878 513 L 883 511 884 505 C 884 502, 885 497, 887 494 C 888 492, 889 489, 888 489 C 888 489, 886 491, 883 494 M 612 496 C 606 499, 605 505, 611 505 C 636 504, 639 504, 635 499 C 633 498, 631 497, 626 497 C 623 496, 619 495, 618 495 C 616 495, 614 495, 612 496 M 838 496 C 835 497, 832 502, 832 504 C 832 505, 829 507, 820 512 C 817 514, 816 517, 819 517 C 820 517, 824 513, 829 509 C 832 506, 842 504, 852 504 C 865 504, 866 501, 856 498 C 849 495, 842 495, 838 496 M 529 506 C 527 506, 523 507, 519 508 C 515 509, 501 510, 488 512 C 462 514, 461 514, 455 517 C 450 519, 449 521, 453 522 C 466 528, 510 524, 531 515 C 534 514, 537 513, 538 513 C 540 513, 545 509, 545 507 C 545 506, 535 505, 529 506 M 1005 525 C 999 527, 995 534, 1000 532 C 1002 531, 1005 529, 1007 526 C 1008 524, 1008 524, 1005 525 M 1200 525 C 1195 526, 1187 530, 1186 532 C 1185 534, 1189 536, 1193 535 C 1200 534, 1211 531, 1212 529 C 1213 529, 1214 527, 1214 526 C 1214 524, 1213 524, 1209 524 C 1207 524, 1203 524, 1200 525 M 680 785 C 676 787, 671 790, 668 792 C 665 794, 660 797, 657 799 C 648 803, 643 808, 644 811 C 645 814, 647 815, 653 813 C 659 811, 660 812, 667 816 C 674 820, 674 821, 675 828 C 675 835, 678 838, 682 837 C 685 836, 686 835, 687 825 C 688 821, 690 812, 691 807 C 694 794, 694 788, 692 786 C 689 782, 686 782, 680 785 M 1165 786 C 1163 789, 1163 791, 1165 807 C 1167 818, 1171 833, 1172 835 C 1176 841, 1181 838, 1181 831 C 1181 824, 1182 821, 1189 816 C 1195 813, 1196 812, 1199 813 C 1211 815, 1211 815, 1212 813 C 1216 809, 1210 804, 1198 798 C 1195 796, 1190 794, 1187 791 C 1173 783, 1168 782, 1165 786 M 674 801 C 669 803, 671 810, 676 810 C 680 810, 682 803, 678 800 C 677 799, 677 799, 674 801 M 1176 800 C 1174 802, 1176 808, 1179 810 C 1184 811, 1187 807, 1185 803 C 1183 800, 1178 799, 1176 800 M 728 815 C 726 817, 726 821, 725 837 C 725 864, 726 867, 733 867 C 736 867, 738 865, 748 856 C 754 851, 761 845, 763 843 C 771 837, 773 831, 769 829 C 766 828, 763 830, 751 840 C 736 852, 736 852, 737 833 C 737 817, 736 813, 732 813 C 730 813, 729 813, 728 815 M 1105 821 C 1099 822, 1087 828, 1084 831 C 1082 832, 1082 838, 1085 843 C 1086 846, 1089 851, 1091 855 C 1097 869, 1100 875, 1103 876 C 1107 878, 1107 878, 1116 873 C 1127 868, 1137 859, 1139 853 C 1140 848, 1139 838, 1137 835 C 1134 830, 1128 823, 1122 821 C 1116 818, 1114 818, 1105 821 M 1107 831 C 1106 831, 1105 832, 1103 832 C 1097 833, 1095 839, 1099 846 C 1100 848, 1102 852, 1102 854 C 1103 862, 1111 866, 1117 862 C 1127 855, 1130 847, 1125 838 C 1121 832, 1114 829, 1107 831 M 813 846 C 812 846, 808 850, 805 854 C 802 857, 795 864, 791 869 C 782 880, 781 882, 782 885 C 784 888, 787 888, 792 885 C 796 882, 798 882, 807 884 C 815 886, 816 886, 818 893 C 820 897, 821 898, 823 899 C 828 901, 831 894, 828 887 C 828 886, 827 878, 826 871 C 823 848, 820 842, 813 846 M 1028 849 C 1026 852, 1023 864, 1021 874 C 1021 879, 1020 887, 1019 890 C 1017 897, 1018 899, 1021 901 C 1025 902, 1028 900, 1029 896 C 1030 892, 1033 889, 1039 887 C 1047 884, 1050 884, 1056 888 C 1062 893, 1066 892, 1066 887 C 1067 884, 1065 882, 1054 869 C 1051 865, 1046 860, 1045 858 C 1038 848, 1032 845, 1028 849 M 959 859 C 948 859, 946 860, 946 865 C 946 869, 948 870, 956 869 C 968 868, 969 870, 962 880 C 959 883, 957 888, 955 890 C 954 892, 952 896, 950 898 C 947 903, 946 907, 947 910 C 949 912, 954 914, 957 913 C 959 913, 965 912, 970 912 C 982 910, 987 909, 987 905 C 987 901, 982 899, 973 900 C 967 901, 964 900, 964 898 C 964 897, 966 894, 968 890 C 971 886, 974 881, 976 879 C 977 876, 980 872, 981 871 C 984 866, 984 862, 982 860 C 979 857, 978 857, 959 859 M 869 861 C 867 862, 866 865, 866 869 C 864 899, 864 900, 865 903 C 866 906, 867 907, 869 907 C 872 908, 874 906, 875 896 C 875 892, 876 887, 877 886 C 878 882, 881 883, 883 887 C 884 889, 886 892, 888 894 C 889 895, 892 900, 894 903 C 898 910, 902 913, 906 910 C 909 908, 911 901, 911 890 C 911 886, 911 879, 912 875 C 914 869, 914 868, 912 866 C 911 864, 909 863, 907 863 C 903 862, 902 866, 901 876 C 900 891, 898 891, 887 874 C 877 858, 878 859, 874 859 C 872 859, 870 859, 869 861 M 808 865 C 805 868, 806 873, 810 874 C 813 875, 815 873, 815 869 C 814 863, 811 862, 808 865 M 1034 870 C 1032 873, 1033 875, 1036 876 C 1041 877, 1044 873, 1040 868 C 1037 866, 1035 866, 1034 870"/></symbol></svg>
+
+<div class="topbar">
+  <div class="wrap">
+    <a href="https://wa.me/34601644513" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>+34 601 64 45 13</a>
+    <span class="sep" aria-hidden="true"></span>
+    <a href="https://wa.me/34601644513" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.6 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1.1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.7-.1 1.4z"/></svg>WhatsApp</a>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="#inicio" aria-label="Amarte, centro de estética avanzada"><svg viewBox="0 0 1833 934" aria-hidden="true"><use href="#logo"/></svg></a>
+    <nav aria-label="Principal">
+      <ul class="menu">
+        <li><a href="#tratamientos">+ Facial</a><ul class="sub"><li><a href="#tratamientos">FHOS bioluminiscente</a></li><li><a href="#tratamientos">Carbón activo FHOS</a></li><li><a href="#tratamientos">Dermapen</a></li><li><a href="#tratamientos">Tratamiento pre-evento</a></li></ul></li>
+        <li><a href="#tratamientos">+ Corporal</a><ul class="sub"><li><a href="#tratamientos">LED System</a></li><li><a href="#tratamientos">FHOS corporal</a></li><li><a href="#tratamientos">Presoterapia</a></li><li><a href="#tratamientos">Maderoterapia</a></li><li><a href="#tratamientos">Fitoterapia</a></li></ul></li>
+        <li><a href="#tratamientos">+ Depilación láser</a><ul class="sub"><li><a href="#tratamientos">Láser SHR indoloro</a></li><li><a href="#contacto">Prueba gratuita</a></li></ul></li>
+        <li><a href="#tratamientos">+ Mirada, manos y pies</a><ul class="sub"><li><a href="#tratamientos">Lifting de pestañas</a></li><li><a href="#tratamientos">Manicura</a></li><li><a href="#tratamientos">Pedicura completa</a></li></ul></li>
+        <li><a href="#centro">+ El centro</a></li>
+      </ul>
+    </nav>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="shade" data-close></div>
+  <nav aria-label="Menú móvil">
+    <button class="close" data-close aria-label="Cerrar menú">×</button>
+    <a class="logo" href="#inicio" data-close><svg viewBox="0 0 1833 934" aria-hidden="true"><use href="#logo"/></svg></a>
+    <details><summary>+ Facial</summary><a href="#tratamientos" data-close>FHOS bioluminiscente</a><a href="#tratamientos" data-close>Carbón activo FHOS</a><a href="#tratamientos" data-close>Dermapen</a><a href="#tratamientos" data-close>Tratamiento pre-evento</a></details>
+    <details><summary>+ Corporal</summary><a href="#tratamientos" data-close>LED System</a><a href="#tratamientos" data-close>FHOS corporal</a><a href="#tratamientos" data-close>Presoterapia</a><a href="#tratamientos" data-close>Maderoterapia</a><a href="#tratamientos" data-close>Fitoterapia</a></details>
+    <details><summary>+ Depilación láser</summary><a href="#tratamientos" data-close>Láser SHR indoloro</a><a href="#contacto" data-close>Prueba gratuita</a></details>
+    <details><summary>+ Mirada, manos y pies</summary><a href="#tratamientos" data-close>Lifting de pestañas</a><a href="#tratamientos" data-close>Manicura</a><a href="#tratamientos" data-close>Pedicura completa</a></details>
+    <details><summary>+ El centro</summary><a href="#centro" data-close>Nuestro centro</a><a href="#opiniones" data-close>Opiniones</a><a href="#contacto" data-close>Contacto</a></details>
+    <a class="btn" href="#contacto" data-close>+ Pide cita</a>
+  </nav>
+</div>
+
+<a class="cita-tab" href="#contacto">+ PIDE CITA</a>
+<a class="wa" href="https://wa.me/34601644513" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.6 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1.1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.7-.1 1.4z"/></svg></a>
+
+<main id="inicio">
+
+<section class="hero" aria-labelledby="h1">
+  <div class="ph" data-label="img/hero.mp4 · 1920 × 1080"><video src="img/hero.mp4" poster="img/hero-poster.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video></div>
+  <div class="txt">
+    <h1 id="h1">Amarte<span class="h1b" style="text-transform:none">Centro de estética avanzada en Balanegra</span></h1>
+    <p class="tag">Tecnología estética con atención personalizada</p>
+    <a class="btn light" href="#contacto">Pide cita +</a>
+  </div>
+</section>
+
+<section class="stats" aria-label="Amarte en cifras">
+  <div class="wrap">
+    <div class="stat rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg></span><div><b>15 min</b><span>Sesión FHOS</span></div></div>
+    <div class="stat rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg></span><div><b>5,0</b><span>Valoración en Google</span></div></div>
+    <div class="stat rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span><div><b>Gratis</b><span>Prueba de láser SHR</span></div></div>
+  </div>
+</section>
+
+<section class="trat" id="tratamientos" aria-labelledby="trat-t">
+  <div class="wrap">
+    <h2 class="h2 center rv" id="trat-t">Nuestros tratamientos</h2>
+    <p class="intro center rv">En nuestro centro de estética avanzada en Balanegra diseñamos tratamientos personalizados para cada piel. Hacemos una valoración, escuchamos lo que buscas y te proponemos la tecnología que mejor se adapta a ti.</p>
+    <div class="tcards">
+      <a class="tcard rv" href="#contacto"><div class="ph" data-label="img/facial.jpg · 466 × 620"><img src="img/facial.jpg" alt="Tratamientos faciales" loading="lazy" onerror="this.remove()"></div><div class="bar">Tratamientos faciales<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></div></a>
+      <a class="tcard rv" href="#contacto"><div class="ph" data-label="img/corporal.jpg · 466 × 620"><img src="img/corporal.jpg" alt="Tratamientos corporales" loading="lazy" onerror="this.remove()"></div><div class="bar">Tratamientos corporales<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></div></a>
+      <a class="tcard rv" href="#contacto"><div class="ph" data-label="img/laser.jpg · 466 × 620"><img src="img/laser.jpg" alt="Depilación láser SHR" loading="lazy" onerror="this.remove()"></div><div class="bar">Depilación láser<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></div></a>
+      <a class="tcard rv" href="#contacto"><div class="ph" data-label="img/mirada.jpg · 466 × 620"><img src="img/mirada.jpg" alt="Mirada, manos y pies" loading="lazy" onerror="this.remove()"></div><div class="bar">Mirada, manos y pies<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></div></a>
+    </div>
+    <div class="btnrow"><a class="btn" href="#contacto">Pide cita +</a></div>
+  </div>
+</section>
+
+<section class="brands" aria-label="Tecnologías y marcas con las que trabajamos">
+  <div class="wrap">
+    <div class="brand fhos rv">FHOS<small>BIOLUMINISCENT</small></div>
+    <div class="brand led rv">LED SYSTEM<small>RAMASON</small></div>
+    <div class="brand innova rv">innova<small>LÁSER SHR</small></div>
+    <div class="brand massada rv">MASSADA<small>COSMÉTICA</small></div>
+  </div>
+</section>
+
+<section class="excel" aria-labelledby="ex-t">
+  <div class="wrap">
+    <h2 class="h2 center rv" id="ex-t">Tecnología avanzada, trato cercano</h2>
+    <p class="intro center rv">En Amarte combinamos aparatología de última generación con una atención personalizada. Trabajamos con tecnología certificada para que cada sesión sea segura, cómoda y con resultados visibles.</p>
+    <div class="row2 rv">
+      <div class="ph" data-label="img/fhos.jpg · 768 × 752"><img src="img/fhos.jpg" alt="Tratamiento FHOS bioluminiscente en Amarte" loading="lazy" onerror="this.remove()"></div>
+      <div class="copy">
+        <div class="kicker">FHOS</div>
+        <h3>Centro autorizado FHOS</h3>
+        <p>FHOS es la primera tecnología estética que combina bioluminiscencia y cosmética avanzada. En solo 15 minutos ayuda a mejorar la luminosidad, la textura y la firmeza de la piel, en rostro y cuerpo.</p>
+        <p>Sin agujas, sin dolor y sin tiempo de recuperación: sales de cabina y sigues con tu día. Primera sesión a 50 € y bonos con un 20 % de descuento.</p>
+        <a class="btn" href="#contacto">Más información +</a>
+      </div>
+    </div>
+    <div class="row2 rev rv">
+      <div class="copy">
+        <div class="kicker small">LÁSER SHR</div>
+        <h3>Depilación láser indolora</h3>
+        <p>Trabajamos con tecnología láser SHR de barrido: eficaz, segura y <strong>sin dolor</strong>, apta para todo tipo de pieles y para mujeres y hombres, con sistema de enfriamiento para máximo confort.</p>
+        <p>Antes de empezar puedes hacer una <strong>prueba gratuita</strong> para conocer el tratamiento y resolver tus dudas. Y en verano seguimos tratando ingles y axilas.</p>
+        <a class="btn" href="#contacto">Más información +</a>
+      </div>
+      <div class="ph" data-label="img/laser-shr.jpg · 772 × 752"><img src="img/laser-shr.jpg" alt="Depilación láser SHR en Amarte" loading="lazy" onerror="this.remove()"></div>
+    </div>
+  </div>
+</section>
+
+<section class="team" aria-labelledby="tec-t">
+  <div class="wrap">
+    <div class="team-head">
+      <div>
+        <h2 class="h2 rv" id="tec-t">Conoce nuestras tecnologías</h2>
+        <p class="rv">Aparatología y cosmética profesional que tenemos en el centro, elegidas para ofrecerte resultados visibles de forma segura y cómoda.</p>
+        <a class="btn rv" href="#contacto">Pide información +</a>
+      </div>
+      <div class="arrows"><button data-dir="-1" data-for="t1" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button data-dir="1" data-for="t1" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+    </div>
+    <div class="track" id="t1">
+      <div class="member"><div class="ph" data-label="img/tec-fhos.jpg · 466 × 572"><img src="img/tec-fhos.jpg" alt="FHOS bioluminiscente" loading="lazy" onerror="this.remove()"></div><h3>FHOS bioluminiscente</h3><p>Facial y corporal en 15 minutos</p></div>
+      <div class="member"><div class="ph" data-label="img/tec-led.jpg · 466 × 572"><img src="img/tec-led.jpg" alt="LED System" loading="lazy" onerror="this.remove()"></div><h3>LED System</h3><p>LED, infrarrojos, magnetoterapia, vibración y compresión</p></div>
+      <div class="member"><div class="ph" data-label="img/tec-laser.jpg · 466 × 572"><img src="img/tec-laser.jpg" alt="Láser SHR" loading="lazy" onerror="this.remove()"></div><h3>Láser SHR</h3><p>Depilación indolora todo el año</p></div>
+      <div class="member"><div class="ph" data-label="img/tec-dermapen.jpg · 466 × 572"><img src="img/tec-dermapen.jpg" alt="Dermapen" loading="lazy" onerror="this.remove()"></div><h3>Dermapen</h3><p>Microestimulación para líneas finas, manchas y acné</p></div>
+      <div class="member"><div class="ph" data-label="img/tec-carbon.jpg · 466 × 572"><img src="img/tec-carbon.jpg" alt="Carbón activo FHOS" loading="lazy" onerror="this.remove()"></div><h3>Carbón activo FHOS</h3><p>Limpieza profunda y luminosidad inmediata</p></div>
+      <div class="member"><div class="ph" data-label="img/tec-presoterapia.jpg · 466 × 572"><img src="img/tec-presoterapia.jpg" alt="Presoterapia" loading="lazy" onerror="this.remove()"></div><h3>Presoterapia</h3><p>Drenaje y sensación de piernas ligeras</p></div>
+      <div class="member"><div class="ph" data-label="img/tec-pestanas.jpg · 466 × 572"><img src="img/tec-pestanas.jpg" alt="Lifting de pestañas" loading="lazy" onerror="this.remove()"></div><h3>Lifting de pestañas</h3><p>Mirada más abierta durante 6 a 8 semanas</p></div>
+      <div class="member"><div class="ph" data-label="img/tec-fitoterapia.jpg · 466 × 572"><img src="img/tec-fitoterapia.jpg" alt="Fitoterapia Massada" loading="lazy" onerror="this.remove()"></div><h3>Fitoterapia Massada</h3><p>Cuidarte también desde dentro</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="clinic" id="centro" aria-labelledby="cl-t">
+  <div class="wrap">
+    <div>
+      <h2 class="h2 rv" id="cl-t">Nuestro centro</h2>
+      <p class="rv"><strong>Amarte</strong> está en la calle Río Genil, 7, en Balanegra, a pocos minutos de Balerma, Adra y El Ejido. Un espacio pensado para tu bienestar, tu belleza y tu momento de calma, donde la belleza se trata con ciencia, mimo y resultados visibles.</p>
+      <ul class="rv">
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Prueba antes de decidir</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg>Valoración personalizada</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 7H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zm-3 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM19 4H5v2h14z"/></svg>Bonos a medida</li>
+      </ul>
+      <a class="btn rv" href="#contacto">Pide cita +</a>
+    </div>
+    <div class="slider rv" id="slider">
+      <div class="ph on" data-label="img/centro-1.jpg · 864 × 800"><img src="img/centro-1.jpg" alt="El centro Amarte" loading="lazy" onerror="this.remove()"></div>
+      <div class="ph" data-label="img/centro-2.jpg · 864 × 800"><img src="img/centro-2.jpg" alt="La cabina de Amarte" loading="lazy" onerror="this.remove()"></div>
+      <div class="ph" data-label="img/centro-3.jpg · 864 × 800"><img src="img/centro-3.jpg" alt="El mural de flores de Amarte" loading="lazy" onerror="this.remove()"></div>
+      <div class="ph" data-label="img/centro-4.jpg · 864 × 800"><img src="img/centro-4.jpg" alt="Productos en el centro" loading="lazy" onerror="this.remove()"></div>
+      <div class="ph" data-label="img/centro-5.jpg · 864 × 800"><img src="img/centro-5.jpg" alt="Recepción del centro" loading="lazy" onerror="this.remove()"></div>
+      <div class="dots" role="group" aria-label="Fotos del centro"></div>
+    </div>
+  </div>
+</section>
+
+<section class="why" aria-labelledby="why-t">
+  <div class="wrap">
+    <div class="ph rv" data-label="img/por-que.jpg · 864 × 984"><img src="img/por-que.jpg" alt="Tratamiento en Amarte" loading="lazy" onerror="this.remove()"></div>
+    <div>
+      <h2 class="h2 rv" id="why-t">¿Por qué escoger Amarte?</h2>
+      <p class="rv">Somos un centro de estética avanzada cercano y especializado. Cuidamos cada detalle para ofrecerte la mejor experiencia, acompañándote desde la valoración hasta el mantenimiento en casa:</p>
+      <ul class="rv">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>Centro autorizado FHOS</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>Tratamientos a medida y seguros</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.6 2.5L16 9.5"/></svg>Prueba gratuita antes de empezar</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Resultados reales, sin filtros</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Tecnología sin agujas y sin dolor</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 4v6c0 4-3 7-7 8-4-1-7-4-7-8V7z"/></svg>Espacio tranquilo y acogedor</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Atención personalizada para mujeres y hombres</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg>Seguimiento y rutina de mantenimiento en casa</li>
+      </ul>
+      <a class="btn rv" href="#contacto">Más información +</a>
+    </div>
+  </div>
+</section>
+
+<section class="testi" id="opiniones" aria-labelledby="op-t">
+  <div class="wrap">
+    <h2 class="h2 rv" id="op-t">Testimonios</h2>
+    <p class="intro rv">Lee opiniones de clientas reales que han confiado en nosotras para sus tratamientos de estética avanzada.</p>
+    <div class="reviews">
+      <article class="review rv"><div class="top"><div class="who"><span class="av">E</span><div><b>Elías Mayorgas Campillo</b><small>Reseña de Google</small></div></div><span class="g" aria-label="Google">G</span></div><span class="stars" aria-label="5 de 5">★★★★★</span><p>Muy buena experiencia y trato increíble. Recomiendo los tratamientos de FHOS, he notado mucho la diferencia en las manchas de mi piel. Repetiré sin duda.</p></article>
+      <article class="review rv"><div class="top"><div class="who"><span class="av">N</span><div><b>Noelia Martín Pérez</b><small>Reseña de Google</small></div></div><span class="g" aria-label="Google">G</span></div><span class="stars" aria-label="5 de 5">★★★★★</span><p>Excelentes profesionales, yo siempre confío en ellas. Muy recomendable para todo tipo de tratamientos, láser, uñas, etc. Una maravilla en todos los aspectos. Recomendable 100 %.</p></article>
+      <article class="review rv"><div class="top"><div class="who"><span class="av">C</span><div><b>Celia Amat Galdeano</b><small>Reseña de Google</small></div></div><span class="g" aria-label="Google">G</span></div><span class="stars" aria-label="5 de 5">★★★★★</span><p>Mi experiencia en este centro ha sido fantástica, un trato cercano y un trabajo muy muy profesional. Me hice la limpieza de carbón activo con FHOS.</p></article>
+    </div>
+    <a class="btn more rv" href="https://www.google.com/search?q=AMARTE+centro+de+est%C3%A9tica+avanzada+Balanegra" target="_blank" rel="noopener">Ver todas las reseñas +</a>
+  </div>
+</section>
+
+<section class="online" aria-labelledby="on-t">
+  <div class="wrap">
+    <div class="ph rv" data-label="img/en-casa.jpg · 864 × 736"><img src="img/en-casa.jpg" alt="Dispositivos LED de FHOS" loading="lazy" onerror="this.remove()"></div>
+    <div>
+      <h2 class="h2 rv" id="on-t">Pruébalo en casa</h2>
+      <p class="rv">Antes de invertir en tecnología para tu bienestar, lo ideal es conocerla. Por eso puedes probar el <strong>Belt LED de FHOS</strong> gratis en nuestro centro, o alquilarlo durante un mes y usarlo en casa dentro de tu rutina.</p>
+      <p class="rv">Y con el nuevo dispositivo <strong>LED Eyewear</strong> te regalamos el contorno de ojos FHOS. Te explicamos cómo funciona y cómo incorporarlo a tu rutina, sin compromiso.</p>
+      <a class="btn rv" href="https://wa.me/34601644513?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20probar%20o%20alquilar%20el%20Belt%20LED%20de%20FHOS" target="_blank" rel="noopener">Pide tu prueba +</a>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contacto" aria-labelledby="ct-t">
+  <div class="wrap">
+    <div class="side">
+      <h2 id="ct-t" class="rv">¿Tienes dudas acerca de nuestros tratamientos de estética avanzada?</h2>
+      <p class="rv">Pide una primera cita para una valoración personalizada, conocer nuestros tratamientos y resolver tus dudas. Te recomendaremos la tecnología más adecuada para tu piel, escuchando lo que buscas.</p>
+      <div class="info rv">
+        <span>C/ Río Genil, 7, bajo · 04713 Balanegra</span>
+        <span>+34 601 64 45 13</span>
+        <span>Lun, mié y vie 9:00–21:00 · Sáb 9:00–19:00</span>
+      </div>
+    </div>
+    <form class="form rv" id="form" novalidate>
+      <h3>Pide Cita</h3>
+      <div class="grid">
+        <input id="f-nombre" name="nombre" placeholder="Nombre*" autocomplete="given-name" aria-label="Nombre">
+        <input id="f-apellidos" name="apellidos" placeholder="Apellidos*" autocomplete="family-name" aria-label="Apellidos">
+        <input id="f-email" name="email" type="email" placeholder="Email*" autocomplete="email" aria-label="Email">
+        <input id="f-tel" name="telefono" type="tel" placeholder="Teléfono*" autocomplete="tel" aria-label="Teléfono">
+        <div class="full"><label class="lbl" for="f-area">Área de interés *</label>
+          <select id="f-area" name="area"><option value="">Selecciona</option><option>FHOS bioluminiscente</option><option>Carbón activo FHOS</option><option>Dermapen</option><option>Tratamiento pre-evento</option><option>LED System</option><option>Tratamientos corporales</option><option>Depilación láser SHR (prueba gratuita)</option><option>Lifting de pestañas</option><option>Manicura y pedicura</option><option>Belt LED / LED Eyewear</option></select></div>
+        <div class="full"><label class="lbl" for="f-msg">Cuéntanos más detalles</label><textarea id="f-msg" name="mensaje"></textarea></div>
+        <select id="f-hora" name="horario" aria-label="¿En qué horario prefieres que te contactemos?"><option value="">¿En qué horario prefieres?</option><option>Por la mañana</option><option>A mediodía</option><option>Por la tarde</option></select>
+        <select id="f-via" name="via" aria-label="¿Cómo prefieres que te contactemos?"><option value="">¿Cómo prefieres que te contactemos?</option><option>WhatsApp</option><option>Llamada</option><option>Email</option></select>
+      </div>
+      <label class="check"><input type="checkbox" id="f-priv"> He leído y acepto la política de privacidad *</label>
+      <label class="check"><input type="checkbox" id="f-com"> Acepto recibir comunicaciones comerciales personalizadas</label>
+      <button class="send" type="submit">Enviar +</button>
+      <p class="msg" id="f-out" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<section class="news" aria-labelledby="nw-t">
+  <div class="wrap">
+    <div class="team-head">
+      <div>
+        <h2 class="h2 rv" id="nw-t">Últimas novedades</h2>
+        <p class="rv">Descubre lo nuevo del centro: tecnologías, promociones y consejos para cuidar tu piel.</p>
+      </div>
+      <div class="arrows"><button data-dir="-1" data-for="t2" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button data-dir="1" data-for="t2" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+    </div>
+    <div class="track" id="t2">
+      <article class="post"><div class="ph" data-label="img/novedad-1.jpg · 594 × 490"><img src="img/novedad-1.jpg" alt="" loading="lazy" onerror="this.remove()"></div><h3>¿Aún no has probado el Belt LED de FHOS? Pruébalo gratis o alquílalo un mes</h3><a class="btn" href="https://www.instagram.com/amarteesteticaavanzada/" target="_blank" rel="noopener">Leer más +</a></article>
+      <article class="post"><div class="ph" data-label="img/novedad-2.jpg · 594 × 490"><img src="img/novedad-2.jpg" alt="" loading="lazy" onerror="this.remove()"></div><h3>Novedad FHOS: LED Eyewear con el contorno de ojos de regalo</h3><a class="btn" href="https://www.instagram.com/amarteesteticaavanzada/" target="_blank" rel="noopener">Leer más +</a></article>
+      <article class="post"><div class="ph" data-label="img/novedad-3.jpg · 594 × 490"><img src="img/novedad-3.jpg" alt="" loading="lazy" onerror="this.remove()"></div><h3>Manta LED System: tecnología corporal avanzada para celulitis y retención</h3><a class="btn" href="https://www.instagram.com/amarteesteticaavanzada/" target="_blank" rel="noopener">Leer más +</a></article>
+      <article class="post"><div class="ph" data-label="img/novedad-4.jpg · 594 × 490"><img src="img/novedad-4.jpg" alt="" loading="lazy" onerror="this.remove()"></div><h3>Fitoterapia en el centro: cuida tu cuerpo desde dentro</h3><a class="btn" href="https://www.instagram.com/amarteesteticaavanzada/" target="_blank" rel="noopener">Leer más +</a></article>
+      <article class="post"><div class="ph" data-label="img/novedad-5.jpg · 594 × 490"><img src="img/novedad-5.jpg" alt="" loading="lazy" onerror="this.remove()"></div><h3>Depilación láser en verano: qué zonas puedes seguir tratando</h3><a class="btn" href="https://www.instagram.com/amarteesteticaavanzada/" target="_blank" rel="noopener">Leer más +</a></article>
+      <article class="post"><div class="ph" data-label="img/novedad-6.jpg · 594 × 490"><img src="img/novedad-6.jpg" alt="" loading="lazy" onerror="this.remove()"></div><h3>Tratamiento pre-evento: tu piel lista para bodas, comuniones y graduaciones</h3><a class="btn" href="https://www.instagram.com/amarteesteticaavanzada/" target="_blank" rel="noopener">Leer más +</a></article>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="logo" href="#inicio" aria-label="Amarte"><svg viewBox="0 0 1833 934" aria-hidden="true"><use href="#logo"/></svg></a>
+        <a class="insta" href="https://www.instagram.com/amarteesteticaavanzada/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg></a>
+      </div>
+      <div><h4>Servicios</h4><ul><li><a href="#tratamientos">Tratamientos faciales</a></li><li><a href="#tratamientos">Tratamientos corporales</a></li><li><a href="#tratamientos">Depilación láser</a></li><li><a href="#tratamientos">Mirada, manos y pies</a></li></ul></div>
+      <div><h4>Información</h4><ul><li><a href="#centro">El centro</a></li><li><a href="#opiniones">Opiniones</a></li><li><a href="#contacto">Pide cita</a></li><li><a href="https://www.instagram.com/amarteesteticaavanzada/" target="_blank" rel="noopener">Novedades</a></li></ul></div>
+      <div class="ct"><h4>Contacto</h4><ul>
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><a href="https://www.google.com/maps/search/?api=1&query=AMARTE+centro+de+est%C3%A9tica+avanzada+Balanegra" target="_blank" rel="noopener">C/ Río Genil, 7, bajo, 04713 Balanegra (Almería)</a></li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg><a href="https://wa.me/34601644513" target="_blank" rel="noopener">+34 601 64 45 13</a></li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.5 5v5.2l4.5 2.7-.8 1.2-5.2-3.1V7z"/></svg><span>Lun, mié y vie 9:00–21:00<br>Sáb 9:00–19:00 · Mar y jue cerrado</span></li>
+      </ul></div>
+    </div>
+    <div class="fbottom">
+      <span>©2026 Amarte Estética Avanzada. Todos los derechos reservados.</span>
+      <nav aria-label="Legal"><a href="#">Política de privacidad</a><a href="#">Aviso legal</a><a href="#">Política de cookies</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hv = document.querySelector('.hero video');
+  if (hv) { if (reduce) { hv.removeAttribute('autoplay'); hv.pause(); } else { var pp = hv.play(); if (pp && pp.catch) pp.catch(function () {}); } }
+
+  /* scroll animations: tag elements, stagger siblings, reveal once in view */
+  var root = document.documentElement;
+  if ('IntersectionObserver' in window && !reduce) {
+    root.classList.add('anim');
+    var rules = [
+      ['.row2:not(.rev) .copy, .why .wrap > div:last-child', 'right'],
+      ['.row2.rev .copy, .clinic .wrap > div:first-child', 'left'],
+      ['.ph:not(.hero .ph)', 'img'],
+      ['.stats .stat, .brands .brand, .tcard, .member, .post, .review', 'up'],
+      ['main h2, .row2 .kicker, .row2 h3, .form h3', 'up'],
+      ['main p:not(.hero p), main li:not(.menu li), main .btn:not(.hero .btn), .contact .info span, .arrows', 'up'],
+      ['.form .grid > *, .form .check, .form .send', 'fade'],
+      ['.stat .ic', 'zoom'],
+      ['footer .fgrid > div', 'up']
+    ];
+    rules.forEach(function (r) {
+      document.querySelectorAll(r[0]).forEach(function (el) { if (!el.hasAttribute('data-a') && !el.closest('[data-a="left"],[data-a="right"]') ) el.setAttribute('data-a', r[1]); });
+    });
+    /* stagger: index among animated siblings that share a parent */
+    var groups = new Map();
+    document.querySelectorAll('[data-a]').forEach(function (el) {
+      var k = el.parentElement; var n = groups.get(k) || 0; el.style.setProperty('--i', Math.min(n, 7)); groups.set(k, n + 1);
+    });
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var t = e.target, track = t.closest('.track');
+        if (track) { track.querySelectorAll('[data-a]').forEach(function (x) { x.classList.add('in'); }); }
+        if (t.__imgs) t.__imgs.forEach(function (x) { x.classList.add('in'); });
+        if (t.hasAttribute('data-a')) t.classList.add('in');
+        io.unobserve(t);
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    /* clip-path hides the image box from the observer, so watch its parent instead */
+    document.querySelectorAll('[data-a]').forEach(function (el) {
+      if (el.getAttribute('data-a') === 'img') {
+        var host = el.parentElement; host.__imgs = (host.__imgs || []).concat(el); io.observe(host);
+      } else io.observe(el);
+    });
+
+    /* count-up for the stats */
+    var nums = document.querySelectorAll('.stat b');
+    var cio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return; cio.unobserve(e.target);
+        var el = e.target, txt = el.textContent, m = txt.match(/^(\d+)(,(\d))?(.*)$/);
+        if (!m) return;
+        var end = parseFloat(m[1] + (m[3] ? '.' + m[3] : '')), dec = m[3] ? 1 : 0, rest = m[4], t0 = null;
+        function step(t) { if (!t0) t0 = t; var p = Math.min((t - t0) / 1400, 1), v = end * (1 - Math.pow(1 - p, 3));
+          el.textContent = (dec ? v.toFixed(1).replace('.', ',') : Math.round(v)) + rest; if (p < 1) requestAnimationFrame(step); }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: .6 });
+    nums.forEach(function (n) { cio.observe(n); });
+  }
+  requestAnimationFrame(function () { requestAnimationFrame(function () { root.classList.add('loaded'); }); });
+
+  /* drawer */
+  var drawer = document.getElementById('drawer'), burger = document.getElementById('burger');
+  function setDrawer(open) { drawer.classList.toggle('open', open); drawer.setAttribute('aria-hidden', !open); burger.setAttribute('aria-expanded', open); }
+  burger.addEventListener('click', function () { setDrawer(true); });
+  drawer.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', function () { setDrawer(false); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setDrawer(false); });
+
+  /* carousels */
+  document.querySelectorAll('.arrows button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = document.getElementById(b.getAttribute('data-for'));
+      var card = t.firstElementChild.getBoundingClientRect().width + 16;
+      t.scrollBy({ left: card * +b.getAttribute('data-dir'), behavior: reduce ? 'auto' : 'smooth' });
+    });
+  });
+
+  /* centre slider */
+  var slides = Array.prototype.slice.call(document.querySelectorAll('#slider .ph')), dots = document.querySelector('#slider .dots'), cur = 0, timer;
+  slides.forEach(function (s, i) {
+    var d = document.createElement('button'); d.setAttribute('aria-label', 'Foto ' + (i + 1)); d.setAttribute('aria-pressed', i === 0);
+    d.addEventListener('click', function () { show(i); restart(); }); dots.appendChild(d);
+  });
+  function show(i) { slides[cur].classList.remove('on'); dots.children[cur].setAttribute('aria-pressed', false); cur = i; slides[cur].classList.add('on'); dots.children[cur].setAttribute('aria-pressed', true); }
+  function restart() { clearInterval(timer); if (!reduce) timer = setInterval(function () { show((cur + 1) % slides.length); }, 5000); }
+  restart();
+
+  /* form: compose the request and open WhatsApp */
+  var form = document.getElementById('form'), out = document.getElementById('f-out');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = function (id) { return document.getElementById(id).value.trim(); };
+    if (!v('f-nombre') || !v('f-tel') || !v('f-area')) { out.textContent = 'Rellena tu nombre, teléfono y área de interés.'; return; }
+    if (!document.getElementById('f-priv').checked) { out.textContent = 'Acepta la política de privacidad para continuar.'; return; }
+    var msg = 'Hola, soy ' + v('f-nombre') + ' ' + v('f-apellidos') + '. Me interesa: ' + v('f-area') + '.' +
+      (v('f-msg') ? ' ' + v('f-msg') : '') + (v('f-hora') ? ' Horario preferido: ' + v('f-hora').toLowerCase() + '.' : '') +
+      (v('f-via') ? ' Contacto por ' + v('f-via') + '.' : '') + ' Tel: ' + v('f-tel') + (v('f-email') ? ' · ' + v('f-email') : '');
+    var url = 'https://wa.me/34601644513?text=' + encodeURIComponent(msg);
+    out.innerHTML = '';
+    var a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Abrir WhatsApp con tu solicitud';
+    out.append('Listo. ', a);
+  });
+})();
+</script>
+</body>
+</html>

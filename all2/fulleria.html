@@ -61,6 +61,25 @@
     }
     .card-main{ flex:none; }
   }
+
+  /* ---------- APARELHO QUE MENTE ----------
+     Os navegadores que vivem dentro de apps (Instagram, Facebook) mentem
+     na deteccao: dizem ter mouse (pointer:fine) e abrem a pagina com a
+     largura de um tablet. Com isso o cartao flutuante aparecia dentro de
+     um celular, por mais que a media query acima esteja certa. Nao da
+     pra ganhar isso no CSS, porque e o CSS que esta sendo enganado.
+     Entao o script no fim da pagina olha o que nao se pode falsificar: a
+     tela FISICA do aparelho. Se tem toque e a tela e de celular, ele
+     marca <html class="toque"> e aqui a gente desfaz o cartao flutuante,
+     nao importa o que o navegador tenha dito. Se o script nao rodar,
+     tudo volta a valer pelo CSS, como antes. */
+  html.toque body{ align-items:stretch; padding:0; }
+  html.toque .card{
+    max-width:none; width:100%; border:0; border-radius:0;
+    min-height:100vh; min-height:100svh;
+    padding:40px 28px calc(18px + env(safe-area-inset-bottom));
+  }
+  html.toque .card-main{ flex:1; }
   .avatar{
     width:112px; height:112px; border-radius:50%;
     margin:0 auto 18px; overflow:hidden;
@@ -137,6 +156,17 @@
     padding:8px;
   }
 </style>
+<script>
+  /* Ver o comentario "APARELHO QUE MENTE" no CSS. navigator.maxTouchPoints e
+     screen.* vem do aparelho, nao da janela, entao o navegador de dentro do
+     app nao consegue disfarcar os dois. 560 e o mesmo corte da media query. */
+  (function(){ try{
+    var toque = navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
+    var tela  = Math.min(screen.width || 0, screen.height || 0);
+    if (toque && tela > 0 && tela < 560)
+      document.documentElement.classList.add('toque');
+  }catch(e){} })();
+</script>
 </head>
 <body>
 

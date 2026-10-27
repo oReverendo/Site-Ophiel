@@ -32,14 +32,22 @@
      A foto veio em pe, mas a tela do celular e mais estreita ainda, entao
      com "cover" cabe a altura toda: atras da logo fica o TETO branco, e as
      vitrines, que sao o assunto, caem no meio, escondidas atras dos botoes.
-     Aqui a imagem sobe para 126% da altura da tela e cola pelo pe: corta o
+     Aqui a imagem sobe para 155% da altura da tela e cola pelo pe: corta o
      teto fora e traz a parede verde com as vitrines pra tras da logo, do
      endereco e do horario — a parte que nenhum botao cobre.
-     126% nao e chute: e a altura que poe o centro da faixa das vitrines
-     (medida nesta foto: 37% a 57% da altura dela) a um terco do topo.
+     155% nao e chute, e foi preciso corrigir uma vez. A conta antiga punha
+     o centro da faixa a um terco do topo, que e a regra das outras
+     personalizadas; so que esta foto veio EM PE, com um teto alto ocupando
+     o terco de cima, e um terco do topo da tela ja e onde comeca o primeiro
+     botao. Resultado: atras da logo sobrava teto (o trecho de 24% a 36% da
+     foto) e as vitrines caiam atras dos botoes.
+     A conta certa mira a zona limpa — do topo ate o primeiro botao, que
+     nesta pagina vai de 0 a 314px numa tela de 915. Com 155%, a faixa das
+     vitrines (medida nesta foto: 37% a 57% da altura dela) ocupa a tela de
+     22px a 305px, ou seja, a logo (42 a 178px) assenta em cima dela.
      So de pe: deitado a imagem nao cobriria a largura. */
   @media (orientation: portrait){
-    body::before{ background-size:auto 126%; background-position:50% 100%; }
+    body::before{ background-size:auto 155%; background-position:50% 100%; }
   }
   body{
     margin:0; min-height:100vh; min-height:100svh;
@@ -132,7 +140,7 @@
      e o navegador que mente a dispara dentro de um celular — ou seja, o
      enquadramento se perdia exatamente no Instagram, que e de onde vem
      quase todo mundo. Com a tela FISICA de celular, ele fica. */
-  html.toque body::before{ background-size:auto 126%; background-position:50% 100%; }
+  html.toque body::before{ background-size:auto 155%; background-position:50% 100%; }
   html.toque .anel-tela{ display:block; }
   html.toque .anel-cartao{ display:none; }
   /* A logo substitui o avatar redondo E o nome escrito: ela já é as

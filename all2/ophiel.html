@@ -233,12 +233,13 @@
       from{ opacity:0; transform:translateY(14px); }
       to{ opacity:1; transform:none; }
     }
-    .firma, .biz-sub, .links .link-btn, .footer-credit{
+    .firma, .biz-sub, .links .link-btn, .mapa, .footer-credit{
       animation:sobe .62s cubic-bezier(.2,.75,.3,1) backwards;
     }
     .firma{ animation-duration:.85s; }
     .biz-sub{ animation-delay:.12s; }
     .links .link-btn{ animation-delay:calc(.2s + var(--i, 0) * 70ms); }
+    .mapa{ animation-delay:calc(.24s + var(--total, 6) * 70ms); }
     .footer-credit{ animation-delay:.75s; }
   }
   /* ---------- PONTO DE LUZ NA BORDA ----------
@@ -285,6 +286,55 @@
   @media (prefers-reduced-motion: reduce){
     .anel{ animation:none; opacity:.4; }
   }
+  /* ---------- MAPA ----------
+     O mapa do Google entra embaixo dos botões, no mesmo acabamento deles.
+     Quatro decisões que valem explicação:
+     1) ele é um LINK com o mapa dentro, e o mapa tem pointer-events:none.
+        Assim o dedo nunca fica "preso" arrastando o mapa no meio da página
+        — um toque abre o Google Maps do celular, que é o que a pessoa quer.
+     2) loading="lazy": o mapa só é buscado quando chega perto da tela, pra
+        não atrasar os botões, que são o que importa.
+     3) o filtro aqui é o OPOSTO do das páginas escuras: o cartão já é
+        claro, então o mapa só perde um pouco de cor pra assentar —
+        escurecê-lo sujaria a página.
+     4) o link é o mesmo endereço que o botão de compartilhar do Google gera
+        na ficha do cliente: ele carrega o identificador interno do lugar
+        (o "1s0x...:0x...") no formato que o app do Maps entende, e é o
+        único que se mostrou confiável no iPhone.
+        Esse identificador não precisa ser pedido ao Google: ele está
+        guardado dentro do próprio place_id do cliente, que já usamos no
+        botão de reseña. O place_id "ChIJ..." é só um pacote em base64 com
+        dois números de 64 bits dentro — os mesmos dois do link. Quem quiser
+        conferir: decodifica o base64 e lê os 8 bytes depois do 0x09 e os 8
+        depois do 0x11, de trás pra frente (little-endian).
+        Dois caminhos que falham no celular, pra não tentar de novo: o
+        atalho "/maps/place/?q=place_id:XXX" (o app lê aquilo como TEXTO de
+        busca e responde "nenhum resultado encontrado") e a busca pelo
+        endereço escrito, que depende de o Maps acertar a geocodificação.
+        Ao copiar um link do Google, APAGUE tudo depois do "?" (entry, sa,
+        ved, hl): é rastreamento da sessão de quem copiou, e o "ved" vence. */
+  .mapa{
+    display:block; position:relative; margin:12px 0 0;
+    border-radius:16px; overflow:hidden; height:190px;
+    border:1px solid rgba(42,33,24,.20);
+    box-shadow:0 12px 22px -14px rgba(42,33,24,.42);
+    text-decoration:none; -webkit-tap-highlight-color:transparent;
+  }
+  .mapa iframe{
+    width:100%; height:100%; border:0; display:block;
+    pointer-events:none;
+    filter:grayscale(.22) contrast(1.02) saturate(.92);
+  }
+  .mapa .mapa-pe{
+    position:absolute; left:0; right:0; bottom:0;
+    display:flex; align-items:center; gap:7px;
+    padding:9px 13px; font-size:.82rem; font-weight:600; color:var(--ink);
+    background:linear-gradient(to top, rgba(251,246,237,.94), rgba(251,246,237,0));
+  }
+  .mapa .mapa-pe svg{ width:16px; height:16px; flex:none; }
+  @media (hover:hover){
+    .mapa:hover iframe{ filter:grayscale(0) contrast(1.02) saturate(1); }
+  }
   .footer-credit{
     text-align:center; margin-top:20px; flex:none;
     font-size:.72rem; color:rgba(122,107,85,.65);
@@ -328,6 +378,19 @@
         <ul class="horario-lista" id="horarioLista"></ul>
       </div>
       <div class="links" id="linksList"></div>
+      <a class="mapa" id="mapa"
+         href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0xa0796a85db37247f:0x9a0bae719b99d879"
+         target="_blank" rel="noopener"
+         onclick="trackClick('ophiel-ophiel-mapa')"
+         aria-label="Cómo llegar a Ophiel">
+        <iframe title="Mapa de Ophiel" loading="lazy" tabindex="-1"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://maps.google.com/maps?q=36.7508505,-2.9093646&amp;z=17&amp;output=embed"></iframe>
+        <span class="mapa-pe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          Cómo llegar
+        </span>
+      </a>
       <p class="vcard-hint" id="vcardHint" hidden>
         📱 Después de tocar "Guardar contacto": abre la app <strong>Archivos</strong>,
         toca el archivo descargado y elige <strong>"Añadir a contactos"</strong>.
@@ -500,6 +563,9 @@
     vcard:     { label: "Guardar contacto", bg: "rgba(156,116,48,.08)", glow: "rgba(156,116,48,.35)", color: "#7d5c22", border: "1px solid rgba(156,116,48,.3)",
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M6 16c.5-1.7 1.8-2.5 3-2.5s2.5.8 3 2.5M14 9h4M14 13h4"/></svg>' }
   };
+
+  // o mapa entra na cascata logo depois do ultimo botao
+  document.getElementById("mapa").style.setProperty("--total", CONFIG.links.length);
 
   document.title = CONFIG.name;
   document.getElementById("pageTitle").textContent = CONFIG.name;

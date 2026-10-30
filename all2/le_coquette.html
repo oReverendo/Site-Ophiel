@@ -406,8 +406,21 @@
      app nao consegue disfarcar os dois. 560 e o mesmo corte da media query. */
   (function(){ try{
     var toque = navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
-    var tela  = Math.min(screen.width || 0, screen.height || 0);
-    if (toque && tela > 0 && tela < 560)
+    if (!toque) return;              /* sem dedo nao e celular, ponto */
+    /* O corte por screen.width sozinho NAO bastava: em alguns aparelhos o
+       navegador de dentro do app devolve screen.width em pixels FISICOS
+       (1080) e nao em px CSS (412), e ai "menor que 560" nunca acontecia.
+       O que sobra de honesto e o nome do aparelho no user agent: um PC
+       nunca se diz Android nem iPhone. Com dedo + UA de aparelho movel,
+       e celular ou tablet — os dois querem a tela inteira. */
+    var uad = navigator.userAgentData;
+    var movel = (uad && uad.mobile === true)            /* um sinal OU o   */
+      || /Android|iPhone|iPod|iPad|Mobile|Silk|Kindle|FBAN|FBAV|Instagram/i
+           .test(navigator.userAgent || '');            /* outro ja basta: */
+    /* dar preferencia ao userAgentData seria erro — dentro do app ele
+       tambem chega a dizer mobile:false com o UA gritando Android. */
+    var tela = Math.min(screen.width || 0, screen.height || 0);
+    if (movel || (tela > 0 && tela < 560))
       document.documentElement.classList.add('toque');
   }catch(e){} })();
 </script>

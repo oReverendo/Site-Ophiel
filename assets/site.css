@@ -895,3 +895,24 @@ html.enviando .cargador{ animation:cargador-dentro 250ms var(--ease-out) both; }
   .pie-grid > *{ min-width:0; }
   .pie li a, .pie p a{ white-space:normal; min-height:40px; }
 }
+
+/* ---------------- PÁGINAS DE CLIENTES: dos filas que avanzan en sentidos opuestos ---------------- */
+.paginas .pistas{ margin-top:56px; display:grid; gap:16px; overflow:hidden; }
+.pistas-fila{ overflow:hidden; }
+.pistas-tira{ display:flex; width:max-content; animation:pistas-ir 70s linear infinite; }
+.pistas-fila.inversa .pistas-tira{ animation-direction:reverse; animation-duration:80s; }
+.pistas-tira ul{ display:flex; gap:16px; padding-right:16px; margin:0; list-style:none; }
+.pistas-fila:hover .pistas-tira, .pistas-fila:focus-within .pistas-tira{ animation-play-state:paused; }
+@keyframes pistas-ir{ to{ transform:translateX(-50%); } }
+.tel{ position:relative; display:block; width:152px; aspect-ratio:1/2; border-radius:22px; overflow:hidden; border:1px solid var(--carbon); background:var(--superficie); transition:border-color .25s, transform .25s; }
+.tel img{ width:100%; height:100%; object-fit:cover; display:block; }
+.tel-nombre{ position:absolute; inset:auto 0 0 0; padding:10px 12px; background:var(--vacio); color:var(--crema); font-size:.8125rem; line-height:1.25; transform:translateY(101%); transition:transform .25s; }
+@media (hover:hover){ .tel:hover{ border-color:var(--oro); transform:translateY(-4px); } .tel:hover .tel-nombre, .tel:focus-visible .tel-nombre{ transform:none; } }
+.tel:focus-visible{ outline:2px solid var(--oro); outline-offset:3px; }
+.paginas .acciones{ justify-content:center; }
+@media (max-width:760px){ .tel{ width:118px; border-radius:18px; } .pistas-tira ul{ gap:12px; padding-right:12px; } .paginas .pistas{ gap:12px; margin-top:40px; } .pistas-tira{ animation-duration:55s; } .pistas-fila.inversa .pistas-tira{ animation-duration:62s; } }
+@media (prefers-reduced-motion:reduce){
+  .pistas-fila{ overflow-x:auto; padding-inline:max(20px, 4vw); }
+  .pistas-tira{ animation:none; }
+  .pistas-tira ul[aria-hidden]{ display:none; }
+}

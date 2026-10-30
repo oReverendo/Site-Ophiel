@@ -129,6 +129,12 @@
     padding:40px 28px calc(18px + env(safe-area-inset-bottom));
   }
   html.toque .card-main{ flex:1; }
+  /* o mesmo vale pro FUNDO, e aqui a falha era pior que a do cartao: a
+     regra de computador mais abaixo devolve a foto ao enquadramento cheio,
+     e o navegador que mente a dispara dentro de um celular — ou seja, o
+     enquadramento se perdia exatamente no Instagram, que e de onde vem
+     quase todo mundo. Com a tela FISICA de celular, ele fica. */
+  html.toque body::before{ background-size:auto 139%; background-position:50% 100%; }
   html.toque .anel-tela{ display:block; }
   html.toque .anel-cartao{ display:none; }
   /* A logo substitui o avatar redondo E o nome escrito: ela já é as

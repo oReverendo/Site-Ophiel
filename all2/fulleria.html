@@ -65,15 +65,8 @@
     background:linear-gradient(180deg,
       rgba(18,13,9,.12) 0%, rgba(18,13,9,.20) 26%,
       rgba(18,13,9,.46) 52%, rgba(18,13,9,.68) 100%);
-    /* Nas personalizadas escuras antigas (Celopman, Loluca) o desfoque vem
-       EMBUTIDO na imagem, entao vale em qualquer tamanho. Aqui a foto entra
-       nitida de proposito — e o que deixa a fachada reconhecivel no
-       computador, onde ela aparece inteira em volta do cartao. No celular,
-       porem, o cartao e a tela toda, e sem desfoque a fachada compete com
-       os botoes. Entao quem desfoca aqui e o proprio cartao, por tras de
-       si mesmo: 5px, que e o mesmo grau que as outras tem de fabrica. */
-    -webkit-backdrop-filter:blur(5px) saturate(1.1);
-    backdrop-filter:blur(5px) saturate(1.1);
+    -webkit-backdrop-filter:saturate(1.1);
+    backdrop-filter:saturate(1.1);
     display:flex; flex-direction:column;
     padding:40px 28px calc(18px + env(safe-area-inset-bottom));
   }
@@ -93,18 +86,8 @@
   @media (min-width:560px) and (pointer:fine){
     body{ align-items:center; padding:32px 18px; }
     /* aqui o cartao e pequeno e a fachada aparece inteira em volta dele,
-       entao ela volta ao enquadramento cheio — inclusive em monitor em pe.
-       E e so aqui que ela precisa de desfoque proprio: no celular quem
-       desfoca e o veu do cartao, que ali ocupa a tela toda; no computador
-       o cartao e pequeno e a fachada em volta dele ficaria crua demais,
-       roubando a leitura dos botoes.
-       O "inset" negativo sangra a camada pra fora da tela: sem ele o
-       desfoque puxa o vazio das bordas e deixa um halo claro na moldura. */
-    body::before{
-      background-size:cover; background-position:center;
-      inset:-28px;
-      filter:blur(7px) saturate(1.04);
-    }
+       entao ela volta ao enquadramento cheio — inclusive em monitor em pe */
+    body::before{ background-size:cover; background-position:center; }
     .card{
       width:100%; max-width:420px; min-height:auto;
       /* cartao flutuante: vira vidro fosco */

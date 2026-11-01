@@ -397,3 +397,46 @@
     if (f && f.matches && f.matches("form")) evento("formulario", { pagina: donde(), tipo: f.id || "contacto" });
   }, { capture: true, passive: true });
 })();
+
+
+/* ---- PÁGINAS DE CLIENTES (móvil): filas que avanzan solas y se pueden arrastrar con el dedo ---- */
+(() => {
+  const filas = document.querySelectorAll(".pistas-fila");
+  if (!filas.length) return;
+  const movil = matchMedia("(max-width: 760px)");
+  const quieto = matchMedia("(prefers-reduced-motion: reduce)");
+  const VEL = 22; // píxeles por segundo
+  const estado = Array.from(filas).map((el, i) => ({ el, dir: i % 2 ? -1 : 1, pos: 0, pausa: false, timer: 0, propio: false, listo: false }));
+  const mitad = (el) => { const u = el.querySelector("ul"); return u ? u.offsetWidth : 0; };
+  estado.forEach((s) => {
+    const parar = () => { s.pausa = true; clearTimeout(s.timer); };
+    const seguir = () => { clearTimeout(s.timer); s.timer = setTimeout(() => { s.pos = s.el.scrollLeft; s.pausa = false; }, 2500); };
+    s.el.addEventListener("touchstart", parar, { passive: true });
+    s.el.addEventListener("touchend", seguir, { passive: true });
+    s.el.addEventListener("touchcancel", seguir, { passive: true });
+    s.el.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") parar(); }, { passive: true });
+    s.el.addEventListener("scroll", () => {
+      if (s.propio) { s.propio = false; return; }
+      const m = mitad(s.el);
+      if (m && s.el.scrollLeft >= m) s.el.scrollLeft -= m;
+      else if (m && s.el.scrollLeft <= 0 && s.dir < 0) s.el.scrollLeft += m;
+      if (s.pausa) { s.pos = s.el.scrollLeft; seguir(); }
+    }, { passive: true });
+  });
+  let t0 = 0;
+  const paso = (t) => {
+    const dt = Math.min(0.05, (t - (t0 || t)) / 1000); t0 = t;
+    if (movil.matches && !quieto.matches && !document.hidden) {
+      estado.forEach((s) => {
+        const m = mitad(s.el); if (!m) return;
+        if (!s.listo) { s.pos = s.dir < 0 ? m : 0; s.el.scrollLeft = s.pos; s.listo = true; return; }
+        if (s.pausa) return;
+        s.pos += s.dir * VEL * dt;
+        if (s.pos >= m) s.pos -= m; else if (s.pos <= 0 && s.dir < 0) s.pos += m;
+        s.propio = true; s.el.scrollLeft = s.pos;
+      });
+    }
+    requestAnimationFrame(paso);
+  };
+  requestAnimationFrame(paso);
+})();

@@ -23,5 +23,15 @@
       "destination": "/agencia",
       "permanent": true
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/all2/:usuario/contacto.vcf",
+      "destination": "/api/vcard?u=:usuario"
+    },
+    {
+      "source": "/all2/:usuario",
+      "destination": "/api/pagina?u=:usuario"
+    }
   ]
 }

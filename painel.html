@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mi página | Ophiel</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/cuenta.css?v=f2">
+</head>
+<body class="body-panel">
+<main class="panel-wrap">
+  <header class="panel-top">
+    <a class="cuenta-marca" href="/"><img src="assets/img/emblema-oro-64.webp" width="30" height="30" alt=""><span>Ophiel</span></a>
+    <button class="btn-texto" type="button" id="salir">Cerrar sesión</button>
+  </header>
+  <p class="msg" id="cargando" role="status">Cargando…</p>
+  <div id="panel" hidden>
+    <div class="panel-dir">
+      <div class="dir"><span id="dir-txt"></span></div>
+      <div class="panel-dir-acc">
+        <button class="btn" type="button" id="copiar">Copiar enlace</button>
+        <a class="btn btn-oro" id="ver" href="#" target="_blank" rel="noopener">Ver mi página</a>
+      </div>
+    </div>
+    <div class="panel-grid">
+      <section class="tarjeta panel-ed" aria-label="Editor de tu página">
+        <p class="plan-chip" id="plan-chip"></p>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Secciones"></div>
+        <div class="tab-body" id="tab-body" role="tabpanel" tabindex="0"></div>
+      </section>
+      <aside class="vista-previa" id="previa" aria-label="Vista previa">
+        <button class="btn btn-texto cerrar-previa" type="button" id="cerrar-previa">Cerrar vista previa</button>
+        <h2>Vista previa</h2>
+        <div class="telefono"><iframe id="preview" sandbox="" title="Vista previa de tu página"></iframe></div>
+      </aside>
+    </div>
+  </div>
+</main>
+<div class="savebar" id="savebar" hidden>
+  <span>Cambios sin guardar</span>
+  <button class="btn-texto ver-previa" type="button" id="ver-previa">Vista previa</button>
+  <button class="btn-texto" type="button" id="descartar">Descartar</button>
+  <button class="btn btn-oro" type="button" id="guardar">Guardar</button>
+</div>
+<p class="toast" id="toast" role="status" aria-live="polite" hidden></p>
+<script src="public-config.js"></script>
+<script type="module" src="js/painel.js"></script>
+</body>
+</html>

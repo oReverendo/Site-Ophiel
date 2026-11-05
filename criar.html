@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crea tu página | Ophiel</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/cuenta.css?v=f2">
+</head>
+<body>
+<main class="cuenta">
+  <a class="cuenta-marca" href="/"><img src="assets/img/emblema-oro-64.webp" width="30" height="30" alt=""><span>Ophiel</span></a>
+  <div class="asistente">
+    <section class="tarjeta" aria-label="Asistente para crear tu página">
+      <div class="progreso" id="progreso" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+      <p class="paso-n" id="paso-n" aria-live="polite"></p>
+
+      <div class="paso" id="paso-1" hidden>
+        <h2 tabindex="-1">Elige tu <em>dirección</em></h2>
+        <p class="sub">Será el enlace de tu página. No se puede cambiar después.</p>
+        <div class="campo">
+          <label for="usuario">Nombre de usuario</label>
+          <div class="prefijo"><span>ophiel.es/all2/</span><input id="usuario" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="30" aria-describedby="ayuda-usuario"></div>
+          <p class="ayuda" id="ayuda-usuario" aria-live="polite">Minúsculas, números y guiones (3 a 30 caracteres).</p>
+        </div>
+      </div>
+
+      <div class="paso" id="paso-2" hidden>
+        <h2 tabindex="-1">¿Dónde te <em>encuentran</em>?</h2>
+        <p class="sub">Elige hasta 5 botones. Podrás cambiarlos después.</p>
+        <div class="redes-grid" id="redes-grid"></div>
+        <p class="contador" id="contador-2"></p>
+        <p class="aviso oculto" id="aviso-limite" role="status">Con la página gratis tienes hasta 5 botones. Quita uno para añadir otro.</p>
+      </div>
+
+      <div class="paso" id="paso-3" hidden>
+        <h2 tabindex="-1">Tus <em>datos</em></h2>
+        <p class="sub">Escribe cada enlace tal como lo usas.</p>
+        <div id="campos-redes"></div>
+        <div class="campo" id="bloque-extra">
+          <label for="extra-url">Enlace adicional (opcional)</label>
+          <div class="extra-fila"><input id="extra-url" type="url" inputmode="url" autocomplete="off" placeholder="tunegocio.com/carta"><button class="btn" type="button" id="extra-add">Añadir</button></div>
+          <p class="ayuda" id="ayuda-extra" aria-live="polite"></p>
+          <ul class="chips" id="extras-lista"></ul>
+        </div>
+        <p class="contador" id="contador-3"></p>
+        <p class="ayuda err" id="err-3" role="alert"></p>
+      </div>
+
+      <div class="paso" id="paso-4" hidden>
+        <h2 tabindex="-1">Tu <em>perfil</em></h2>
+        <p class="sub">Una foto o logo, tu nombre y una frase corta.</p>
+        <div id="perfil-form">
+        <div class="foto-fila">
+          <div class="foto-prev" id="foto-prev" role="img" aria-label="Vista previa de la foto"></div>
+          <div><input type="file" id="foto" accept="image/jpeg,image/png,image/webp" class="oculto"><div class="foto-botones"><button class="btn" type="button" id="foto-btn">Elegir foto</button><button class="btn" type="button" id="encuadrar-btn" hidden>Encuadrar</button></div><p class="ayuda" id="ayuda-foto" aria-live="polite"></p></div>
+        </div>
+        <div class="campo"><label for="nombre">Nombre del negocio</label><input id="nombre" type="text" maxlength="80" autocomplete="organization"></div>
+        <div class="campo"><label for="bio">Descripción corta</label><textarea id="bio" maxlength="160"></textarea><p class="contador-bio" id="contador-bio">0 / 160</p></div>
+        <p class="ayuda err" id="err-4" role="alert"></p>
+        </div>
+        <div class="recorte" id="recorte" role="group" aria-label="Encuadrar la foto" hidden>
+          <p class="ayuda" id="recorte-ayuda">Arrastra la foto para encuadrarla y usa el control para acercar. Con el teclado: flechas.</p>
+          <div class="recorte-vp" id="recorte-vp" tabindex="0" aria-describedby="recorte-ayuda"><canvas id="recorte-canvas" width="520" height="520"></canvas></div>
+          <div class="campo"><label for="recorte-zoom">Zoom</label><input type="range" id="recorte-zoom" min="1" max="3" step="0.01" value="1"></div>
+          <div class="nav-pasos"><button class="btn btn-atras" type="button" id="recorte-cancel">Cancelar</button><button class="btn btn-oro" type="button" id="recorte-ok">Usar esta foto</button></div>
+        </div>
+      </div>
+
+      <div class="paso" id="paso-5" hidden>
+        <h2 tabindex="-1">Elige tus <em>colores</em></h2>
+        <p class="sub">Mira cómo queda en el teléfono.</p>
+        <label id="l-fondo">Color de fondo</label>
+        <div class="paleta" id="paleta-fondo" role="group" aria-labelledby="l-fondo"></div>
+        <div class="color-libre"><input type="color" id="libre-fondo" aria-label="Color de fondo libre"><span>Otro color</span></div>
+        <label id="l-botones">Color de los botones</label>
+        <div class="paleta" id="paleta-botones" role="group" aria-labelledby="l-botones"></div>
+        <div class="color-libre"><input type="color" id="libre-botones" aria-label="Color de botones libre"><span>Otro color</span></div>
+        <p class="ayuda err" id="err-5" role="alert"></p>
+      </div>
+
+      <div class="nav-pasos" id="nav-pasos">
+        <button class="btn btn-atras" type="button" id="atras">Atrás</button>
+        <button class="btn btn-oro" type="button" id="siguiente">Siguiente</button>
+      </div>
+    </section>
+
+    <aside class="vista-previa" aria-label="Vista previa">
+      <h2>Vista previa</h2>
+      <div class="telefono"><iframe id="previa" title="Vista previa de tu página" sandbox="" loading="eager"></iframe></div>
+    </aside>
+  </div>
+</main>
+<script src="public-config.js"></script>
+<script type="module" src="js/criar.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Entrar | Ophiel</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/cuenta.css?v=f2">
+</head>
+<body>
+<main class="cuenta">
+  <a class="cuenta-marca" href="/"><img src="assets/img/emblema-oro-64.webp" width="30" height="30" alt=""><span>Ophiel</span></a>
+
+  <section class="tarjeta" id="vista-entrar" aria-labelledby="t-entrar">
+    <h1 id="t-entrar">Entra a tu <em>página</em></h1>
+    <p class="sub">Con tu correo y tu contraseña.</p>
+    <form id="form-entrar" novalidate>
+      <div class="campo"><label for="email">Correo</label><input id="email" type="email" autocomplete="email" inputmode="email" required></div>
+      <div class="campo"><label for="password">Contraseña</label><input id="password" type="password" autocomplete="current-password" required></div>
+      <button class="btn btn-oro" type="submit" id="btn-entrar">Entrar</button>
+      <p class="msg" id="msg-entrar" role="alert" aria-live="polite"></p>
+    </form>
+    <div class="aparte"><button class="btn btn-texto" type="button" id="ir-olvide">¿Olvidaste tu contraseña?</button></div>
+  </section>
+
+  <section class="tarjeta oculto" id="vista-olvide" aria-labelledby="t-olvide">
+    <h1 id="t-olvide">Recuperar <em>contraseña</em></h1>
+    <p class="sub">Te enviamos un enlace al correo para elegir una nueva.</p>
+    <form id="form-olvide" novalidate>
+      <div class="campo"><label for="email-olvide">Correo</label><input id="email-olvide" type="email" autocomplete="email" inputmode="email" required></div>
+      <button class="btn btn-oro" type="submit" id="btn-olvide">Enviar enlace</button>
+      <p class="msg" id="msg-olvide" role="alert" aria-live="polite"></p>
+    </form>
+    <div class="aparte"><button class="btn btn-texto" type="button" id="ir-entrar">Volver</button></div>
+  </section>
+
+  <section class="tarjeta oculto" id="vista-nueva" aria-labelledby="t-nueva">
+    <h1 id="t-nueva">Elige tu nueva <em>contraseña</em></h1>
+    <p class="sub">Mínimo 8 caracteres.</p>
+    <form id="form-nueva" novalidate>
+      <div class="campo"><label for="password-nueva">Contraseña nueva</label><input id="password-nueva" type="password" autocomplete="new-password" minlength="8" required></div>
+      <button class="btn btn-oro" type="submit" id="btn-nueva">Guardar contraseña</button>
+      <p class="msg" id="msg-nueva" role="alert" aria-live="polite"></p>
+    </form>
+  </section>
+</main>
+
+<script src="public-config.js"></script>
+<script type="module">
+import { getClient, signIn, resetPassword, updatePassword, friendlyError } from "./js/auth.js";
+
+const $ = (id) => document.getElementById(id);
+const vistas = ["entrar", "olvide", "nueva"];
+const ver = (v) => vistas.forEach((n) => $("vista-" + n).classList.toggle("oculto", n !== v));
+const msg = (id, texto, tipo) => { const el = $(id); el.textContent = texto; el.className = "msg" + (tipo ? " " + tipo : ""); };
+const ocupado = (btn, on, texto) => { btn.disabled = on; if (texto) btn.textContent = on ? "Un momento…" : texto; };
+const viaRecuperacion = location.hash.includes("type=recovery") || location.search.includes("recuperar");
+const emailOk = (v) => /^\S+@\S+\.\S+$/.test(v.trim());
+
+$("ir-olvide").addEventListener("click", () => { $("email-olvide").value = $("email").value; ver("olvide"); $("email-olvide").focus(); });
+$("ir-entrar").addEventListener("click", () => { ver("entrar"); $("email").focus(); });
+
+$("form-entrar").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = $("email").value, password = $("password").value;
+  if (!emailOk(email) || !password) return msg("msg-entrar", "Escribe tu correo y tu contraseña.", "err");
+  ocupado($("btn-entrar"), true, "Entrar"); msg("msg-entrar", "");
+  try {
+    await signIn(email, password);
+    location.replace("/painel");
+  } catch (err) {
+    msg("msg-entrar", friendlyError(err), "err");
+    ocupado($("btn-entrar"), false, "Entrar");
+  }
+});
+
+$("form-olvide").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = $("email-olvide").value;
+  if (!emailOk(email)) return msg("msg-olvide", "Escribe un correo válido.", "err");
+  ocupado($("btn-olvide"), true, "Enviar enlace"); msg("msg-olvide", "");
+  try {
+    await resetPassword(email);
+    // Mismo mensaje exista o no la cuenta: no revelamos quién tiene cuenta.
+    msg("msg-olvide", "Si ese correo tiene cuenta, recibirás un enlace en unos minutos.", "ok");
+  } catch (err) {
+    msg("msg-olvide", friendlyError(err), "err");
+  }
+  ocupado($("btn-olvide"), false, "Enviar enlace");
+});
+
+$("form-nueva").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const pw = $("password-nueva").value;
+  if (pw.length < 8) return msg("msg-nueva", "Mínimo 8 caracteres.", "err");
+  ocupado($("btn-nueva"), true, "Guardar contraseña");
+  try {
+    await updatePassword(pw);
+    location.replace("/painel");
+  } catch (err) {
+    msg("msg-nueva", friendlyError(err), "err");
+    ocupado($("btn-nueva"), false, "Guardar contraseña");
+  }
+});
+
+// El enlace del correo de recuperación llega aquí con una sesión temporal: pedimos la contraseña nueva.
+getClient().auth.onAuthStateChange((evento) => { if (evento === "PASSWORD_RECOVERY") ver("nueva"); });
+// Quien ya tiene sesión (y no viene a recuperar) va directo al panel.
+getClient().auth.getSession().then(({ data }) => {
+  if (data.session && !viaRecuperacion) location.replace("/painel");
+});
+</script>
+</body>
+</html>

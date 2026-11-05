@@ -124,6 +124,10 @@ textarea{ min-height:84px; resize:vertical; }
 .panel-grid > *{ min-width:0; }
 @media (min-width:900px){ .panel-grid{ grid-template-columns:minmax(0,1fr) 300px; } }
 .panel-ed{ max-width:none; padding:20px 18px; }
+.plan-fila{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; margin:0 0 14px; }
+.plan-fila .plan-chip{ margin:0; }
+.plan-accion{ font-size:.8125rem; }
+.plan-accion[hidden]{ display:none; }
 .plan-chip{ display:inline-block; margin:0 0 14px; padding:4px 12px; border-radius:999px; border:1px solid var(--carbon); font-size:.8125rem; color:var(--crema-2); }
 .plan-chip.pago{ border-color:var(--oro); color:var(--oro); }
 .tabs{ display:flex; gap:4px; overflow-x:auto; margin:0 -4px 18px; padding:0 4px 2px; border-bottom:1px solid var(--carbon); scrollbar-width:thin; }

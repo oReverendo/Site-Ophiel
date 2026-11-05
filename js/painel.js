@@ -2,6 +2,7 @@ import { getClient, requireSession, signOut, friendlyError } from "./auth.js";
 import { fromServer, toSavePayload, isDirty } from "../lib/panel-state.js";
 import { planFromSubscription, isLocked } from "../lib/plan.js";
 import { renderPage } from "../lib/render-page.js";
+import { waitForPlan, billingErrorText } from "../lib/wait-plan.js";
 import { TABS, renderTab, h, lockIcon } from "./painel-tabs.js";
 
 const $ = (id) => document.getElementById(id);
@@ -68,6 +69,10 @@ function updateBar() {
 
 function renderPlanChip() {
   const chip = $("plan-chip");
+  const act = $("plan-accion");
+  act.hidden = false;
+  act.onclick = () => goBilling(state.plan === "personalizado" ? "portal" : "checkout");
+  act.textContent = state.plan === "personalizado" ? "Gestionar suscripción" : "Pasar a Personalizado · 9,90 €/mes";
   const sub = server.sub;
   const date = sub ? new Date(sub.current_period_end).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" }) : "";
   if (state.plan === "personalizado") {
@@ -91,8 +96,55 @@ const ctx = {
     return state;
   },
   rerender: (focusSel) => drawTab(focusSel),
-  upgrade: () => say("La suscripción a Personalizado (9,90 €/mes, IVA incluido) estará disponible muy pronto.", "ok"),
+  upgrade: () => goBilling("checkout"),
 };
+
+/* ---------- suscripción (Stripe) ---------- */
+let billingBusy = false;
+async function goBilling(action) {
+  if (billingBusy) return;
+  if (state && isDirty(state)) { say("Guarda o descarta tus cambios antes de continuar con el pago.", "err"); return; }
+  billingBusy = true;
+  say(action === "portal" ? "Abriendo tu suscripción…" : "Abriendo el pago seguro…", "ok");
+  try {
+    const { data } = await sb.auth.getSession();
+    const token = data.session?.access_token;
+    if (!token) throw Object.assign(new Error("auth"), { code: "auth" });
+    const r = await fetch("/api/billing", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ action }),
+    });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || typeof j.url !== "string") throw Object.assign(new Error("billing"), { code: j.error });
+    location.assign(j.url);
+    return; // la página se va: el botón queda bloqueado a propósito
+  } catch (err) {
+    say(billingErrorText(err?.code), "err");
+  }
+  billingBusy = false;
+}
+
+function warnUnsaved(e) { if (state && isDirty(state)) { e.preventDefault(); e.returnValue = ""; } }
+
+/** Al volver de Stripe (?pago=1/0): avisa y, si pagó, espera a que el plan se active. */
+async function handleReturn() {
+  const q = new URLSearchParams(location.search).get("pago");
+  if (q !== "1" && q !== "0") return;
+  history.replaceState(null, "", location.pathname);
+  if (q === "0") { say("No se ha hecho ningún cobro. Puedes suscribirte cuando quieras.", "ok"); return; }
+  if (state.plan === "personalizado") { say("¡Gracias! Tu plan Personalizado está activo.", "ok"); return; }
+  say("¡Gracias! Estamos activando tu plan…", "ok");
+  const fresh = await waitForPlan(load);
+  if (!fresh) { say("El pago está en proceso. En unos minutos tu plan se activará; recarga la página para verlo.", "ok"); return; }
+  adopt(fresh);
+  renderPlanChip();
+  buildTabs();
+  drawTab();
+  updatePreview();
+  updateBar();
+  say("¡Listo! Ya tienes el plan Personalizado.", "ok");
+}
 
 /* ---------- pestañas ---------- */
 function buildTabs() {
@@ -172,7 +224,7 @@ async function init() {
   $("descartar").addEventListener("click", () => { adopt(server); drawTab(); updatePreview(); updateBar(); say(""); });
   $("ver-previa").addEventListener("click", () => document.body.classList.add("previa-abierta"));
   $("cerrar-previa").addEventListener("click", () => document.body.classList.remove("previa-abierta"));
-  window.addEventListener("beforeunload", (e) => { if (state && isDirty(state)) { e.preventDefault(); e.returnValue = ""; } });
+  window.addEventListener("beforeunload", warnUnsaved);
   try {
     adopt(await load());
   } catch {
@@ -192,6 +244,7 @@ async function init() {
   updatePreview();
   $("cargando").hidden = true;
   $("panel").hidden = false;
+  handleReturn();
 }
 
 init();

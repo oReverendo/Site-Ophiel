@@ -1,4 +1,5 @@
 import { getClient, requireSession } from "./auth.js";
+import { wantedUsername } from "../lib/signup.js";
 import { validateUsername } from "../lib/username.js";
 import { LINK_TYPES, buildHref } from "../lib/linktypes.js";
 import { FREE_LINK_LIMIT } from "../lib/plan.js";
@@ -332,6 +333,7 @@ async function publish() {
     updateNav();
     return ayuda("err-5", m.includes("limite_de_links") ? "Con la página gratis tienes hasta 5 botones." : "No pudimos crear tu página. Inténtalo de nuevo en un momento.", "err");
   }
+  try { localStorage.removeItem("ophiel-u"); } catch { /* vale igual */ }
   // ?n= evita que una respuesta 404 guardada en caché recién antes de crear la página se muestre otra vez.
   location.assign(`/all2/${profile.username}?n=${Date.now()}`);
 }
@@ -348,6 +350,11 @@ async function init() {
   buildPalette("paleta-fondo", BG_PALETTE, "bgColor", "libre-fondo");
   buildPalette("paleta-botones", BTN_PALETTE, "btnColor", "libre-botones");
   $("usuario").addEventListener("input", onUsernameInput);
+  // El nombre elegido en la landing (?u=) o guardado al registrarse: ya llega escrito en el primer paso.
+  let saved = null;
+  try { saved = localStorage.getItem("ophiel-u"); } catch { /* sin almacenamiento */ }
+  const pre = wantedUsername(new URLSearchParams(location.search).get("u") || "") || wantedUsername(saved || "");
+  if (pre) { $("usuario").value = pre; onUsernameInput(); }
   $("extra-add").addEventListener("click", onAddExtra);
   $("extra-url").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); onAddExtra(); } });
   $("foto-btn").addEventListener("click", () => $("foto").click());

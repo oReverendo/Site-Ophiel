@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const root = new URL("../", import.meta.url);
 const path = (p) => fileURLToPath(new URL(p, root));
-const FIXED = ["admin", "login", "entrar", "criar", "painel", "api", "placa", "ophiel", "www", "app", "ayuda", "soporte", "planes", "precios"];
+const FIXED = ["admin", "login", "entrar", "criar", "registro", "cadastro", "signup", "all2", "painel", "api", "placa", "ophiel", "www", "app", "ayuda", "soporte", "planes", "precios"];
 
 const fromAll2 = readdirSync(path("all2/"))
   .filter((f) => f.endsWith(".html"))

@@ -14,6 +14,26 @@ export function getClient() {
   return client;
 }
 
+/** Registro con correo y contraseña. El enlace del correo vuelve a /criar para elegir la dirección. */
+export async function signUp(email, password) {
+  const { data, error } = await getClient().auth.signUp({
+    email: email.trim(), password, options: { emailRedirectTo: location.origin + "/criar" },
+  });
+  if (error) throw error;
+  return data; // data.session = ya dentro (si el proyecto no pide confirmar correo); si no, hay que confirmar
+}
+
+export async function resendConfirmation(email) {
+  const { error } = await getClient().auth.resend({ type: "signup", email: email.trim(), options: { emailRedirectTo: location.origin + "/criar" } });
+  if (error) throw error;
+}
+
+/** Google: sale a Google y vuelve a `next` (por defecto /criar; quien ya tiene página pasa de ahí a /painel). */
+export async function signInWithGoogle(next = "/criar") {
+  const { error } = await getClient().auth.signInWithOAuth({ provider: "google", options: { redirectTo: location.origin + next } });
+  if (error) throw error;
+}
+
 export async function signIn(email, password) {
   const { data, error } = await getClient().auth.signInWithPassword({ email: email.trim(), password });
   if (error) throw error;

@@ -1,0 +1,38 @@
+/* Landing de All2: se apoya en site.css (mismo lenguaje visual oscuro y dorado). */
+.a2-heroe .wrap{ display:flex; flex-direction:column; align-items:center; }
+.a2-barra{ display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; margin-bottom:26px; }
+.a2-eyebrow{ font-size:.8125rem; letter-spacing:.14em; text-transform:uppercase; color:var(--oro); }
+.a2-lang{ display:inline-flex; border:1px solid var(--ceniza); border-radius:var(--pill); padding:2px; }
+.a2-lang button{ min-height:32px; min-width:44px; padding:0 12px; border-radius:var(--pill); background:transparent; color:var(--crema-2); font:inherit; font-size:.8125rem; letter-spacing:.06em; cursor:pointer; transition:background var(--t-ui), color var(--t-ui), transform var(--t-press) var(--ease-out); -webkit-tap-highlight-color:transparent; }
+.a2-lang button:active{ transform:scale(.96); }
+.a2-lang button[aria-pressed="true"]{ background:var(--oro); color:var(--vacio); }
+.a2-claim{ margin-top:36px; width:100%; max-width:520px; display:grid; gap:12px; text-align:left; }
+.a2-claim-label{ font-size:.875rem; color:var(--crema-2); }
+.a2-claim-fila{ display:flex; align-items:center; border:1px solid var(--ceniza); border-radius:var(--pill); background:rgba(26,26,26,.7); padding-left:20px; min-height:56px; transition:border-color var(--t-ui); }
+.a2-claim-fila:focus-within{ border-color:var(--oro); }
+.a2-prefijo{ color:var(--crema-2); white-space:nowrap; font-size:1rem; }
+.a2-claim-fila input{ flex:1; min-width:0; height:54px; border:0; background:transparent; color:var(--crema); font:inherit; font-size:1rem; padding:0 20px 0 2px; outline:none; border-radius:0 var(--pill) var(--pill) 0; }
+.a2-claim-fila input::placeholder{ color:var(--ceniza); }
+.a2-claim-btn{ width:100%; justify-content:center; min-height:54px; margin-top:0; justify-self:stretch; }
+.a2-claim-msg{ min-height:1.2em; margin:0; font-size:.875rem; color:#e9a08e; }
+.a2-claim-hint{ margin:0; font-size:.875rem; color:var(--crema-2); text-align:center; }
+.a2-login{ margin-top:18px; }
+.a2-vitrina{ overflow:hidden; }
+.a2-telefonos{ list-style:none; margin:clamp(36px,6vw,64px) 0 0; padding:8px var(--gutter) 24px; display:flex; gap:clamp(14px,2.4vw,28px); overflow-x:auto; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; scrollbar-width:none; justify-content:flex-start; }
+.a2-telefonos::-webkit-scrollbar{ display:none; }
+.a2-tel{ flex:0 0 min(62vw,250px); scroll-snap-align:center; display:grid; gap:12px; justify-items:center; animation:a2-sube 600ms var(--ease-out) both; animation-delay:calc(var(--i)*70ms); }
+.a2-tel img{ width:100%; height:auto; border-radius:26px; border:1px solid var(--linea-suave); box-shadow:0 22px 50px -24px rgba(235,179,94,.35); background:var(--superficie); }
+.a2-tel span{ font-size:.875rem; color:var(--crema-2); }
+@media (min-width:1100px){ .a2-telefonos{ justify-content:center; overflow:visible; } .a2-tel{ flex-basis:calc((min(100%,1200px) - 5*28px)/6); } }
+.a2-pasos{ list-style:none; margin:clamp(32px,5vw,56px) 0 0; padding:0; display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+.a2-paso{ border:1px solid var(--linea-suave); border-radius:var(--radio-card); padding:28px 24px; background:rgba(26,26,26,.5); }
+.a2-num{ display:inline-grid; place-items:center; width:36px; height:36px; border-radius:50%; background:var(--oro); color:var(--vacio); font-weight:500; margin-bottom:16px; }
+.a2-paso h3{ font-size:var(--t-sub); margin:0 0 8px; }
+.a2-paso p{ margin:0; color:var(--crema-2); line-height:1.55; }
+.a2-nota{ margin-top:22px; font-size:.875rem; color:var(--crema-2); }
+@keyframes a2-sube{ from{ opacity:0; transform:translateY(18px); } to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){ .a2-tel{ animation:none; } .a2-lang button{ transition:none; } }
+@media (max-width:420px){ .a2-prefijo{ font-size:.9rem; } }
+.cabeza.centro{ display:block; text-align:center; }
+.cabeza.centro .titulo, .cabeza.centro .bajada{ margin-inline:auto; max-width:none; justify-self:center; }
+.cabeza.centro .bajada{ max-width:52ch; margin-top:16px; }

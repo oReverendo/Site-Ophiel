@@ -71,6 +71,8 @@ function renderPlanChip() {
   const chip = $("plan-chip");
   const act = $("plan-accion");
   act.hidden = false;
+  $("upgrade-bar").hidden = state.plan === "personalizado";
+  $("upgrade-top").onclick = () => goBilling("checkout");
   act.onclick = () => goBilling(state.plan === "personalizado" ? "portal" : "checkout");
   act.textContent = state.plan === "personalizado" ? "Gestionar suscripción" : "Pasar a Personalizado · 9,90 €/mes";
   const sub = server.sub;

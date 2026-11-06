@@ -251,3 +251,15 @@ output{ color:var(--oro); }
 .art-txt h2{ font-family:var(--serif); font-weight:300; font-size:1.7rem; line-height:1.25; margin:0 0 8px; }
 .art-txt h2 em{ color:var(--oro); }
 .art-txt p{ margin:0; color:var(--crema-2); }
+
+/* Barra de upgrade (solo plan gratis), arriba del panel */
+.upgrade-bar{ position:sticky; top:0; z-index:30; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px 18px; padding:10px 16px; background:#16120a; border-bottom:1px solid var(--linea-suave); text-align:center; }
+.upgrade-bar[hidden]{ display:none; }
+.upgrade-bar p{ margin:0; font-size:.9375rem; color:var(--crema); }
+.upgrade-bar strong{ font-weight:500; }
+.upgrade-bar .ub-txt{ color:var(--crema-2); }
+.ub-btn{ min-height:38px; padding:0 18px; border:0; border-radius:var(--pill); background:var(--oro); color:#000; font:inherit; font-size:.875rem; font-weight:500; cursor:pointer; white-space:nowrap; transition:transform 160ms var(--ease-out), background 200ms; -webkit-tap-highlight-color:transparent; }
+.ub-btn:active{ transform:scale(.97); }
+@media (hover:hover){ .ub-btn:hover{ background:var(--oro-suave); } }
+@media (max-width:640px){ .upgrade-bar .ub-txt{ display:none; } .upgrade-bar{ justify-content:space-between; } }
+@media (prefers-reduced-motion:reduce){ .ub-btn{ transition:none; } }

@@ -2,10 +2,10 @@
 <html lang="es" data-i18n-title="all2.title">
 <head>
 <meta charset="utf-8">
-<script>try{if(!sessionStorage.getItem("ophiel-carga")){document.documentElement.classList.add("con-carga");sessionStorage.setItem("ophiel-carga","1")}}catch(e){}</script>
+<script>try{document.documentElement.classList.add("js");if(!sessionStorage.getItem("ophiel-carga")){document.documentElement.classList.add("con-carga");sessionStorage.setItem("ophiel-carga","1")}}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-<title>All2: tu página de enlaces para el negocio | Ophiel</title>
-<meta name="description" content="Crea gratis tu página de enlaces con All2 de Ophiel: Instagram, WhatsApp, Google y tu carta en un solo enlace. Para negocios de Almería y de toda España.">
+<title>All2: la página de tu negocio con WhatsApp, reseñas y QR | Ophiel</title>
+<meta name="description" content="Crea gratis la página de tu negocio con All2 de Ophiel: botón de reseñas de Google, WhatsApp, horario, mapa y QR o placa NFC para tu mostrador. Para negocios de Almería y de toda España.">
 <link rel="canonical" href="https://www.ophiel.es/all2">
 <link rel="alternate" hreflang="es" href="https://www.ophiel.es/all2">
 <link rel="alternate" hreflang="en" href="https://www.ophiel.es/all2?lang=en">
@@ -15,8 +15,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
 <meta property="og:site_name" content="Ophiel">
-<meta property="og:title" content="All2: tu página de enlaces para el negocio | Ophiel">
-<meta property="og:description" content="Crea gratis tu página de enlaces con All2 de Ophiel: Instagram, WhatsApp, Google y tu carta en un solo enlace.">
+<meta property="og:title" content="All2: la página de tu negocio con WhatsApp, reseñas y QR | Ophiel">
+<meta property="og:description" content="Una página con tu WhatsApp, tus reseñas de Google, tu horario y tu mapa. Gratis para empezar. Personalizado: 9,90 € al mes, IVA incluido.">
 <meta property="og:url" content="https://www.ophiel.es/all2">
 <meta property="og:image" content="https://www.ophiel.es/assets/img/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -27,11 +27,12 @@
 <link rel="preload" href="assets/fonts/plex-serif-300.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css?v=pag2">
-<link rel="stylesheet" href="assets/all2.css?v=f26b">
+<link rel="stylesheet" href="assets/all2.css?v=f4a">
 <script src="assets/site.js?v=pag2" defer></script>
 <script src="assets/vetas.js?v=01ae3859" defer></script>
-<script type="module" src="js/all2.js?v=f26"></script>
+<script type="module" src="js/all2.js?v=f4a"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"All2","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://www.ophiel.es/all2","description":"Página de enlaces para negocios, creada por Ophiel en Almería.","offers":[{"@type":"Offer","name":"Gratis","price":"0","priceCurrency":"EUR"},{"@type":"Offer","name":"Personalizado","price":"9.90","priceCurrency":"EUR"}],"publisher":{"@type":"Organization","name":"Ophiel","url":"https://www.ophiel.es/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿De verdad es gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí. El plan Gratis no caduca ni pide tarjeta. Personalizado cuesta 9,90 € al mes, IVA incluido, y solo lo pagas si lo quieres."}},{"@type":"Question","name":"¿Necesito saber de tecnología?","acceptedAnswer":{"@type":"Answer","text":"No. Eliges tu enlace, añades tus botones y ves cómo queda en el móvil mientras lo haces. Si prefieres no tocar nada, escríbenos por WhatsApp y te ayudamos."}},{"@type":"Question","name":"¿Cómo se cancela Personalizado?","acceptedAnswer":{"@type":"Answer","text":"Desde tu panel, en «Gestionar suscripción». Mantienes los extras hasta el final del periodo que ya has pagado."}},{"@type":"Question","name":"¿Qué pasa con mi página si dejo de pagar?","acceptedAnswer":{"@type":"Answer","text":"Sigue online, con el mismo enlace. Se muestran tus 5 primeros botones y los demás quedan guardados por si vuelves."}},{"@type":"Question","name":"¿Funciona con una placa NFC o un QR?","acceptedAnswer":{"@type":"Answer","text":"Sí. Tu enlace se puede poner en la bio, en un QR o en una placa NFC de Ophiel. El cliente toca con el móvil y se abre tu página."}},{"@type":"Question","name":"¿Cómo se paga?","acceptedAnswer":{"@type":"Answer","text":"Con tarjeta, en el pago seguro de Stripe. Nosotros no vemos los datos de tu tarjeta."}},{"@type":"Question","name":"¿Quién está detrás?","acceptedAnswer":{"@type":"Answer","text":"Ophiel, una agencia de marketing de Almería. Atendemos por WhatsApp y por correo, en español, inglés y portugués."}}]}</script>
 </head>
 <body class="">
 <div class="cargador" aria-hidden="true"><div class="cargador-in"><span class="cargador-orbita"></span><img src="assets/img/emblema-oro-192.webp" width="88" height="88" alt=""></div><p class="cargador-txt">Ophiel</p></div>
@@ -57,39 +58,122 @@
   </div>
 </nav>
 <main id="contenido">
-<section class="heroe a2-heroe" aria-labelledby="t-all2"><canvas class="vetas" aria-hidden="true" data-seed="/all2"></canvas><div class="wrap">
-  <div class="a2-barra entra" style="--i:0"><span class="a2-eyebrow" data-i18n="all2.eyebrow">All2 · de Ophiel</span>
-    <div class="a2-lang" role="group" aria-label="Idioma / Language"><button type="button" data-lang="es" data-i18n="lang.es">ES</button><button type="button" data-lang="en" data-i18n="lang.en">EN</button></div></div>
-  <h1 class="display entra" id="t-all2" style="--i:1" data-i18n-html="all2.h1">Todos tus enlaces, <em>en una sola página.</em></h1>
-  <p class="bajada entra" style="--i:2" data-i18n="all2.lead">Instagram, WhatsApp, Google, tu carta… Crea tu página en menos de 3 minutos y compártela en tu bio, con un QR o en una placa NFC.</p>
-  <form class="a2-claim entra" style="--i:3" id="claim" novalidate>
-    <label class="a2-claim-label" for="u" data-i18n="all2.claim.label">Elige tu enlace</label>
-    <div class="a2-claim-fila"><span class="a2-prefijo" aria-hidden="true">ophiel.es/all2/</span><input id="u" name="u" type="text" inputmode="url" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="30" placeholder="tunegocio" data-i18n-attr="placeholder:all2.claim.placeholder" aria-describedby="claim-msg"></div>
-    <button class="pill pill-acento a2-claim-btn" type="submit" data-i18n="all2.claim.btn">Crear mi página gratis</button>
-    <p class="a2-claim-msg" id="claim-msg" role="alert" aria-live="polite"></p>
-    <p class="a2-claim-hint" data-i18n="all2.claim.hint">Gratis, sin tarjeta. Entras con tu correo o con Google.</p>
-  </form>
-  <p class="a2-login entra" style="--i:4"><a class="pill pill-linea pill-sm" href="entrar" data-i18n="all2.login">Entrar</a></p>
+
+<section class="heroe a2-heroe" aria-labelledby="t-all2"><canvas class="vetas" aria-hidden="true" data-seed="/all2"></canvas>
+<div class="wrap a2-hero-grid">
+  <div class="a2-hero-txt">
+    <div class="a2-lang entra" style="--i:0" role="group" aria-label="Idioma / Language"><button type="button" data-lang="es" data-i18n="lang.es">ES</button><button type="button" data-lang="en" data-i18n="lang.en">EN</button></div>
+    <h1 class="display entra" id="t-all2" style="--i:1" data-i18n-html="all2.h1">Tu negocio, <em>a un toque.</em></h1>
+    <p class="bajada entra" style="--i:2" data-i18n="all2.lead">Una página con tu WhatsApp, tus reseñas de Google, tu horario y tu mapa. La compartes con un enlace, un QR o una placa NFC en tu mostrador.</p>
+    <form class="a2-claim entra" style="--i:3" id="claim" novalidate>
+      <label class="a2-claim-label" for="u" data-i18n="all2.claim.label">Elige tu enlace</label>
+      <div class="a2-claim-fila"><span class="a2-prefijo" aria-hidden="true">ophiel.es/all2/</span><input id="u" name="u" type="text" inputmode="url" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="30" placeholder="tunegocio" data-i18n-attr="placeholder:all2.claim.placeholder" aria-describedby="claim-msg"></div>
+      <button class="pill pill-acento a2-claim-btn" type="submit" data-i18n="all2.claim.btn">Crear mi página gratis</button>
+      <p class="a2-claim-msg" id="claim-msg" role="alert" aria-live="polite"></p>
+    </form>
+    <ul class="a2-proof entra" style="--i:4"><li data-i18n="all2.proof1">Gratis para empezar</li><li data-i18n="all2.proof2">Sin tarjeta</li><li data-i18n="all2.proof3">Lista en 3 minutos</li></ul>
+    <p class="a2-login entra" style="--i:5"><a href="entrar" data-i18n="all2.login">Ya tengo cuenta</a></p>
+  </div>
+  <div class="a2-hero-demo entra" style="--i:3">
+    <div class="a2-phone" id="live" data-ui style="--bg:#0b131c">
+      <p class="a2-url"><span>ophiel.es/all2/</span><b id="live-slug">tunegocio</b></p>
+      <div class="a2-av" id="live-av" aria-hidden="true">T</div>
+      <p class="a2-pname" id="live-name" data-i18n="all2.live.name">Tu negocio</p>
+      <p class="a2-popen"><i aria-hidden="true"></i><span data-i18n="all2.live.open">Abierto ahora · cierra a las 23:00</span></p>
+      <ul class="a2-pbtns" aria-hidden="true">
+        <li class="b-g" data-i18n="all2.live.b1">Reseña en Google</li>
+        <li class="b-w" data-i18n="all2.live.b2">WhatsApp</li>
+        <li class="b-i" data-i18n="all2.live.b3">Instagram</li>
+        <li class="b-m" data-i18n="all2.live.b4">Cómo llegar</li>
+      </ul>
+    </div>
+    <div class="a2-sw-fila" role="group" aria-label="Color de fondo" data-i18n-attr="aria-label:all2.live.colors"><button type="button" class="a2-sw" data-bg="#0b131c" style="--c:#0b131c" aria-label="Azul noche" aria-pressed="true"></button><button type="button" class="a2-sw" data-bg="#1b1410" style="--c:#1b1410" aria-label="Café" aria-pressed="false"></button><button type="button" class="a2-sw" data-bg="#0f1f17" style="--c:#0f1f17" aria-label="Verde bosque" aria-pressed="false"></button><button type="button" class="a2-sw" data-bg="#2a1020" style="--c:#2a1020" aria-label="Ciruela" aria-pressed="false"></button><button type="button" class="a2-sw" data-bg="#f4efd4" style="--c:#f4efd4" aria-label="Crema" aria-pressed="false"></button></div>
+    <p class="a2-live-hint" data-i18n="all2.live.hint">Escribe el nombre de tu negocio y mira cómo queda.</p>
+  </div>
 </div></section>
-<section class="seccion seccion-linea a2-vitrina" aria-labelledby="t-show"><div class="wrap">
-  <div class="cabeza centro"><h2 class="titulo" id="t-show" data-i18n-html="all2.show.h">Páginas hechas con <em>All2</em></h2><p class="bajada" data-i18n="all2.show.p">Así lucen las páginas del plan Personalizado de negocios reales de Almería.</p></div>
+
+<section class="a2-strip" aria-labelledby="t-strip"><div class="wrap">
+  <h2 class="a2-strip-h" id="t-strip" data-i18n="all2.strip.h">Ya funciona en los mostradores de Almería</h2>
+  <ul class="a2-strip-l"><li>Antonio Menchón</li><li>El Gato Goloso</li><li>Fusión Callejera</li><li>Raúl Linde</li><li>Bakery</li><li>Studio Hair 27</li><li>Gema Daza</li><li>Nube</li><li>Mia Bell@</li></ul>
+</div></section>
+
+<section class="seccion a2-win" aria-labelledby="t-win"><div class="wrap a2-win-grid">
+  <h2 class="titulo rv" id="t-win" data-i18n-html="all2.win.h">Cuando un cliente acerca el móvil, <em>pasa esto.</em></h2>
+  <ul class="a2-win-l">
+      <li class="a2-win-i rv" style="--i:0"><h3 data-i18n="all2.win1.h">Deja su reseña en Google</h3><p data-i18n="all2.win1.p">El botón de reseña va primero. Quien sale contento opina en dos toques, sin buscarte en Google.</p></li>
+      <li class="a2-win-i rv" style="--i:1"><h3 data-i18n="all2.win2.h">Te escribe por WhatsApp</h3><p data-i18n="all2.win2.p">El chat se abre con tu número, sin guardarlo ni copiarlo. Tú contestas como siempre.</p></li>
+      <li class="a2-win-i rv" style="--i:2"><h3 data-i18n="all2.win3.h">Sabe si abres y cómo llegar</h3><p data-i18n="all2.win3.p">Horario con «Abierto ahora», tu dirección y un botón que abre Google Maps.</p><span class="a2-tag" data-i18n="all2.tag.paid">Plan Personalizado</span></li>
+      <li class="a2-win-i rv" style="--i:3"><h3 data-i18n="all2.win4.h">Te sigue en tus redes</h3><p data-i18n="all2.win4.p">Instagram, TikTok, Facebook… cada botón con su color y su logo, todos en la misma pantalla.</p></li>
+  </ul>
+</div></section>
+
+<section class="seccion a2-desk" aria-labelledby="t-desk"><div class="wrap">
+  <div class="a2-desk-cab">
+    <h2 class="titulo rv" id="t-desk" data-i18n-html="all2.desk.h">Una placa en el mostrador. <em>Tu página en su móvil.</em></h2>
+    <div class="rv"><p data-i18n="all2.desk.p">La placa NFC de Ophiel lleva tu QR y tu nombre. El cliente acerca el móvil y se abre tu página, sin app y sin teclear nada. Estas ya están funcionando.</p><a class="pill pill-linea" href="placa" data-i18n="all2.desk.cta">Ver las placas</a></div>
+  </div>
+  <ul class="a2-fotos"><li class="a2-foto rv" style="--i:0"><a href="all2/fusion_callejera" target="_blank" rel="noopener"><img src="assets/img/placas/fusion-callejera-480.webp" srcset="assets/img/placas/fusion-callejera-480.webp 480w, assets/img/placas/fusion-callejera-800.webp 800w" sizes="(max-width:760px) 46vw, 280px" width="800" height="1000" loading="lazy" alt="Placa NFC de Fusión Callejera en su local"><span class="a2-foto-n">Fusión Callejera</span><span class="a2-foto-v" data-i18n="all2.desk.see">Ver su página</span></a></li><li class="a2-foto rv" style="--i:1"><a href="all2/antonio_menchon" target="_blank" rel="noopener"><img src="assets/img/placas/antonio-menchon-480.webp" srcset="assets/img/placas/antonio-menchon-480.webp 480w, assets/img/placas/antonio-menchon-800.webp 800w" sizes="(max-width:760px) 46vw, 280px" width="800" height="1000" loading="lazy" alt="Placa NFC de Antonio Menchón en su local"><span class="a2-foto-n">Antonio Menchón</span><span class="a2-foto-v" data-i18n="all2.desk.see">Ver su página</span></a></li><li class="a2-foto rv" style="--i:2"><a href="all2/bakery" target="_blank" rel="noopener"><img src="assets/img/placas/bakery-480.webp" srcset="assets/img/placas/bakery-480.webp 480w, assets/img/placas/bakery-800.webp 800w" sizes="(max-width:760px) 46vw, 280px" width="800" height="1000" loading="lazy" alt="Placa NFC de Bakery en su local"><span class="a2-foto-n">Bakery</span><span class="a2-foto-v" data-i18n="all2.desk.see">Ver su página</span></a></li><li class="a2-foto rv" style="--i:3"><a href="all2/gemadaza" target="_blank" rel="noopener"><img src="assets/img/placas/gema-daza-480.webp" srcset="assets/img/placas/gema-daza-480.webp 480w, assets/img/placas/gema-daza-800.webp 800w" sizes="(max-width:760px) 46vw, 280px" width="800" height="1000" loading="lazy" alt="Placa NFC de Gema Daza en su local"><span class="a2-foto-n">Gema Daza</span><span class="a2-foto-v" data-i18n="all2.desk.see">Ver su página</span></a></li></ul>
+</div></section>
+
+<section class="seccion a2-vitrina" aria-labelledby="t-show"><div class="wrap">
+  <div class="cabeza centro"><h2 class="titulo rv" id="t-show" data-i18n-html="all2.show.h">Páginas reales de <em>negocios de Almería</em></h2><p class="bajada rv" data-i18n="all2.show.p">Toca una para abrirla. Esto es lo que da el plan Personalizado.</p></div>
 </div>
-  <ul class="a2-telefonos" aria-label="Ejemplos"><li class="a2-tel" style="--i:0"><img src="assets/img/all2-maddox.webp" width="520" height="885" loading="eager" alt="Página All2 de Maddox"><span>Maddox</span></li><li class="a2-tel" style="--i:1"><img src="assets/img/all2-loluca.webp" width="520" height="885" loading="eager" alt="Página All2 de Loluca"><span>Loluca</span></li><li class="a2-tel" style="--i:2"><img src="assets/img/all2-lecoquette.webp" width="520" height="885" loading="eager" alt="Página All2 de Le Coquette"><span>Le Coquette</span></li><li class="a2-tel" style="--i:3"><img src="assets/img/all2-elixea.webp" width="520" height="885" loading="lazy" alt="Página All2 de Elixea"><span>Elixea</span></li><li class="a2-tel" style="--i:4"><img src="assets/img/all2-jeonsa.webp" width="520" height="885" loading="lazy" alt="Página All2 de Jeonsa"><span>Jeonsa</span></li><li class="a2-tel" style="--i:5"><img src="assets/img/all2-elgatogoloso.webp" width="520" height="885" loading="lazy" alt="Página All2 de El Gato Goloso"><span>El Gato Goloso</span></li></ul>
+  <ul class="a2-telefonos" aria-label="Ejemplos"><li class="a2-tel rv" style="--i:0"><a href="all2/maddox_centro_optico" target="_blank" rel="noopener"><img src="assets/img/all2-maddox.webp" width="520" height="885" loading="lazy" alt="Página All2 de Maddox"><span class="a2-tel-n">Maddox</span><span class="a2-tel-v" data-i18n="all2.show.see">Ver en vivo</span></a></li><li class="a2-tel rv" style="--i:1"><a href="all2/loluca" target="_blank" rel="noopener"><img src="assets/img/all2-loluca.webp" width="520" height="885" loading="lazy" alt="Página All2 de Loluca"><span class="a2-tel-n">Loluca</span><span class="a2-tel-v" data-i18n="all2.show.see">Ver en vivo</span></a></li><li class="a2-tel rv" style="--i:2"><a href="all2/le_coquette" target="_blank" rel="noopener"><img src="assets/img/all2-lecoquette.webp" width="520" height="885" loading="lazy" alt="Página All2 de Le Coquette"><span class="a2-tel-n">Le Coquette</span><span class="a2-tel-v" data-i18n="all2.show.see">Ver en vivo</span></a></li><li class="a2-tel rv" style="--i:3"><a href="all2/elixea" target="_blank" rel="noopener"><img src="assets/img/all2-elixea.webp" width="520" height="885" loading="lazy" alt="Página All2 de Elixea"><span class="a2-tel-n">Elixea</span><span class="a2-tel-v" data-i18n="all2.show.see">Ver en vivo</span></a></li><li class="a2-tel rv" style="--i:4"><a href="all2/jeonsa" target="_blank" rel="noopener"><img src="assets/img/all2-jeonsa.webp" width="520" height="885" loading="lazy" alt="Página All2 de Jeonsa"><span class="a2-tel-n">Jeonsa</span><span class="a2-tel-v" data-i18n="all2.show.see">Ver en vivo</span></a></li><li class="a2-tel rv" style="--i:5"><a href="all2/el_gato_goloso" target="_blank" rel="noopener"><img src="assets/img/all2-elgatogoloso.webp" width="520" height="885" loading="lazy" alt="Página All2 de El Gato Goloso"><span class="a2-tel-n">El Gato Goloso</span><span class="a2-tel-v" data-i18n="all2.show.see">Ver en vivo</span></a></li></ul>
 </section>
-<section class="seccion seccion-linea" aria-labelledby="t-steps"><div class="wrap">
-  <div class="cabeza centro"><h2 class="titulo" id="t-steps" data-i18n-html="all2.steps.h">Así de <em>fácil</em></h2></div>
+
+<section class="seccion a2-planes" id="planes" aria-labelledby="t-plan"><div class="wrap">
+  <div class="cabeza centro"><h2 class="titulo rv" id="t-plan" data-i18n-html="all2.plan.h">Empieza gratis. <em>Crece cuando quieras.</em></h2></div>
+  <div class="a2-plan-grid">
+    <article class="a2-plan rv" aria-labelledby="pl-free">
+      <h3 id="pl-free" data-i18n="all2.plan.free.name">Gratis</h3>
+      <p class="a2-precio"><b data-i18n="all2.plan.free.price">0 €</b></p>
+      <p class="a2-plan-sub" data-i18n="all2.plan.free.sub">Para tener tu enlace hoy mismo.</p>
+      <ul class="a2-ok"><li data-i18n="all2.plan.free.l1">Tu enlace ophiel.es/all2/tunegocio</li><li data-i18n="all2.plan.free.l2">Hasta 5 botones: WhatsApp, Instagram, Google…</li><li data-i18n="all2.plan.free.l3">Tu foto o logo, tu nombre y tu texto</li><li data-i18n="all2.plan.free.l4">Tus colores</li><li data-i18n="all2.plan.free.l5">Vista previa en el móvil mientras la montas</li></ul>
+      <a class="pill pill-linea a2-plan-btn" href="#claim" data-foco data-i18n="all2.plan.free.btn">Crear mi página gratis</a>
+    </article>
+    <article class="a2-plan a2-plan-pro rv" style="--i:1" aria-labelledby="pl-paid">
+      <span class="a2-badge" data-i18n="all2.plan.paid.badge">Recomendado</span>
+      <h3 id="pl-paid" data-i18n="all2.plan.paid.name">Personalizado</h3>
+      <p class="a2-precio"><b data-i18n="all2.plan.paid.price">9,90 €</b> <span data-i18n="all2.plan.paid.per">al mes</span></p>
+      <p class="a2-plan-sub" data-i18n="all2.plan.paid.sub">IVA incluido. Se cancela cuando quieras.</p>
+      <p class="a2-plan-l0" data-i18n="all2.plan.paid.l0">Todo lo del plan Gratis, y además:</p>
+      <ul class="a2-ok"><li data-i18n="all2.plan.paid.l1">Botones sin límite</li><li data-i18n="all2.plan.paid.l2">Cada red con su color y su acabado brillante</li><li data-i18n="all2.plan.paid.l3">Fondo con tu foto y desenfoque a tu gusto</li><li data-i18n="all2.plan.paid.l4">Horario con «Abierto ahora»</li><li data-i18n="all2.plan.paid.l5">Dirección y mapa de Google dentro de la página</li><li data-i18n="all2.plan.paid.l6">Botón «Guardar contacto» para el móvil del cliente</li><li data-i18n="all2.plan.paid.l7">Estadísticas: cuántas personas tocan cada botón</li><li data-i18n="all2.plan.paid.l8">Logo ajustable y anillo de luz</li></ul>
+      <a class="pill pill-acento a2-plan-btn" href="#claim" data-foco data-i18n="all2.plan.paid.btn">Empezar y pasar a Personalizado</a>
+    </article>
+  </div>
+  <p class="a2-plan-nota rv" data-i18n="all2.plan.note">Tu enlace es el mismo en los dos planes. Si algún día dejas Personalizado, tu página sigue online con tus 5 primeros botones.</p>
+</div></section>
+
+<section class="seccion a2-pasos-s" aria-labelledby="t-steps"><div class="wrap">
+  <div class="cabeza centro"><h2 class="titulo rv" id="t-steps" data-i18n-html="all2.steps.h">En 3 minutos, <em>lista</em></h2></div>
   <ol class="a2-pasos">
-    <li class="a2-paso"><span class="a2-num" aria-hidden="true">1</span><h3 data-i18n="all2.step1.h">Elige tu enlace</h3><p data-i18n="all2.step1.p">Un nombre corto y tuyo: ophiel.es/all2/tunegocio.</p></li>
-    <li class="a2-paso"><span class="a2-num" aria-hidden="true">2</span><h3 data-i18n="all2.step2.h">Monta tu página</h3><p data-i18n="all2.step2.p">Añade tus redes, tu logo y tus colores. Ves el resultado en el móvil mientras lo haces.</p></li>
-    <li class="a2-paso"><span class="a2-num" aria-hidden="true">3</span><h3 data-i18n="all2.step3.h">Compártela</h3><p data-i18n="all2.step3.p">Ponla en tu bio, en un QR o en una placa NFC de Ophiel. Cuando quieras más, pasa a Personalizado.</p></li>
+    <li class="a2-paso rv" style="--i:0"><span class="a2-num" aria-hidden="true">1</span><h3 data-i18n="all2.step1.h">Elige tu enlace</h3><p data-i18n="all2.step1.p">Un nombre corto y tuyo: ophiel.es/all2/tunegocio.</p></li>
+    <li class="a2-paso rv" style="--i:1"><span class="a2-num" aria-hidden="true">2</span><h3 data-i18n="all2.step2.h">Monta tu página</h3><p data-i18n="all2.step2.p">Añade tus redes, tu logo y tus colores. Ves el resultado en el móvil mientras lo haces.</p></li>
+    <li class="a2-paso rv" style="--i:2"><span class="a2-num" aria-hidden="true">3</span><h3 data-i18n="all2.step3.h">Compártela</h3><p data-i18n="all2.step3.p">Ponla en tu bio, en un QR o en una placa NFC de Ophiel. Cuando quieras más, pasa a Personalizado.</p></li>
   </ol>
 </div></section>
-<section class="seccion seccion-linea llamada" aria-labelledby="t-final"><div class="wrap centro">
-  <h2 class="display" id="t-final" data-i18n-html="all2.final.h">¿Lista para <em>empezar</em>?</h2>
-  <div class="acciones"><a class="pill pill-acento" href="#claim" data-foco data-i18n="all2.claim.btn">Crear mi página gratis</a></div>
+
+<section class="seccion a2-faq" aria-labelledby="t-faq"><div class="wrap a2-faq-grid">
+  <h2 class="titulo rv" id="t-faq" data-i18n-html="all2.faq.h">Preguntas <em>frecuentes</em></h2>
+  <div class="a2-faq-l">
+    <details class="a2-q rv"><summary><span data-i18n="all2.faq1.q">¿De verdad es gratis?</span></summary><p data-i18n="all2.faq1.a">Sí. El plan Gratis no caduca ni pide tarjeta. Personalizado cuesta 9,90 € al mes, IVA incluido, y solo lo pagas si lo quieres.</p></details>
+    <details class="a2-q rv"><summary><span data-i18n="all2.faq2.q">¿Necesito saber de tecnología?</span></summary><p data-i18n="all2.faq2.a">No. Eliges tu enlace, añades tus botones y ves cómo queda en el móvil mientras lo haces. Si prefieres no tocar nada, escríbenos por WhatsApp y te ayudamos.</p></details>
+    <details class="a2-q rv"><summary><span data-i18n="all2.faq3.q">¿Cómo se cancela Personalizado?</span></summary><p data-i18n="all2.faq3.a">Desde tu panel, en «Gestionar suscripción». Mantienes los extras hasta el final del periodo que ya has pagado.</p></details>
+    <details class="a2-q rv"><summary><span data-i18n="all2.faq4.q">¿Qué pasa con mi página si dejo de pagar?</span></summary><p data-i18n="all2.faq4.a">Sigue online, con el mismo enlace. Se muestran tus 5 primeros botones y los demás quedan guardados por si vuelves.</p></details>
+    <details class="a2-q rv"><summary><span data-i18n="all2.faq5.q">¿Funciona con una placa NFC o un QR?</span></summary><p data-i18n="all2.faq5.a">Sí. Tu enlace se puede poner en la bio, en un QR o en una placa NFC de Ophiel. El cliente toca con el móvil y se abre tu página.</p></details>
+    <details class="a2-q rv"><summary><span data-i18n="all2.faq6.q">¿Cómo se paga?</span></summary><p data-i18n="all2.faq6.a">Con tarjeta, en el pago seguro de Stripe. Nosotros no vemos los datos de tu tarjeta.</p></details>
+    <details class="a2-q rv"><summary><span data-i18n="all2.faq7.q">¿Quién está detrás?</span></summary><p data-i18n="all2.faq7.a">Ophiel, una agencia de marketing de Almería. Atendemos por WhatsApp y por correo, en español, inglés y portugués.</p></details>
+  </div>
+</div></section>
+
+<section class="seccion a2-final" aria-labelledby="t-final"><div class="wrap centro">
+  <h2 class="display" id="t-final" data-i18n-html="all2.final.h">Que tu próximo cliente te <em>encuentre a un toque.</em></h2>
+  <div class="acciones"><a class="pill a2-final-btn" href="#claim" data-foco data-i18n="all2.claim.btn">Crear mi página gratis</a></div>
   <p class="a2-nota" data-i18n="all2.final.note">Gratis para empezar. Personalizado: 9,90 € al mes, IVA incluido.</p>
+  <p class="a2-wa"><a href="https://wa.me/34602711318" target="_blank" rel="noopener" data-i18n="all2.final.wa">¿Prefieres hablar con una persona? Escríbenos por WhatsApp</a></p>
 </div></section>
 </main>
+<div class="a2-sticky" id="sticky" aria-hidden="true"><a class="pill pill-acento" href="#claim" data-foco tabindex="-1" data-i18n="all2.claim.btn">Crear mi página gratis</a></div>
 <footer class="pie">
   <div class="wrap">
     <p class="pie-lema">Creamos el futuro <em>de tu negocio.</em></p>
